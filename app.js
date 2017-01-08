@@ -93,7 +93,7 @@ db.once('open', function () {
   console.log('on open connect');
 });
 
-mongoose.connect('mongodb://localhost:27017/academy');
+mongoose.connect('mongodb://caubechankiu:Caubechankiu138@ds019816.mlab.com:19816/ubrand');
 
 
 
