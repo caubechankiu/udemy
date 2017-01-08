@@ -1,0 +1,103 @@
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var app = express();
+
+// require passport
+var session = require('express-session');
+var passport = require('passport');
+
+// require routes
+var routes = require('./routes/index');
+var authentication = require('./routes/apis/authentication');
+var genreApi = require('./routes/apis/genres');
+var userApi = require('./routes/apis/users');
+var resourceApi = require('./routes/apis/resources')
+var courseApi = require('./routes/apis/course')
+var coursesApi = require('./routes/apis/courses')
+var adminApi = require('./routes/apis/admin')
+// var user = require('./routes/users');
+
+// var app = express();
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+app.engine('html', require('ejs').renderFile);
+
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+//passport setup
+app.use(session({
+  secret: "secret",
+  saveUninitialized: true,
+  resave: true
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+//routes setup
+app.use('/authentication', authentication)
+app.use('/api/genres', genreApi)
+app.use('/api/user', userApi)
+app.use('/api/resource',resourceApi)
+app.use('/api/course',courseApi)
+app.use('/api/courses',coursesApi)
+app.use('/api/admin',adminApi)
+app.use('/', routes)
+
+// catch 404 and forward to error handler
+// app.use(function(req, res, next) {
+//   var err = new Error('Not Found');
+//   err.status = 404;
+//   next(err);
+// });
+
+// error handlers
+
+// development error handler
+// will print stacktrace
+// if (app.get('env') === 'development') {
+//   app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//       message: err.message,
+//       error: err
+//     });
+//   });
+// }
+
+// production error handler
+// no stacktraces leaked to user
+// app.use(function(err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.render('error', {
+//     message: err.message,
+//     error: {}
+//   });
+// });
+
+
+
+//connect mongodb
+var mongoose = require('mongoose');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function () {
+  console.log('on open connect');
+});
+
+mongoose.connect('mongodb://localhost:27017/academy');
+
+
+
+
+
+
+module.exports = app;
