@@ -5,4 +5,4 @@
 </br>npm install
 </br>npm install bcrypt
 </br>npm start
-</br>goto http://127.0.0.1:3000
+</br>go to http://127.0.0.1:3000
