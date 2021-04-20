@@ -6,7 +6,7 @@
     "start": "node ./bin/www --history-api-fallback"
   },
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcrypt": "^5.0.1",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "debug": "^2.2.0",
@@ -14,7 +14,7 @@
     "express": "^4.13.4",
     "express-session": "^1.14.1",
     "lodash": "^4.16.4",
-    "mongoose": "^4.6.0",
+    "mongoose": "^5.12.5",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
     "nodemailer": "^2.6.4",
@@ -31,7 +31,7 @@
     "redux": "^3.6.0",
     "semantic-ui-react": "^0.61.10",
     "send": "^0.14.1",
-    "sharp": "^0.16.2"
+    "sharp": "^0.28.1"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",

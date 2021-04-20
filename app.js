@@ -46,10 +46,10 @@ app.use(passport.session());
 app.use('/authentication', authentication)
 app.use('/api/genres', genreApi)
 app.use('/api/user', userApi)
-app.use('/api/resource',resourceApi)
-app.use('/api/course',courseApi)
-app.use('/api/courses',coursesApi)
-app.use('/api/admin',adminApi)
+app.use('/api/resource', resourceApi)
+app.use('/api/course', courseApi)
+app.use('/api/courses', coursesApi)
+app.use('/api/admin', adminApi)
 app.use('/', routes)
 
 // catch 404 and forward to error handler
@@ -93,7 +93,7 @@ db.once('open', function () {
   console.log('on open connect');
 });
 
-mongoose.connect('mongodb://caubechankiu:Caubechankiu138@ds019816.mlab.com:19816/ubrand');
+mongoose.connect('mongodb+srv://caubechankiu:EDRhzZYv7gjvjNL9@cluster0.vihlf.mongodb.net/sample_airbnb?retryWrites=true&w=majority');
 
 
 
