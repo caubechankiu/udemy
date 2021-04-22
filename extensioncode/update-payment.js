@@ -60,4 +60,4 @@ updatePayment = () => {
 }
 
 
-mongoose.connect('mongodb://localhost:27017/academy');
+mongoose.connect('mongodb://root:123456@localhost:27017/udemy?authSource=admin');

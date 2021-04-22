@@ -17,8 +17,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true, // use SSL
     auth: {
-        user: 'trinhthevils@gmail.com',
-        pass: 'Caubechankiu@138'
+        user: 'vi.t.trinh@vntrip.vn',
+        pass: 'Vntrip@@123'
     }
 })
 
@@ -174,7 +174,7 @@ passport.use('local-signup',
                             text: 'You recieved message from Academy',
                             html: '<p>Dear ' + username + ',</p></br>' +
                             '<p>You have selected ' + email + ' as your new Academy account. To verify this email address belongs to you, click the link below and then sign in using your email and password.</p></br>' +
-                            '<a href="http:localhost:3000/verify/' + verifytoken + '">Verify now ></a></br></br>' +
+                            '<a href="http://localhost:3000/verify/' + verifytoken + '">Verify now ></a></br></br>' +
                             '<p>Academy Support</p>'
                         }
                         transporter.sendMail(mainOptions, function (err, info) {

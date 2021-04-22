@@ -93,7 +93,7 @@ db.once('open', function () {
   console.log('on open connect');
 });
 
-mongoose.connect('mongodb+srv://caubechankiu:EDRhzZYv7gjvjNL9@cluster0.vihlf.mongodb.net/sample_airbnb?retryWrites=true&w=majority');
+mongoose.connect('mongodb://root:123456@localhost:27017/udemy?authSource=admin');
 
 
 
