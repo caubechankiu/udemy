@@ -6,6 +6,7 @@ import { setUser, setGetMyCourses, addViewCourse, showModal, changeWishlist, tak
 import { browserHistory, Link } from 'react-router'
 import Course from '../components/course'
 var _ = require('lodash')
+import { getCoursesRelateLecture, getReview } from '../apis/courses'
 
 class ModalPurchase extends React.Component {
 
@@ -82,7 +83,7 @@ class ModalPurchase extends React.Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <button disabled={this.state.isSubmitting}
-                        onClick={() => { this.onClickPay(this.props.courseId) } }
+                        onClick={() => { this.onClickPay(this.props.courseId) }}
                         className='btn btn-success center-block'>Pay {this.props.courseCost}$</button>
                     <h5 className='text-center'>
                         By clicking the "Pay" button, you agree to these <strong><a target='_blank' href='/terms'>Terms of Service</a></strong></h5>
@@ -130,15 +131,14 @@ class ViewCourse extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.params.id != nextProps.params.id) {
-            $.post('/api/course/get-review',
-                {
-                    courseid: this.props.params.id,
-                    page: this.state.pageReviews
-                }, (data, status) => {
-                    if (data.code == 200) {
-                        this.setState({ reviews: data.reviews })
-                    }
+            getReview({
+                courseid: this.props.params.id,
+                page: this.state.pageReviews
+            }, (data, status) => {
+                if (data.code == 200) {
+                    this.setState({ reviews: data.reviews })
                 }
+            }
             )
         }
         if (nextProps.course) {
@@ -165,15 +165,14 @@ class ViewCourse extends React.Component {
 
     }
     componentDidMount() {
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: this.state.pageReviews
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: this.state.pageReviews
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
         if (this.props.course) {
             var header = $("#navbar-info-course");
@@ -226,14 +225,13 @@ class ViewCourse extends React.Component {
 
     }
     getCoursesRelateLecture(lecturerid, courseid) {
-        $.post('/api/courses/get-courses-relate-lecturer',
-            {
-                lecturerid: lecturerid,
-                courseid: courseid
-            }, (data, status) => {
-                if (data.code == 200)
-                    this.setState({ coursesRelatedLecturer: data.courses })
-            })
+        getCoursesRelateLecture({
+            lecturerid: lecturerid,
+            courseid: courseid
+        }, (data, status) => {
+            if (data.code == 200)
+                this.setState({ coursesRelatedLecturer: data.courses })
+        })
     }
     onClickPrev() {
         let page = this.state.pageReviews
@@ -283,8 +281,8 @@ class ViewCourse extends React.Component {
             })()
             let controls = <div className='col-md-4 col-xs-12'>
                 <h2><strong>{this.props.course.cost == 0 ? 'Free' : ('$' + this.props.course.cost)}</strong></h2>
-                {this.props.islearning ? <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) } }>
-                    <span className='glyphicon glyphicon-list-alt'></span>{' '}Start Learning Now</button> : <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) } }>
+                {this.props.islearning ? <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) }}>
+                    <span className='glyphicon glyphicon-list-alt'></span>{' '}Start Learning Now</button> : <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) }}>
                         <span className='glyphicon glyphicon-shopping-cart'></span>{' '}Take This Course</button>}
                 <hr style={{ borderColor: 'silver' }} />
                 <h5>Lectures : <strong>{this.props.course.lectures.length}</strong></h5>
@@ -304,7 +302,7 @@ class ViewCourse extends React.Component {
                     </Link>
                 </h5>
                 <button className={'btn ' + (this.props.wishlisted ? 'btn-danger' : 'btn-success')}
-                    onClick={(e) => { this.onClickAddOrRemoveWishlist(this.props.params.id) } }>
+                    onClick={(e) => { this.onClickAddOrRemoveWishlist(this.props.params.id) }}>
                     <span className='glyphicon glyphicon-heart'></span> {this.props.wishlisted ? 'Wishlisted' : 'Wishlist'}
                 </button>
             </div>
@@ -389,7 +387,7 @@ class ViewCourse extends React.Component {
                                             return <div key={index} style={{ fontSize: '16px' }}>
                                                 <span className='glyphicon glyphicon-play-circle'></span>
                                                 {' '}Lecture {index + 1}: {lecture.name + ' '}
-                                                {lecture.preview ? <button onClick={() => { this.onClickPreview(lecture._id) } } className='btn btn-info'>Preview</button> : ''}
+                                                {lecture.preview ? <button onClick={() => { this.onClickPreview(lecture._id) }} className='btn btn-info'>Preview</button> : ''}
                                                 {lecture.preview && this.state.showPreviewVideo[lecture._id] ? <video className="video-js" controls preload="false"
                                                     width="100%" height="auto" style={{ paddingLeft: '0px', marginTop: '10px' }}>
                                                     <source src={'/api/resource/play-video-preview/' + lecture._id} type='video/mp4' />
@@ -493,14 +491,14 @@ class ViewCourse extends React.Component {
                                         <div className='text-center'>
                                             <ul className="pagination">
                                                 <li>
-                                                    <button disabled={this.state.pageReviews <= 1} onClick={() => { this.onClickPrev() } }
+                                                    <button disabled={this.state.pageReviews <= 1} onClick={() => { this.onClickPrev() }}
                                                         className='btn btn-success btn-lg'>
                                                         <span className='glyphicon glyphicon-chevron-left'></span>
                                                     </button>
                                                 </li>
                                                 <li><button disabled={true} className='btn btn-link btn-lg'>{this.state.pageReviews}</button></li>
                                                 <li>
-                                                    <button onClick={() => { this.onClickNext() } }
+                                                    <button onClick={() => { this.onClickNext() }}
                                                         className='btn btn-success btn-lg'>
                                                         <span className='glyphicon glyphicon-chevron-right'></span>
                                                     </button>
@@ -518,11 +516,11 @@ class ViewCourse extends React.Component {
                         onTakeCourseSuccess={() => {
                             this.props.dispatch(takeCourse(this.props.params.id, this.props.course.cost))
                             browserHistory.push('/course/' + this.props.params.id + '/learning')
-                        } } onTakeCourseNotLoggedIn={() => {
+                        }} onTakeCourseNotLoggedIn={() => {
                             this.props.dispatch(setUser({}))
                             this.props.dispatch(setGetMyCourses(false))
                             return browserHistory.push('/')
-                        } } />
+                        }} />
                 </div >
             )
         }

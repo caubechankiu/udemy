@@ -3,6 +3,7 @@ import PanelCourses from './panel-courses'
 import { Breadcrumb, Glyphicon, Col, ProgressBar, Pager, Row, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { Link, browserHistory } from 'react-router'
 import Course from './course'
+import { getCoursesSearch } from '../apis/courses'
 
 class CoursesSearch extends React.Component {
     constructor(props) {
@@ -26,9 +27,7 @@ class CoursesSearch extends React.Component {
                 progress: 0,
                 isloading: true
             })
-            $.ajax({
-                method: "POST",
-                url: '/api/courses/search',
+            getCoursesSearch({
                 data: nextProps.location.query,
                 success: (data, status) => {
                     if (data.code == 1001) {
@@ -55,9 +54,7 @@ class CoursesSearch extends React.Component {
         }
     }
     componentDidMount() {
-        $.ajax({
-            method: "POST",
-            url: '/api/courses/search',
+        getCoursesSearch({
             data: this.props.location.query,
             success: (data, status) => {
                 if (data.code == 1001) {
@@ -82,7 +79,7 @@ class CoursesSearch extends React.Component {
             }
         })
     }
-     onClickPrev(e) {
+    onClickPrev(e) {
         e.preventDefault()
         let query = this.props.location.query
         if (!query.page || query.page <= 1) {
@@ -90,7 +87,7 @@ class CoursesSearch extends React.Component {
         }
         let url = '/courses/search' + '?page=' + (query.page - 1)
             + (query.name ? ('&name=' + query.name) : '')
-            + (query.level ? ('&level=' + query.level) : '') 
+            + (query.level ? ('&level=' + query.level) : '')
             + (query.free ? ('&free=' + query.free) : '')
             + (query.sort ? ('&sort=' + query.sort) : '')
         browserHistory.push(url)
@@ -102,8 +99,8 @@ class CoursesSearch extends React.Component {
             query.page = 1
         }
         let url = '/courses/search' + '?page=' + (parseInt(query.page) + 1)
-            + (query.name ? ('&name=' + query.name) : '') 
-            + (query.level ? ('&level=' + query.level) : '') 
+            + (query.name ? ('&name=' + query.name) : '')
+            + (query.level ? ('&level=' + query.level) : '')
             + (query.free ? ('&free=' + query.free) : '')
             + (query.sort ? ('&sort=' + query.sort) : '')
         browserHistory.push(url)
@@ -116,7 +113,7 @@ class CoursesSearch extends React.Component {
         }
         let url = '/courses/search' + '?page=' + query.page
             + (query.name ? ('&name=' + query.name) : '')
-            + (e.target.value == 'none' ? '' : ('&level=' + e.target.value)) 
+            + (e.target.value == 'none' ? '' : ('&level=' + e.target.value))
             + (query.free ? ('&free=' + query.free) : '')
             + (query.sort ? ('&sort=' + query.sort) : '')
         browserHistory.push(url)
@@ -129,7 +126,7 @@ class CoursesSearch extends React.Component {
         }
         let url = '/courses/search' + '?page=' + query.page
             + (query.name ? ('&name=' + query.name) : '')
-            + (query.level ? ('&level=' + query.level) : '') 
+            + (query.level ? ('&level=' + query.level) : '')
             + (query.free ? ('&free=' + query.free) : '')
             + '&sort=' + e.target.value
         browserHistory.push(url)
@@ -142,7 +139,7 @@ class CoursesSearch extends React.Component {
         }
         let url = '/courses/search' + '?page=' + query.page
             + (query.name ? ('&name=' + query.name) : '')
-            + (query.level ? ('&level=' + query.level) : '') 
+            + (query.level ? ('&level=' + query.level) : '')
             + (e.target.value == 'none' ? '' : ('&free=' + e.target.value))
             + (query.sort ? ('&sort=' + query.sort) : '')
         browserHistory.push(url)
@@ -155,7 +152,7 @@ class CoursesSearch extends React.Component {
         }
         let url = '/courses/search' + '?page=' + query.page
             + (this.state.coursename != '' ? ('&name=' + this.state.coursename) : '')
-            + (query.level ? ('&level=' + query.level) : '') 
+            + (query.level ? ('&level=' + query.level) : '')
             + (query.free ? ('&free=' + query.free) : '')
             + (query.sort ? ('&sort=' + query.sort) : '')
         browserHistory.push(url)
@@ -168,7 +165,7 @@ class CoursesSearch extends React.Component {
                 query.page = 1
             }
             let url = '/courses/search' + '?page=' + query.page
-                + (query.level ? ('&level=' + query.level) : '') 
+                + (query.level ? ('&level=' + query.level) : '')
                 + (query.free ? ('&free=' + query.free) : '')
                 + (query.sort ? ('&sort=' + query.sort) : '')
             browserHistory.push(url)
@@ -178,7 +175,7 @@ class CoursesSearch extends React.Component {
         return <div>
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <Breadcrumb>
-                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                         <Glyphicon glyph="home" />
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>Search</Breadcrumb.Item>
@@ -187,10 +184,10 @@ class CoursesSearch extends React.Component {
                     (this.props.location.query.name || '') + '"'}</span>
             </div>
             <div>
-                <form onSubmit={(e)=>{this.onSubmitFormSearch(e)}} className='form-inline' style={{ marginBottom: '20px' }}>
+                <form onSubmit={(e) => { this.onSubmitFormSearch(e) }} className='form-inline' style={{ marginBottom: '20px' }}>
                     <div className="form-group form-group-lg">
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) } } >
+                            value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) }} >
                             <option value='none' style={{ fontWeight: 'bold' }}>--Select Level--</option>
                             <option value='1' style={{ fontWeight: 'bold' }}>Beginner Level</option>
                             <option value='2' style={{ fontWeight: 'bold' }}>Intermediate Level</option>
@@ -200,7 +197,7 @@ class CoursesSearch extends React.Component {
                     </div>{' '}
                     <div className="form-group form-group-lg" >
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) } }>
+                            value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) }}>
                             <option value='none' style={{ fontWeight: 'bold' }}>--Price--</option>
                             <option value='false' style={{ fontWeight: 'bold' }}>Paid</option>
                             <option value='true' style={{ fontWeight: 'bold' }}>Free</option>
@@ -209,7 +206,7 @@ class CoursesSearch extends React.Component {
                     <div className="form-group form-group-lg">
                         <label>Sort by:</label>{' '}
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) } } >
+                            value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) }} >
                             <option value='1' style={{ fontWeight: 'bold' }}>Popularity</option>
                             <option value='2' style={{ fontWeight: 'bold' }}>Highest Rated</option>
                             <option value='3' style={{ fontWeight: 'bold' }}>Newest</option>
@@ -220,7 +217,7 @@ class CoursesSearch extends React.Component {
                     <div className="form-group form-group-lg">
                         <div className="input-group input-group-lg">
                             <input type="text" className="form-control"
-                                value={this.state.coursename} placeholder="Search" onChange={(e) => { this.handleCourseName(e) } } />
+                                value={this.state.coursename} placeholder="Search" onChange={(e) => { this.handleCourseName(e) }} />
                             <span className="input-group-btn">
                                 <button className="btn btn-primary" type="submit"><Glyphicon glyph='search' /></button>
                             </span>
@@ -231,15 +228,15 @@ class CoursesSearch extends React.Component {
                     <ProgressBar bsStyle={this.state.bsStyle} active now={this.state.progress} /> :
                     <Row>{this.state.courses.map((course, index) => {
                         return <Col md={3} xs={6} key={index}>
-                            <Course popoverPlacement={index%2==0?'right':'left'} course={course} />
+                            <Course popoverPlacement={index % 2 == 0 ? 'right' : 'left'} course={course} />
                         </Col>
                     })}
                     </Row>
                 }
                 <Pager>
                     <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                        previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                    <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                        previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                    <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
                 </Pager>
             </div>
         </div>

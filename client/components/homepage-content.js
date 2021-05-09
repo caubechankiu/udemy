@@ -1,6 +1,7 @@
 import React from 'react'
 import PanelCourses from './panel-courses'
 import { ProgressBar } from 'react-bootstrap'
+import { getCoursesHomepage } from '../apis/courses'
 
 class HomepageContent extends React.Component {
     constructor(props) {
@@ -12,9 +13,7 @@ class HomepageContent extends React.Component {
         }
     }
     componentDidMount() {
-        $.ajax({
-            method: "GET",
-            url: "/api/courses/get-courses-homepage",
+        getCoursesHomepage({
             success: (data, status) => {
                 if (data.code == 200) {
                     setTimeout(() => {

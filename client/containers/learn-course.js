@@ -6,6 +6,7 @@ import { setUser, setGetMyCourses, addViewCourse } from '../actions'
 import { Col, Row, Glyphicon } from 'react-bootstrap'
 import Review from '../components/review'
 var _ = require('lodash')
+import { getReview } from '../apis/courses'
 
 class LearnCourse extends React.Component {
     constructor(props) {
@@ -30,15 +31,14 @@ class LearnCourse extends React.Component {
     }
 
     componentDidMount() {
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: this.state.pageReviews
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: this.state.pageReviews
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
         if (this.props.course) {
             return
@@ -63,45 +63,42 @@ class LearnCourse extends React.Component {
     onClickPrev() {
         let page = this.state.pageReviews
         this.setState({ pageReviews: page - 1 })
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: page - 1
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: page - 1
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
 
     }
     onClickNext() {
         let page = this.state.pageReviews
         this.setState({ pageReviews: page + 1 })
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: page + 1
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: page + 1
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
     }
     onClickWriteReview() {
         this.refs.review.setState({ show: true })
     }
     onSubmitReviewSuccess() {
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: this.state.pageReviews
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: this.state.pageReviews
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
     }
     render() {
@@ -111,18 +108,18 @@ class LearnCourse extends React.Component {
                 <link rel="stylesheet" href="/stylesheets/simple-sidebar-learning.css" />
                 <div id='top-bar-learn' className='top-bar-learn row'>
                     <Col xs={1}>
-                        <button className='btn btn-link btn-lg text-left' onClick={() => { $("#wrapper").toggleClass("toggled") } }>
+                        <button className='btn btn-link btn-lg text-left' onClick={() => { $("#wrapper").toggleClass("toggled") }}>
                             <span className='glyphicon glyphicon-menu-hamburger'></span>
                         </button>
                     </Col>
                     <Col xs={11}>
                         <div className='top-bar-title h4'>
-                            <button className='btn btn-link btn-lg' onClick={() => { this.onClickPrevLecture() } }
+                            <button className='btn btn-link btn-lg' onClick={() => { this.onClickPrevLecture() }}
                                 style={{ display: this.state.currentLectureIndex == 0 ? 'none' : '' }}>
                                 <span className='glyphicon glyphicon-menu-left'></span>
                             </button>
                             {' ' + this.props.course.lectures[this.state.currentLectureIndex].name + ' '}
-                            <button className='btn btn-link btn-lg' onClick={() => { this.onClickNextLecture() } }
+                            <button className='btn btn-link btn-lg' onClick={() => { this.onClickNextLecture() }}
                                 style={{ display: this.state.currentLectureIndex == (this.props.course.lectures.length - 1) ? 'none' : '' }}>
                                 <span className='glyphicon glyphicon-menu-right'></span>
                             </button>
@@ -137,7 +134,7 @@ class LearnCourse extends React.Component {
                                 <li key={index}>
                                     <span style={{ color: this.state.currentLectureIndex >= index ? '#449d44' : '', display: 'inline' }} className={"glyphicon glyphicon-" + (this.state.currentLectureIndex >= index ? "ok" : "unchecked")}></span>
                                     <a style={{ color: this.state.currentLectureIndex >= index ? '#5bc0de' : 'white', display: 'inline' }}
-                                        onClick={() => { this.onClickViewLecture(index) } } >{' ' + (index + 1) + '. ' + lecture.name}</a>
+                                        onClick={() => { this.onClickViewLecture(index) }} >{' ' + (index + 1) + '. ' + lecture.name}</a>
                                 </li>
                             )}
                         </ul>
@@ -207,7 +204,7 @@ class LearnCourse extends React.Component {
                                         </div>
                                     </div>*/}
                                     <button className='btn btn-primary btn-lg center-block' style={{ marginTop: '10px' }}
-                                        onClick={() => { this.onClickWriteReview() } }>
+                                        onClick={() => { this.onClickWriteReview() }}>
                                         <span className='glyphicon glyphicon-pencil'></span>
                                         {' '}Write a Review
                                     </button>
@@ -237,14 +234,14 @@ class LearnCourse extends React.Component {
                                     <div className='text-center'>
                                         <ul className="pagination">
                                             <li>
-                                                <button disabled={this.state.pageReviews <= 1} onClick={() => { this.onClickPrev() } }
+                                                <button disabled={this.state.pageReviews <= 1} onClick={() => { this.onClickPrev() }}
                                                     className='btn btn-success btn-lg'>
                                                     <span className='glyphicon glyphicon-chevron-left'></span>
                                                 </button>
                                             </li>
                                             <li><button disabled={true} className='btn btn-link btn-lg'>{this.state.pageReviews}</button></li>
                                             <li>
-                                                <button onClick={() => { this.onClickNext() } }
+                                                <button onClick={() => { this.onClickNext() }}
                                                     className='btn btn-success btn-lg'>
                                                     <span className='glyphicon glyphicon-chevron-right'></span>
                                                 </button>
@@ -257,7 +254,7 @@ class LearnCourse extends React.Component {
                     </div>
                 </div>
                 <Review ref='review' user={this.props.user} course={{ _id: this.props.params.id }}
-                    onSubmitReviewSuccess={() => { this.onSubmitReviewSuccess() } } />
+                    onSubmitReviewSuccess={() => { this.onSubmitReviewSuccess() }} />
             </div >
         )
     }
