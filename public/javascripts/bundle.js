@@ -107190,6 +107190,8 @@
 
 	var _reactRouter = __webpack_require__(467);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107228,9 +107230,8 @@
 	                    headerColor: ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo'][Math.floor(Math.random() * 7)],
 	                    bsStyle: ['success', 'info', 'warning', 'danger'][Math.floor(Math.random() * 4)]
 	                });
-	                $.ajax({
-	                    method: "GET",
-	                    url: '/api/courses/get-courses-genre/' + nextProps.params.genreid,
+	                (0, _courses.getCoursesByGenre)({
+	                    genreid: nextProps.params.genreid,
 	                    success: function success(data, status) {
 	                        if (data.code == 200) {
 	                            setTimeout(function () {
@@ -107256,9 +107257,8 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
-	            $.ajax({
-	                method: "GET",
-	                url: '/api/courses/get-courses-genre/' + this.props.params.genreid,
+	            (0, _courses.getCoursesByGenre)({
+	                genreid: this.props.params.genreid,
 	                success: function success(data, status) {
 	                    if (data.code == 200) {
 	                        setTimeout(function () {
@@ -107352,6 +107352,8 @@
 
 	var _course2 = _interopRequireDefault(_course);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107391,9 +107393,8 @@
 	                    headerColor: ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo'][Math.floor(Math.random() * 7)],
 	                    bsStyle: ['success', 'info', 'warning', 'danger'][Math.floor(Math.random() * 4)]
 	                });
-	                $.ajax({
-	                    method: "POST",
-	                    url: '/api/courses/get-courses-subgenre/' + nextProps.params.subgenreid,
+	                (0, _courses.getCoursesBySubGenre)({
+	                    subgenreid: nextProps.params.subgenreid,
 	                    data: nextProps.location.query,
 	                    success: function success(data, status) {
 	                        if (data.code == 200) {
@@ -107424,9 +107425,8 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
-	            $.ajax({
-	                method: "POST",
-	                url: '/api/courses/get-courses-subgenre/' + this.props.params.subgenreid,
+	            (0, _courses.getCoursesBySubGenre)({
+	                subgenreid: this.props.params.subgenreid,
 	                data: this.props.location.query,
 	                success: function success(data, status) {
 	                    if (data.code == 200) {
@@ -112454,6 +112454,43 @@
 	});
 
 	module.exports = Pdf;
+
+/***/ }),
+/* 1090 */
+/***/ (function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var getCoursesByGenre = exports.getCoursesByGenre = function getCoursesByGenre(_ref) {
+	  var genreid = _ref.genreid,
+	      success = _ref.success,
+	      xhr = _ref.xhr;
+
+	  $.ajax({
+	    method: "GET",
+	    url: '/api/courses/get-courses-genre/' + genreid,
+	    success: success,
+	    xhr: xhr
+	  });
+	};
+
+	var getCoursesBySubGenre = exports.getCoursesBySubGenre = function getCoursesBySubGenre(_ref2) {
+	  var subgenreid = _ref2.subgenreid,
+	      data = _ref2.data,
+	      success = _ref2.success,
+	      xhr = _ref2.xhr;
+
+	  $.ajax({
+	    method: "POST",
+	    url: '/api/courses/get-courses-subgenre/' + subgenreid,
+	    data: data,
+	    success: success,
+	    xhr: xhr
+	  });
+	};
 
 /***/ })
 /******/ ]);

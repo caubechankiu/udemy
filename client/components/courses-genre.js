@@ -2,6 +2,7 @@ import React from 'react'
 import PanelCourses from './panel-courses'
 import { Breadcrumb, Glyphicon, ProgressBar } from 'react-bootstrap'
 import { Link, browserHistory } from 'react-router'
+import { getCoursesByGenre } from '../apis/courses'
 
 class CoursesGenre extends React.Component {
     constructor(props) {
@@ -22,9 +23,8 @@ class CoursesGenre extends React.Component {
                 headerColor: ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo'][Math.floor(Math.random() * 7)],
                 bsStyle: ['success', 'info', 'warning', 'danger'][Math.floor(Math.random() * 4)],
             })
-            $.ajax({
-                method: "GET",
-                url: '/api/courses/get-courses-genre/' + nextProps.params.genreid,
+            getCoursesByGenre({
+                genreid: nextProps.params.genreid,
                 success: (data, status) => {
                     if (data.code == 200) {
                         setTimeout(() => {
@@ -41,14 +41,13 @@ class CoursesGenre extends React.Component {
                         }
                     }
                     return xhr
-                }
+                },
             })
         }
     }
     componentDidMount() {
-        $.ajax({
-            method: "GET",
-            url: '/api/courses/get-courses-genre/' + this.props.params.genreid,
+        getCoursesByGenre({
+            genreid: this.props.params.genreid,
             success: (data, status) => {
                 if (data.code == 200) {
                     setTimeout(() => {
@@ -65,7 +64,7 @@ class CoursesGenre extends React.Component {
                     }
                 }
                 return xhr
-            }
+            },
         })
     }
 
@@ -73,7 +72,7 @@ class CoursesGenre extends React.Component {
         return <div>
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <Breadcrumb>
-                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                         <Glyphicon glyph="home" />
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>

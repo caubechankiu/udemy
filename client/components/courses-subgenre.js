@@ -3,6 +3,7 @@ import PanelCourses from './panel-courses'
 import { Breadcrumb, Glyphicon, Col, ProgressBar, Pager, Row, FormGroup, ControlLabel, FormControl } from 'react-bootstrap'
 import { Link, browserHistory } from 'react-router'
 import Course from './course'
+import { getCoursesBySubGenre } from '../apis/courses'
 
 
 class CoursesSubgenre extends React.Component {
@@ -25,9 +26,8 @@ class CoursesSubgenre extends React.Component {
                 headerColor: ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo'][Math.floor(Math.random() * 7)],
                 bsStyle: ['success', 'info', 'warning', 'danger'][Math.floor(Math.random() * 4)],
             })
-            $.ajax({
-                method: "POST",
-                url: '/api/courses/get-courses-subgenre/' + nextProps.params.subgenreid,
+            getCoursesBySubGenre({
+                subgenreid: nextProps.params.subgenreid,
                 data: nextProps.location.query,
                 success: (data, status) => {
                     if (data.code == 200) {
@@ -54,9 +54,8 @@ class CoursesSubgenre extends React.Component {
         }
     }
     componentDidMount() {
-        $.ajax({
-            method: "POST",
-            url: '/api/courses/get-courses-subgenre/' + this.props.params.subgenreid,
+        getCoursesBySubGenre({
+            subgenreid: this.props.params.subgenreid,
             data: this.props.location.query,
             success: (data, status) => {
                 if (data.code == 200) {
@@ -141,10 +140,10 @@ class CoursesSubgenre extends React.Component {
         return <div>
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <Breadcrumb>
-                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                         <Glyphicon glyph="home" />
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses/' + (this.state.genre._id || '')); } }>
+                    <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses/' + (this.state.genre._id || '')); }}>
                         {this.state.genre.name || ''}
                     </Breadcrumb.Item>
                     <Breadcrumb.Item active>
@@ -159,7 +158,7 @@ class CoursesSubgenre extends React.Component {
                     <div className='form-inline' style={{ marginBottom: '20px' }}>
                         <div className="form-group">
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) } } >
+                                value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) }} >
                                 <option value='none' style={{ fontWeight: 'bold' }}>--Select Level--</option>
                                 <option value='1' style={{ fontWeight: 'bold' }}>Beginner Level</option>
                                 <option value='2' style={{ fontWeight: 'bold' }}>Intermediate Level</option>
@@ -169,7 +168,7 @@ class CoursesSubgenre extends React.Component {
                         </div>{' '}
                         <div className="form-group" >
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) } }>
+                                value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) }}>
                                 <option value='none' style={{ fontWeight: 'bold' }}>--Price--</option>
                                 <option value='false' style={{ fontWeight: 'bold' }}>Paid</option>
                                 <option value='true' style={{ fontWeight: 'bold' }}>Free</option>
@@ -178,7 +177,7 @@ class CoursesSubgenre extends React.Component {
                         <div className="form-group">
                             <label>Sort by:</label>{' '}
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) } } >
+                                value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) }} >
                                 <option value='1' style={{ fontWeight: 'bold' }}>Popularity</option>
                                 <option value='2' style={{ fontWeight: 'bold' }}>Highest Rated</option>
                                 <option value='3' style={{ fontWeight: 'bold' }}>Newest</option>
@@ -189,14 +188,14 @@ class CoursesSubgenre extends React.Component {
                     </div>
                     <Row>{this.state.courses.map((course, index) => {
                         return <Col md={3} sm={6} xs={12} key={index}>
-                            <Course popoverPlacement={index%2==0?'right':'left'} course={course} />
+                            <Course popoverPlacement={index % 2 == 0 ? 'right' : 'left'} course={course} />
                         </Col>
                     })}
                     </Row>
                     <Pager>
                         <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                            previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                        <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                            previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                        <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
                     </Pager>
                 </div>
             }
