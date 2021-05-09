@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { setUser, setGetMyCourses, setCourseDescription, setGenres, setCoursePreviewVideo } from '../actions'
 import { browserHistory } from 'react-router'
 var _ = require('lodash')
+import { getAllGenres } from '../apis/genres'
 
 
 class ManageCourseDescription extends React.Component {
@@ -12,7 +13,7 @@ class ManageCourseDescription extends React.Component {
         this.state = {
             course_name: this.props.course_name || '',
             course_description: this.props.course_description || '',
-            course_image: this.props.course_image?'/api/resource/images?src='+this.props.course_image+'&w=320&h=180' : '',
+            course_image: this.props.course_image ? '/api/resource/images?src=' + this.props.course_image + '&w=320&h=180' : '',
             course_category: this.props.course_category || '',
             course_subcategory: this.props.course_subcategory || '',
             course_level: this.props.course_level || 0,
@@ -39,7 +40,7 @@ class ManageCourseDescription extends React.Component {
                         this.setState({
                             course_name: data.course.name,
                             course_description: data.course.description,
-                            course_image: '/api/resource/images?src='+data.course.coverphoto+'&w=320&h=180',
+                            course_image: '/api/resource/images?src=' + data.course.coverphoto + '&w=320&h=180',
                             course_category: data.course.genre,
                             course_subcategory: data.course.subgenre,
                             course_level: data.course.level,
@@ -50,7 +51,7 @@ class ManageCourseDescription extends React.Component {
             )
         }
         if (this.props.genreList.length == 0) {
-            $.get('/api/genres/all', (result) => {
+            getAllGenres((result) => {
                 this.props.dispatch(setGenres(JSON.parse(result)))
             })
         }

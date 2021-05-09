@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setGenres } from '../actions'
 import { Link } from 'react-router'
+import { getAllGenres } from '../apis/genres'
 
 
 class SubGenre extends React.Component {
@@ -17,7 +18,7 @@ class SubGenre extends React.Component {
 }
 class ListSubGenre extends React.Component {
     render() {
-        let arrColor = ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru','indigo']
+        let arrColor = ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo']
         let subgenres = this.props.genre.subgenres.map((subgenre) => {
             return (
                 <SubGenre key={subgenre._id} subgenre={subgenre} genreId={this.props.genre._id} />
@@ -44,7 +45,7 @@ class ListGenre extends React.Component {
         if (this.props.genreList.length > 0) {
             return
         }
-        $.get('/api/genres/all', (result) => {
+        getAllGenres((result) => {
             this.props.dispatch(setGenres(JSON.parse(result)))
         })
     }

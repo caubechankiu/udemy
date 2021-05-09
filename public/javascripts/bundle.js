@@ -66666,6 +66666,8 @@
 
 	var _reactRouter = __webpack_require__(467);
 
+	var _genres = __webpack_require__(1091);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66763,7 +66765,7 @@
 	            if (this.props.genreList.length > 0) {
 	                return;
 	            }
-	            $.get('/api/genres/all', function (result) {
+	            (0, _genres.getAllGenres)(function (result) {
 	                _this5.props.dispatch((0, _actions.setGenres)(JSON.parse(result)));
 	            });
 	        }
@@ -103843,6 +103845,8 @@
 
 	var _reactRouter = __webpack_require__(467);
 
+	var _genres = __webpack_require__(1091);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -103905,7 +103909,7 @@
 	                });
 	            }
 	            if (this.props.genreList.length == 0) {
-	                $.get('/api/genres/all', function (result) {
+	                (0, _genres.getAllGenres)(function (result) {
 	                    _this2.props.dispatch((0, _actions.setGenres)(JSON.parse(result)));
 	                });
 	            }
@@ -105079,6 +105083,8 @@
 
 	var _course2 = _interopRequireDefault(_course);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -105363,7 +105369,7 @@
 	            var _this6 = this;
 
 	            if (this.props.params.id != nextProps.params.id) {
-	                $.post('/api/course/get-review', {
+	                (0, _courses.getReview)({
 	                    courseid: this.props.params.id,
 	                    page: this.state.pageReviews
 	                }, function (data, status) {
@@ -105377,7 +105383,7 @@
 	                $("html, body").stop().animate({ scrollTop: 0 }, '500', 'swing', function () {});
 	                return;
 	            }
-	            $.post('/api/course/get-course-info', {
+	            (0, _courses.getCourseIntro)({
 	                courseid: nextProps.params.id
 	            }, function (data, status) {
 	                if (data.code == 1001) {
@@ -105397,7 +105403,7 @@
 	        value: function componentDidMount() {
 	            var _this7 = this;
 
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: this.state.pageReviews
 	            }, function (data, status) {
@@ -105423,7 +105429,7 @@
 	                this.getCoursesRelateLecture(this.props.course.lecturer._id, this.props.params.id);
 	                return;
 	            }
-	            $.post('/api/course/get-course-info', {
+	            (0, _courses.getCourseIntro)({
 	                courseid: this.props.params.id
 	            }, function (data, status) {
 	                if (data.code == 1001) {
@@ -105457,7 +105463,7 @@
 	        value: function getCoursesRelateLecture(lecturerid, courseid) {
 	            var _this8 = this;
 
-	            $.post('/api/courses/get-courses-relate-lecturer', {
+	            (0, _courses.getCoursesRelateLecture)({
 	                lecturerid: lecturerid,
 	                courseid: courseid
 	            }, function (data, status) {
@@ -105471,7 +105477,7 @@
 
 	            var page = this.state.pageReviews;
 	            this.setState({ pageReviews: page - 1 });
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: page - 1
 	            }, function (data, status) {
@@ -105487,7 +105493,7 @@
 
 	            var page = this.state.pageReviews;
 	            this.setState({ pageReviews: page + 1 });
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: page + 1
 	            }, function (data, status) {
@@ -106311,6 +106317,8 @@
 
 	var _review2 = _interopRequireDefault(_review);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106360,7 +106368,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: this.state.pageReviews
 	            }, function (data, status) {
@@ -106371,7 +106379,7 @@
 	            if (this.props.course) {
 	                return;
 	            }
-	            $.post('/api/course/get-course-info', {
+	            (0, _courses.getCourseIntro)({
 	                courseid: this.props.params.id
 	            }, function (data, status) {
 	                if (data.code == 1001) {
@@ -106394,7 +106402,7 @@
 
 	            var page = this.state.pageReviews;
 	            this.setState({ pageReviews: page - 1 });
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: page - 1
 	            }, function (data, status) {
@@ -106410,7 +106418,7 @@
 
 	            var page = this.state.pageReviews;
 	            this.setState({ pageReviews: page + 1 });
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: page + 1
 	            }, function (data, status) {
@@ -106429,7 +106437,7 @@
 	        value: function onSubmitReviewSuccess() {
 	            var _this5 = this;
 
-	            $.post('/api/course/get-review', {
+	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: this.state.pageReviews
 	            }, function (data, status) {
@@ -106728,6 +106736,8 @@
 
 	var _reactBootstrap = __webpack_require__(215);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106764,7 +106774,7 @@
 	            var _this2 = this;
 
 	            e.preventDefault();
-	            $.post('/api/course/add-review', {
+	            (0, _courses.addReview)({
 	                courseid: this.props.course._id,
 	                content: this.state.content,
 	                star: this.state.star
@@ -106930,6 +106940,8 @@
 
 	var _reactBootstrap = __webpack_require__(215);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106959,9 +106971,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $.ajax({
-	                method: "GET",
-	                url: "/api/courses/get-courses-homepage",
+	            (0, _courses.getCoursesHomepage)({
 	                success: function success(data, status) {
 	                    if (data.code == 200) {
 	                        setTimeout(function () {
@@ -107727,6 +107737,8 @@
 
 	var _course2 = _interopRequireDefault(_course);
 
+	var _courses = __webpack_require__(1090);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107768,9 +107780,7 @@
 	                    progress: 0,
 	                    isloading: true
 	                });
-	                $.ajax({
-	                    method: "POST",
-	                    url: '/api/courses/search',
+	                (0, _courses.getCoursesSearch)({
 	                    data: nextProps.location.query,
 	                    success: function success(data, status) {
 	                        if (data.code == 1001) {
@@ -107801,9 +107811,7 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
-	            $.ajax({
-	                method: "POST",
-	                url: '/api/courses/search',
+	            (0, _courses.getCoursesSearch)({
 	                data: this.props.location.query,
 	                success: function success(data, status) {
 	                    if (data.code == 1001) {
@@ -112490,6 +112498,61 @@
 	    success: success,
 	    xhr: xhr
 	  });
+	};
+
+	var getCoursesSearch = exports.getCoursesSearch = function getCoursesSearch(_ref3) {
+	  var data = _ref3.data,
+	      success = _ref3.success,
+	      xhr = _ref3.xhr;
+
+	  $.ajax({
+	    method: "POST",
+	    url: '/api/courses/search',
+	    data: data,
+	    success: success,
+	    xhr: xhr
+	  });
+	};
+
+	var getCoursesHomepage = exports.getCoursesHomepage = function getCoursesHomepage(_ref4) {
+	  var success = _ref4.success,
+	      xhr = _ref4.xhr;
+
+	  $.ajax({
+	    method: "GET",
+	    url: '/api/courses/get-courses-homepage',
+	    success: success,
+	    xhr: xhr
+	  });
+	};
+
+	var getCoursesRelateLecture = exports.getCoursesRelateLecture = function getCoursesRelateLecture(data, callback) {
+	  $.post('/api/courses/get-courses-relate-lecturer', data, callback);
+	};
+
+	var addReview = exports.addReview = function addReview(data, callback) {
+	  $.post('/api/course/add-review', data, callback);
+	};
+
+	var getReview = exports.getReview = function getReview(data, callback) {
+	  $.post('/api/course/get-review', data, callback);
+	};
+
+	var getCourseIntro = exports.getCourseIntro = function getCourseIntro(data, callback) {
+	  $.post('/api/course/get-course-info', data, callback);
+	};
+
+/***/ }),
+/* 1091 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var getAllGenres = exports.getAllGenres = function getAllGenres(callback) {
+	  $.get('/api/genres/all', callback);
 	};
 
 /***/ })
