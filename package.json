@@ -30,6 +30,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "redux": "^3.6.0",
+    "rimraf": "^3.0.2",
     "semantic-ui-react": "^0.61.10",
     "send": "^0.14.1",
     "sharp": "^0.28.1"

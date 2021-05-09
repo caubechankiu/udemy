@@ -5,6 +5,9 @@ var Course = require('../models/course')
 var User = require('../models/user')
 var Lecture = require('../models/lecture')
 var Review = require('../models/review')
+var Payment = require('../models/payment')
+var Notification = require('../models/notification')
+var rimraf = require("rimraf");
 var fs = require('fs');//Handle files
 var http = require('http');
 
@@ -16,7 +19,7 @@ const verifytokenGenerator = () => {
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
   for (var i = 0; i < 10; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length))
+    text += possible.charAt(Math.floor(Math.random() * possible.length))
   return text
 }
 
@@ -154,6 +157,28 @@ const avatarUrls = [
   'https://img-a.udemycdn.com/user/200_H/5141498_91b8_3.jpg',
   'https://img-a.udemycdn.com/user/200_H/11098324_91cb.jpg'
 ]
+
+const clearFile = async () => {
+  return new Promise((resolve) => {
+    rimraf('public/uploads/avatars', () => { fs.mkdirSync('public/uploads/avatars') })
+    rimraf('public/uploads/courses-photo', () => { fs.mkdirSync('public/uploads/courses-photo') })
+    rimraf('public/uploads/courses-video', () => { fs.mkdirSync('public/uploads/courses-video') })
+    rimraf('uploads/courses-video', () => { fs.mkdirSync('uploads/courses-video') })
+
+    setTimeout(resolve, 5000);
+  })
+}
+
+const clearDatabase = async () => {
+  await User.deleteMany({});
+  await Course.deleteMany({});
+  await Genre.deleteMany({});
+  await Subgenre.deleteMany({});
+  await Review.deleteMany({});
+  await Lecture.deleteMany({});
+  await Notification.deleteMany({});
+  await Payment.deleteMany({});
+}
 
 const createGenres = async () => {
   for (const genreName in genresName) {
@@ -318,6 +343,8 @@ const updateUserPhoto = async () => {
 }
 
 db.once('open', async () => {
+  await clearFile()
+  await clearDatabase()
   await createGenres()
   await createUser()
   await createCourse()
