@@ -1,3 +1,4 @@
+require('dotenv').config();
 var mongoose = require('mongoose')
 var db = mongoose.connection
 
@@ -51,8 +52,8 @@ updateReviews = () => {
 
 db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function () {
-    // updateReviews()
+    updateReviews()
 })
 
 
-mongoose.connect('mongodb://root:123456@localhost:27017/udemy?authSource=admin');
+mongoose.connect(process.env.MONGODB_URL);

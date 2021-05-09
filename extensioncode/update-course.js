@@ -1,3 +1,4 @@
+require('dotenv').config();
 var Course = require('../models/course')
 var User = require('../models/user')
 var Genre = require('../models/genre')
@@ -141,7 +142,7 @@ createCourse = () => {
                     if (err) {
                         return console.log(err)
                     }
-                    User.update({ _id: user._id },
+                    User.updateOne({ _id: user._id },
                         {
                             $push: { "mycourses": course._id },
                         }).exec((err) => {
@@ -193,7 +194,7 @@ createLecture = () => {
                 lecture.save((err) => {
                     if (err)
                         return console.log(err)
-                    Course.update({ _id: course._id }, { $push: { "lectures": lecture._id } })
+                    Course.updateOne({ _id: course._id }, { $push: { "lectures": lecture._id } })
                         .exec((err) => {
                             if (err)
                                 return console.log(err)
@@ -232,4 +233,4 @@ db.once('open', function () {
     // updateLecturePreview()
 })
 
-mongoose.connect('mongodb://root:123456@localhost:27017/udemy?authSource=admin');
+mongoose.connect(process.env.MONGODB_URL);

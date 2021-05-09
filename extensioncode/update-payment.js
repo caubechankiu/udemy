@@ -1,3 +1,4 @@
+require('dotenv').config();
 var http = require('http');
 var fs = require('fs');//Handle files
 var mongoose = require('mongoose');
@@ -60,4 +61,4 @@ updatePayment = () => {
 }
 
 
-mongoose.connect('mongodb://root:123456@localhost:27017/udemy?authSource=admin');
+mongoose.connect(process.env.MONGODB_URL);

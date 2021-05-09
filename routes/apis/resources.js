@@ -10,7 +10,8 @@ var _ = require('lodash')
 const sharp = require('sharp')
 
 router.get('/images', (req, res, next) => {
-    sharp('public' + req.query.src).resize(parseInt(req.query.w), parseInt(req.query.h)).ignoreAspectRatio().toBuffer((err, buffer, info) => {
+    console.log(req.query.src)
+    sharp('public' + req.query.src).resize(parseInt(req.query.w), parseInt(req.query.h)).toBuffer((err, buffer, info) => {
         if (err) {
             console.log(err)
             res.end()
