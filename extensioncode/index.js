@@ -5,9 +5,20 @@ var Course = require('../models/course')
 var User = require('../models/user')
 var Lecture = require('../models/lecture')
 var Review = require('../models/review')
+var fs = require('fs');//Handle files
+var http = require('http');
 
 var mongoose = require('mongoose');
 var db = mongoose.connection;
+
+const verifytokenGenerator = () => {
+  var text = ""
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+  for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length))
+  return text
+}
 
 const genresName = {
   'Development': ['Web Development', 'Data Science', 'Mobile Development', 'Programming Languages', 'Game Development', 'Database Design & Development', 'Software Testing', 'Software Engineering', 'Development Tools', 'No-Code Development'],
@@ -88,6 +99,62 @@ const reviewContent = [
   'great course. complex and advanced theory explained in a way which makes it easy for me to understand. plus good examples of the theory. i think understanding all these advanced concepts will make it a lot easier to code.'
 ]
 
+const imageUrls = [
+  'https://img-a.udemycdn.com/course/240x135/756914_8bd3_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/922484_52a1_5.jpg',
+  'https://img-a.udemycdn.com/course/240x135/627730_83d0_10.jpg',
+  'https://img-a.udemycdn.com/course/240x135/412738_4543.jpg',
+  'https://img-a.udemycdn.com/course/240x135/408430_1b9a_5.jpg',
+  'https://img-a.udemycdn.com/course/240x135/655208_5bdf.jpg',
+  'https://img-a.udemycdn.com/course/240x135/914296_3670.jpg',
+  'https://img-a.udemycdn.com/course/240x135/951618_0839_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/540090_c68f_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/520116_edf5.jpg',
+  'https://img-a.udemycdn.com/course/240x135/888716_4225_3.jpg',
+  'https://img-a.udemycdn.com/course/240x135/484114_6ad5_3.jpg',
+  'https://img-a.udemycdn.com/course/240x135/637930_9a22_15.jpg',
+  'https://img-a.udemycdn.com/course/240x135/673654_d677_7.jpg',
+  'https://img-a.udemycdn.com/course/240x135/822660_1527_3.jpg',
+  'https://img-a.udemycdn.com/course/240x135/714724_b3b4_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/581854_4c7e_3.jpg',
+  'https://img-a.udemycdn.com/course/240x135/959700_8bd2_9.jpg',
+  'https://img-a.udemycdn.com/course/240x135/764164_de03_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/892102_963b.jpg',
+  'https://img-a.udemycdn.com/course/240x135/895786_7b4b_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/625204_436a_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/707876_9e82_4.jpg',
+  'https://img-a.udemycdn.com/course/240x135/969242_3548_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/817466_c0e0.jpg',
+  'https://img-a.udemycdn.com/course/240x135/966658_b0ee_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/957194_444a.jpg',
+  'https://img-a.udemycdn.com/course/240x135/809522_82dc_2.jpg',
+  'https://img-a.udemycdn.com/course/240x135/754112_7441_2.jpg'
+]
+const avatarUrls = [
+  'https://img-a.udemycdn.com/user/200_H/14214490_3956_2.jpg',
+  'https://img-a.udemycdn.com/user/200_H/17082766_0590_5.jpg',
+  'https://img-a.udemycdn.com/user/200_H/4387876_78bc.jpg',
+  'https://img-a.udemycdn.com/user/200_H/4466306_6fd8_2.jpg',
+  'https://img-a.udemycdn.com/user/200_H/4355282_676b.jpg',
+  'https://img-a.udemycdn.com/user/200_H/16903220_be08_2.jpg',
+  'https://img-a.udemycdn.com/user/200_H/14703256_c1bf_4.jpg',
+  'https://img-a.udemycdn.com/user/200_H/8180238_7afd_4.jpg',
+  'https://img-a.udemycdn.com/user/200_H/5487312_0554.jpg',
+  'https://img-a.udemycdn.com/user/200_H/14942868_3ed6_4.jpg',
+  'https://img-a.udemycdn.com/user/200_H/1681918_d7a1_6.jpg',
+  'https://img-a.udemycdn.com/user/200_H/797726_5aff_3.jpg',
+  'https://img-a.udemycdn.com/user/200_H/18187_dbc6_6.jpg',
+  'https://img-a.udemycdn.com/user/200_H/10663828_2f0b.jpg',
+  'https://img-a.udemycdn.com/user/200_H/15601054_5545_14.jpg',
+  'https://img-a.udemycdn.com/user/200_H/402489_0bc6_4.jpg',
+  'https://img-a.udemycdn.com/user/200_H/7231684_bc0d_3.jpg',
+  'https://img-a.udemycdn.com/user/200_H/19352882_1818.jpg',
+  'https://img-a.udemycdn.com/user/200_H/635204_baf4.jpg',
+  'https://img-a.udemycdn.com/user/200_H/18279718_4883_2.jpg',
+  'https://img-a.udemycdn.com/user/200_H/5141498_91b8_3.jpg',
+  'https://img-a.udemycdn.com/user/200_H/11098324_91cb.jpg'
+]
+
 const createGenres = async () => {
   for (const genreName in genresName) {
     const subGenresName = genresName[genreName];
@@ -107,6 +174,7 @@ const createUser = async () => {
       username: usernames[i],
       email: 'trinhthevi' + (i + 28).toString() + '@gmail.com',
       verified: true,
+      verifytoken: verifytokenGenerator(),
       biography: "<p><strong>Photographer, Adventurer &amp; Conservationist.</strong></p><p>Born in 1983, Chris grew up sailing around the world and then leading world-first cart-hauling expeditions across the arctic before becoming an award-winning Australian Geographic photographer, Lowepro ambassador and Canon&rsquo;s Australian ambassador for five years.&nbsp;<br /><br /><em>Chris&rsquo;s work has appeared in National Geographic (along with Australian and Canadian Geographic) as well as TIME Magazine and Discovery Channel. He&rsquo;s written a successful book &#39;The 1000 Hour Day&#39; (now a multi award-winning documentary &#39;The Crossing&#39;), sits on the advisory committee for&nbsp;The Australian Geographic Society, is a International Fellow of the&nbsp;Explorers Club&nbsp;and is also founder and CEO of&nbsp;Conservation United, crowd-funding the world&rsquo;s critical conservation projects.&nbsp;<br /><br />Besides running 1-day photography courses and photo tours around the world, Chris and his wife Jess recently became the first people to sail a junk-rig sailboat through the Northwest Passage over the arctic.</em></p><p>&nbsp;</p>",
       linkedin: "in/thế-vĩ-trịnh-237574bb",
       twitter: "trinhthevils",
@@ -177,7 +245,7 @@ const createLecture = async () => {
 }
 
 const updateLecturePreview = async () => {
-  const courses = Course.find({}).populate({ path: 'lectures' })
+  const courses = await Course.find({}).populate({ path: 'lectures' })
   for (let course of courses) {
     for (let j = 0; j < 3; j++) {
       let lecture = course.lectures[j]
@@ -203,6 +271,52 @@ const updateReviews = async () => {
   }
 }
 
+const updateCourseVideo = async () => {
+  const courses = await Course.find({});
+  for (const course of courses) {
+    fs.copyFileSync('extensioncode/video.mp4', 'public/uploads/courses-video/' + course._id)
+    course.previewvideo = '/uploads/courses-video/' + course._id
+    await course.save()
+  }
+}
+
+const updateLectureVideo = async () => {
+  const lectures = await Lecture.find({})
+  for (const lecture of lectures) {
+    fs.copyFileSync('extensioncode/video.mp4', 'uploads/courses-video/' + lecture._id)
+    lecture.video = 'uploads/courses-video/' + lecture._id
+    await lecture.save()
+  }
+}
+
+const updateCoursePhoto = async () => {
+  const courses = await Course.find({})
+  for (let course of courses) {
+    let fileToDownload = imageUrls[Math.floor(Math.random() * imageUrls.length)].replace('https', 'http');
+    let file = fs.createWriteStream('public/uploads/courses-photo/' + course._id)
+    http.get(fileToDownload, function (response) {
+      response.pipe(file).on('finish', async () => {
+        course.coverphoto = '/uploads/courses-photo/' + course._id
+        await course.save()
+      })
+    })
+  }
+}
+
+const updateUserPhoto = async () => {
+  const users = await User.find({})
+  for (let user of users) {
+    let fileToDownload = avatarUrls[Math.floor(Math.random() * avatarUrls.length)].replace('https', 'http');
+    let file = fs.createWriteStream('public/uploads/avatars/' + user._id)
+    http.get(fileToDownload, function (response) {
+      response.pipe(file).on('finish', async () => {
+        user.photo = '/uploads/avatars/' + user._id
+        await user.save()
+      })
+    })
+  }
+}
+
 db.once('open', async () => {
   await createGenres()
   await createUser()
@@ -211,6 +325,11 @@ db.once('open', async () => {
   await createLecture()
   await updateLecturePreview()
   await updateReviews()
+  await updateCourseVideo()
+  await updateLectureVideo()
+  await updateCoursePhoto()
+  await updateUserPhoto()
+  console.log('Done')
 })
 
 mongoose.connect(process.env.MONGODB_URL);
