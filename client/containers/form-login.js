@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap'
 import { setUser, showModal } from '../actions'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import { login } from '../apis/auth'
 
 class FormLogin extends React.Component {
     constructor(props) {
@@ -35,27 +36,24 @@ class FormLogin extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post(
-            '/authentication/login',
-            {
-                email: this.state.email,
-                password: this.state.password
-            },
-            (data, status) => {
-                if (data.code == 200) {
-                    this.props.dispatch(showModal(0))
-                    this.props.dispatch(setUser(data.user))
-                    browserHistory.push('/courses')
-                } else {
-                    this.setState({ message: data.message, isSubmitting: false })
-                    let alertlogin = $(".alert:first")
-                    alertlogin.show(500, function () {
-                        setTimeout(function () {
-                            alertlogin.hide(500)
-                        }, 3000)
-                    })
-                }
-            })
+        login({
+            email: this.state.email,
+            password: this.state.password
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.props.dispatch(showModal(0))
+                this.props.dispatch(setUser(data.user))
+                browserHistory.push('/courses')
+            } else {
+                this.setState({ message: data.message, isSubmitting: false })
+                let alertlogin = $(".alert:first")
+                alertlogin.show(500, function () {
+                    setTimeout(function () {
+                        alertlogin.hide(500)
+                    }, 3000)
+                })
+            }
+        })
     }
     render() {
         return (

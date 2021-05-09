@@ -7,6 +7,7 @@ import { setUser, showModal, setGetMyCourses, markAllAsRead, markRead } from '..
 import { connect } from 'react-redux';
 import { Glyphicon, Col, Row, Button } from 'react-bootstrap'
 import { Link, browserHistory } from 'react-router'
+import { logout } from '../apis/auth'
 
 import _ from 'lodash'
 
@@ -29,8 +30,7 @@ class Navbar extends React.Component {
         })
     }
     onClickLogout() {
-        $.get('/authentication/logout', (data, status) => {
-            console.log(data)
+        logout((data, status) => {
             if (data.code == 200) {
                 this.props.dispatch(setUser({}))
                 this.props.dispatch(setGetMyCourses(false))

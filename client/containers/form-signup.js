@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap'
 import { setUser, showModal } from '../actions'
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router'
+import { signup } from '../apis/auth'
 
 class FormSignup extends React.Component {
     constructor(props) {
@@ -36,22 +37,19 @@ class FormSignup extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post(
-            '/authentication/signup',
-            {
-                username: this.state.username,
-                email: this.state.email,
-                password: this.state.password
-            },
-            (data, status) => {
-                this.setState({ message: data.message, isSubmitting: false })
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 10000)
-                })
+        signup({
+            username: this.state.username,
+            email: this.state.email,
+            password: this.state.password
+        }, (data, status) => {
+            this.setState({ message: data.message, isSubmitting: false })
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 10000)
             })
+        })
     }
     render() {
         return (
