@@ -6,7 +6,7 @@ import { setUser, setGetMyCourses, addViewCourse, showModal, changeWishlist, tak
 import { browserHistory, Link } from 'react-router'
 import Course from '../components/course'
 var _ = require('lodash')
-import { getCoursesRelateLecture, getReview } from '../apis/courses'
+import { getCoursesRelateLecture, getReview, getCourseIntro } from '../apis/courses'
 
 class ModalPurchase extends React.Component {
 
@@ -146,21 +146,20 @@ class ViewCourse extends React.Component {
             $("html, body").stop().animate({ scrollTop: 0 }, '500', 'swing', function () { })
             return
         }
-        $.post('/api/course/get-course-info',
-            {
-                courseid: nextProps.params.id
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    browserHistory.push('/')
-                    return
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(addViewCourse(data.course))
-                    this.getCoursesRelateLecture(data.course.lecturer._id, nextProps.params.id)
-                }
+        getCourseIntro({
+            courseid: nextProps.params.id
+        }, (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                browserHistory.push('/')
+                return
             }
+            if (data.code == 200) {
+                this.props.dispatch(addViewCourse(data.course))
+                this.getCoursesRelateLecture(data.course.lecturer._id, nextProps.params.id)
+            }
+        }
         )
 
     }
@@ -192,35 +191,34 @@ class ViewCourse extends React.Component {
             this.getCoursesRelateLecture(this.props.course.lecturer._id, this.props.params.id)
             return
         }
-        $.post('/api/course/get-course-info',
-            {
-                courseid: this.props.params.id
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    browserHistory.push('/')
-                    return
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(addViewCourse(data.course))
-                    var header = $("#navbar-info-course");
-                    var top = header.position().top + 47
-                    $(window).scroll(function () {
-                        var scroll = $(window).scrollTop();
-                        if (scroll >= top) {
-                            if (!header.hasClass("navbar-fixed-top")) {
-                                header.addClass("navbar-fixed-top");
-                            }
-                        } else {
-                            if (header.hasClass("navbar-fixed-top")) {
-                                header.removeClass("navbar-fixed-top");
-                            }
-                        }
-                    });
-                    this.getCoursesRelateLecture(data.course.lecturer._id, this.props.params.id)
-                }
+        getCourseIntro({
+            courseid: this.props.params.id
+        }, (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                browserHistory.push('/')
+                return
             }
+            if (data.code == 200) {
+                this.props.dispatch(addViewCourse(data.course))
+                var header = $("#navbar-info-course");
+                var top = header.position().top + 47
+                $(window).scroll(function () {
+                    var scroll = $(window).scrollTop();
+                    if (scroll >= top) {
+                        if (!header.hasClass("navbar-fixed-top")) {
+                            header.addClass("navbar-fixed-top");
+                        }
+                    } else {
+                        if (header.hasClass("navbar-fixed-top")) {
+                            header.removeClass("navbar-fixed-top");
+                        }
+                    }
+                });
+                this.getCoursesRelateLecture(data.course.lecturer._id, this.props.params.id)
+            }
+        }
         )
 
     }
@@ -236,30 +234,28 @@ class ViewCourse extends React.Component {
     onClickPrev() {
         let page = this.state.pageReviews
         this.setState({ pageReviews: page - 1 })
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: page - 1
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: page - 1
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
 
     }
     onClickNext() {
         let page = this.state.pageReviews
         this.setState({ pageReviews: page + 1 })
-        $.post('/api/course/get-review',
-            {
-                courseid: this.props.params.id,
-                page: page + 1
-            }, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ reviews: data.reviews })
-                }
+        getReview({
+            courseid: this.props.params.id,
+            page: page + 1
+        }, (data, status) => {
+            if (data.code == 200) {
+                this.setState({ reviews: data.reviews })
             }
+        }
         )
     }
     render() {

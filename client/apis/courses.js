@@ -47,3 +47,7 @@ export const addReview = (data, callback) => {
 export const getReview = (data, callback) => {
   $.post('/api/course/get-review', data, callback);
 }
+
+export const getCourseIntro = (data, callback) => {
+  $.post('/api/course/get-course-info', data, callback);
+}

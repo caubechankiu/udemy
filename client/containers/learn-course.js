@@ -6,7 +6,7 @@ import { setUser, setGetMyCourses, addViewCourse } from '../actions'
 import { Col, Row, Glyphicon } from 'react-bootstrap'
 import Review from '../components/review'
 var _ = require('lodash')
-import { getReview } from '../apis/courses'
+import { getReview, getCourseIntro } from '../apis/courses'
 
 class LearnCourse extends React.Component {
     constructor(props) {
@@ -43,22 +43,21 @@ class LearnCourse extends React.Component {
         if (this.props.course) {
             return
         }
-        $.post('/api/course/get-course-info',
-            {
-                courseid: this.props.params.id
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    browserHistory.push('/')
-                    return
+        getCourseIntro({
+            courseid: this.props.params.id
+        }, (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                browserHistory.push('/')
+                return
+            }
+            if (data.code == 200) {
+                if (data.course.lectures.length != 0) {
+                    this.props.dispatch(addViewCourse(data.course))
                 }
-                if (data.code == 200) {
-                    if (data.course.lectures.length != 0) {
-                        this.props.dispatch(addViewCourse(data.course))
-                    }
-                }
-            })
+            }
+        })
     }
     onClickPrev() {
         let page = this.state.pageReviews
