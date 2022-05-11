@@ -21,27 +21,25 @@ class ManageCoursePrice extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post(
-            '/api/user/set-course-price',
-            {
-                courseid: this.props.params.id,
-                cost: this.state.cost
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                } else if (data.code == 200) {
-                    this.props.dispatch(setCoursePrice(data.course))
-                }
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 3000)
-                })
-                this.setState({ message: data.message, isSubmitting: false })
+        $.post('/api/user/set-course-price', JSON.stringify({
+            courseid: this.props.params.id,
+            cost: this.state.cost
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
+            } else if (data.code == 200) {
+                this.props.dispatch(setCoursePrice(data.course))
             }
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 3000)
+            })
+            this.setState({ message: data.message, isSubmitting: false })
+        }
         )
     }
 

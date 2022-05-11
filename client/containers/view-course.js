@@ -32,27 +32,24 @@ class ModalPurchase extends React.Component {
             })
         } else {
             this.setState({ isSubmitting: true })
-            $.post('/api/user/take-a-course',
-                {
-                    courseid: courseid
-                }, (data, status) => {
-                    if (data.code == 1001) {
-                        return this.props.onTakeCourseNotLoggedIn()
-                    }
-                    if (data.code == 200) {
-                        return this.props.onTakeCourseSuccess()
-                    }
-                    if (data.code == 404) {
-                        this.setState({ message: data.message })
-                        let alertlogin = $(".alert:first")
-                        alertlogin.show(500, function () {
-                            setTimeout(function () {
-                                alertlogin.hide(500)
-                            }, 3000)
-                        })
-                        this.setState({ isSubmitting: false })
-                    }
-                })
+            $.post('/api/usr/take-a-course', JSON.stringify({ courseid: courseid }), (data, status) => {
+                if (data.code == 1001) {
+                    return this.props.onTakeCourseNotLoggedIn()
+                }
+                if (data.code == 200) {
+                    return this.props.onTakeCourseSuccess()
+                }
+                if (data.code == 404) {
+                    this.setState({ message: data.message })
+                    let alertlogin = $(".alert:first")
+                    alertlogin.show(500, function () {
+                        setTimeout(function () {
+                            alertlogin.hide(500)
+                        }, 3000)
+                    })
+                    this.setState({ isSubmitting: false })
+                }
+            })
         }
     }
     render() {

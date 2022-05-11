@@ -100,29 +100,27 @@ class ManageCourseGoal extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post(
-            '/api/user/set-course-goals',
-            {
-                courseid: this.props.params.id,
-                needtoknow: this.state.needtoknow,
-                targetstudent: this.state.targetstudent,
-                willableto: this.state.willableto
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                } else if (data.code == 200) {
-                    this.props.dispatch(setCourseGoals(data.course))
-                }
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 3000)
-                })
-                this.setState({ message: data.message, isSubmitting: false })
+        $.post('/api/user/set-course-goals', JSON.stringify({
+            courseid: this.props.params.id,
+            needtoknow: this.state.needtoknow,
+            targetstudent: this.state.targetstudent,
+            willableto: this.state.willableto
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
+            } else if (data.code == 200) {
+                this.props.dispatch(setCourseGoals(data.course))
             }
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 3000)
+            })
+            this.setState({ message: data.message, isSubmitting: false })
+        }
         )
     }
     render() {
@@ -131,9 +129,9 @@ class ManageCourseGoal extends React.Component {
                 <div className="input-group" key={index} style={{ marginBottom: '10px' }}>
                     <input type="text" required className="form-control"
                         placeholder="What will students need to know or do before starting this course?"
-                        value={this.state.needtoknow[index]} onChange={(e) => { this.handleEditNTK(e, index) } } />
+                        value={this.state.needtoknow[index]} onChange={(e) => { this.handleEditNTK(e, index) }} />
                     <div className="input-group-btn">
-                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteNTK(e, index) } }>
+                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteNTK(e, index) }}>
                             <span className="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
@@ -145,9 +143,9 @@ class ManageCourseGoal extends React.Component {
                 <div className="input-group" key={index} style={{ marginBottom: '10px' }}>
                     <input type="text" required className="form-control"
                         placeholder="What will students need to know or do before starting this course?"
-                        value={this.state.targetstudent[index]} onChange={(e) => { this.handleEditTS(e, index) } } />
+                        value={this.state.targetstudent[index]} onChange={(e) => { this.handleEditTS(e, index) }} />
                     <div className="input-group-btn">
-                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteTS(e, index) } }>
+                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteTS(e, index) }}>
                             <span className="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>
@@ -159,9 +157,9 @@ class ManageCourseGoal extends React.Component {
                 <div className="input-group" key={index} style={{ marginBottom: '10px' }}>
                     <input type="text" required className="form-control"
                         placeholder="What will students need to know or do before starting this course?"
-                        value={this.state.willableto[index]} onChange={(e) => { this.handleEditWAT(e, index) } } />
+                        value={this.state.willableto[index]} onChange={(e) => { this.handleEditWAT(e, index) }} />
                     <div className="input-group-btn">
-                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteWAT(e, index) } }>
+                        <button type="button" className="btn btn-danger" onClick={(e) => { this.onClickDeleteWAT(e, index) }}>
                             <span className="glyphicon glyphicon-trash"></span>
                         </button>
                     </div>

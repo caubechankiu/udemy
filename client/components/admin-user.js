@@ -64,16 +64,15 @@ class ModalAddUser extends Component {
         this.setState({ role: e.target.value })
     }
     Process() {
-        $.post('/api/admin/add-user',
-            this.state, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ modalOpen: false })
-                } else if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    browserHistory.push('/courses')
-                }
-            })
+        $.post('/api/admin/add-user', JSON.stringify(this.state), (data, status) => {
+            if (data.code == 200) {
+                this.setState({ modalOpen: false })
+            } else if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                browserHistory.push('/courses')
+            }
+        })
     }
     render() {
         return <Modal trigger={<Button onClick={this.handleOpen.bind(this)} positive size='large' type='button'>Add New User</Button>}
@@ -224,17 +223,16 @@ class ModalEditUser extends Component {
         this.setState({ user: user })
     }
     Process() {
-        $.post('/api/admin/edit-user',
-            this.state.user, (data, status) => {
-                if (data.code == 200) {
-                    this.setState({ modalOpen: false })
-                    this.props.onEditSuccess(null)
-                } else if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    browserHistory.push('/courses')
-                }
-            })
+        $.post('/api/admin/edit-user', JSON.stringify(this.state.user), (data, status) => {
+            if (data.code == 200) {
+                this.setState({ modalOpen: false })
+                this.props.onEditSuccess(null)
+            } else if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                browserHistory.push('/courses')
+            }
+        })
     }
 
     render() {
@@ -415,16 +413,15 @@ class AdminUser extends Component {
         }
     }
     deleteUser(_id) {
-        $.post('/api/admin/delete-user',
-            { _id: _id }, (data, status) => {
-                if (data.code == 200) {
-                    let users = this.state.users
-                    let index = _.findIndex(users, o => o._id == _id)
-                    this.setState({ users: [...users.slice(0, index), ...users.slice(index + 1)] })
-                } else if (data.code == 1001) {
-                    browserHistory.push('/courses')
-                }
-            })
+        $.post('/api/admin/delete-user', JSON.stringify({ _id: _id }), (data, status) => {
+            if (data.code == 200) {
+                let users = this.state.users
+                let index = _.findIndex(users, o => o._id == _id)
+                this.setState({ users: [...users.slice(0, index), ...users.slice(index + 1)] })
+            } else if (data.code == 1001) {
+                browserHistory.push('/courses')
+            }
+        })
     }
     editUser(e, user) {
         this.modalEditUser.handleOpen(e, user)
@@ -437,11 +434,11 @@ class AdminUser extends Component {
     }
     render() {
         return <div>
-            <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) } }>
+            <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) }}>
                 <div className="form-group form-group-lg">
                     <label className='control-label'>Sort by:</label>{' '}
                     <select style={{ fontWeight: 'bold' }} className="form-control"
-                        value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) } } >
+                        value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) }} >
                         <option value='1' style={{ fontWeight: 'bold' }}>Name: A-to-Z</option>
                         <option value='2' style={{ fontWeight: 'bold' }}>Name: Z-to-A</option>
                     </select>
@@ -450,7 +447,7 @@ class AdminUser extends Component {
                     <div className="input-group input-group-lg">
                         <input type="text" className="form-control"
                             value={this.state.searchQuery} placeholder="Search name or email"
-                            onChange={(e) => { this.handleSearchQuery(e) } } />
+                            onChange={(e) => { this.handleSearchQuery(e) }} />
                         <span className="input-group-btn">
                             <button className="btn btn-default" type="submit"><Glyphicon glyph='search' /></button>
                         </span>
@@ -521,7 +518,7 @@ class AdminUser extends Component {
                                 <Button.Group size='mini'>
                                     <Button positive onClick={e => this.editUser(e, user)}><Glyphicon glyph='pencil' /></Button>
                                     <Button.Or />
-                                    <Button negative onClick={(e) => { this.deleteUser(user._id) } }><Glyphicon glyph='trash' /></Button>
+                                    <Button negative onClick={(e) => { this.deleteUser(user._id) }}><Glyphicon glyph='trash' /></Button>
                                 </Button.Group>
                             </Table.Cell>
                         </Table.Row>
@@ -531,8 +528,8 @@ class AdminUser extends Component {
             <ModalEditUser ref={ref => this.modalEditUser = ref} onEditSuccess={e => this.onEditSuccess(e)} />
             <Pager>
                 <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                    previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                    previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
             </Pager>
         </div>
     }

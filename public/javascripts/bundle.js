@@ -41135,7 +41135,7 @@
 	        value: function markAsRead(e, noti) {
 	            e.preventDefault();
 	            if (!noti.seen) {
-	                $.post('/api/user/mark-read-noti', { id: noti._id });
+	                $.post('/api/user/mark-read-noti', JSON.stringify({ id: noti._id }));
 	                this.props.dispatch((0, _actions.markRead)(noti._id));
 	            }
 	        }
@@ -67636,10 +67636,7 @@
 	            e.preventDefault();
 
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/edit-account', {
-	                password: this.state.password,
-	                newPassword: this.state.newPassword
-	            }, function (data, status) {
+	            $.post('/api/user/edit-account', JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    return _reactRouter.browserHistory.push('/');
@@ -67833,7 +67830,7 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/delete', this.props.email == '' ? { facebookid: this.props.facebookid } : { password: this.state.password }, function (data, status) {
+	            $.post('/api/user/delete', this.props.email == '' ? JSON.stringify({ facebookid: this.props.facebookid }) : JSON.stringify({ password: this.state.password }), function (data, status) {
 	                if (data.code == 1001 || data.code == 200) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    _this2.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -68044,9 +68041,7 @@
 	        value: function depositFunds(e) {
 	            var _this2 = this;
 
-	            $.post('/api/user/deposit-funds', {
-	                money: this.state.money
-	            }, function (data, status) {
+	            $.post('/api/user/deposit-funds', JSON.stringify({ money: this.state.money }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this2.props.depositFunds(_this2.state.money);
 	                    _this2.handleClose(e);
@@ -68182,9 +68177,7 @@
 	        value: function withDraw(e) {
 	            var _this5 = this;
 
-	            $.post('/api/user/withdraw', {
-	                money: this.state.money
-	            }, function (data, status) {
+	            $.post('/api/user/withdraw', JSON.stringify({ money: this.state.money }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this5.props.withDraw(_this5.state.money);
 	                    _this5.handleClose(e);
@@ -68415,16 +68408,14 @@
 	            var payments = this.state.payments;
 	            payments = [].concat(_toConsumableArray(payments.slice(0, index)), _toConsumableArray(payments.slice(index + 1)));
 	            this.setState({ payments: payments });
-	            $.post('/api/user/delete-payment', { _id: payment._id });
+	            $.post('/api/user/delete-payment', JSON.stringify({ _id: payment._id }));
 	        }
 	    }, {
 	        key: 'setPaypalId',
 	        value: function setPaypalId(e) {
 	            var _this13 = this;
 
-	            $.post('/api/user/set-paypalid', {
-	                paypalid: this.state.paypalid
-	            }, function (data, status) {
+	            $.post('/api/user/set-paypalid', JSON.stringify({ paypalid: this.state.paypalid }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this13.props.dispatch((0, _actions.setPaypalId)(_this13.state.paypalid));
 	                } else if (data.code == 1001) {
@@ -102383,9 +102374,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $.post('/api/user/verify', {
-	                verifytoken: this.props.params.verifytoken
-	            }, function (data, status) {
+	            $.post('/api/user/verify', JSON.stringify({ verifytoken: this.props.params.verifytoken }), function (data, status) {
 	                _this2.setState({ success: data.code == 200 });
 	            });
 	        }
@@ -102623,7 +102612,7 @@
 
 	            e.preventDefault();
 	            this.refs.modalCreateCourse.setState({ isSubmitting: true });
-	            $.post('api/user/createcourse', { coursename: this.refs.modalCreateCourse.state.coursename }, function (data, status) {
+	            $.post('api/user/createcourse', JSON.stringify({ coursename: this.refs.modalCreateCourse.state.coursename }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this4.props.dispatch((0, _actions.setUser)({}));
 	                    _this4.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -103272,9 +103261,7 @@
 	        value: function onClickPublish() {
 	            var _this4 = this;
 
-	            $.post('/api/user/publish-course', {
-	                courseid: this.props.params.id
-	            }, function (data, status) {
+	            $.post('/api/user/publish-course', JSON.stringify({ courseid: this.props.params.id }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this4.props.dispatch((0, _actions.setUser)({}));
 	                    _this4.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -103604,12 +103591,12 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/set-course-goals', {
+	            $.post('/api/user/set-course-goals', JSON.stringify({
 	                courseid: this.props.params.id,
 	                needtoknow: this.state.needtoknow,
 	                targetstudent: this.state.targetstudent,
 	                willableto: this.state.willableto
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this3.props.dispatch((0, _actions.setUser)({}));
 	                    _this3.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104373,10 +104360,10 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/set-course-price', {
+	            $.post('/api/user/set-course-price', JSON.stringify({
 	                courseid: this.props.params.id,
 	                cost: this.state.cost
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    _this2.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104633,10 +104620,10 @@
 
 	            e.preventDefault();
 	            this.refs.modalAddLecture.setState({ isSubmitting: true });
-	            $.post('/api/user/add-course-lecture', {
+	            $.post('/api/user/add-course-lecture', JSON.stringify({
 	                courseid: this.props.params.id,
 	                name: this.refs.modalAddLecture.state.lecturename
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this4.props.dispatch((0, _actions.setUser)({}));
 	                    _this4.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104661,10 +104648,10 @@
 	            var _this5 = this;
 
 	            e.preventDefault();
-	            $.post('/api/user/delete-course-lecture', {
+	            $.post('/api/user/delete-course-lecture', JSON.stringify({
 	                courseid: this.props.params.id,
 	                lectureid: lectureid
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this5.props.dispatch((0, _actions.setUser)({}));
 	                    _this5.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104681,11 +104668,11 @@
 	            var _this6 = this;
 
 	            e.preventDefault();
-	            $.post('/api/user/set-lecture-name', {
+	            $.post('/api/user/set-lecture-name', JSON.stringify({
 	                courseid: this.props.params.id,
 	                lectureid: lectureid,
 	                name: this.state.lecturename_list[lectureid]
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this6.props.dispatch((0, _actions.setUser)({}));
 	                    _this6.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104754,10 +104741,10 @@
 	            var _this8 = this;
 
 	            e.preventDefault();
-	            $.post('/api/user/change-preview-lecture', {
+	            $.post('/api/user/change-preview-lecture', JSON.stringify({
 	                courseid: this.props.params.id,
 	                lectureid: lectureid
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this8.props.dispatch((0, _actions.setUser)({}));
 	                    _this8.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -104989,9 +104976,7 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/delete-course', {
-	                courseid: this.props.params.id
-	            }, function (data, status) {
+	            $.post('/api/user/delete-course', JSON.stringify({ courseid: this.props.params.id }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    _this2.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -105150,9 +105135,7 @@
 	                })();
 	            } else {
 	                this.setState({ isSubmitting: true });
-	                $.post('/api/user/take-a-course', {
-	                    courseid: courseid
-	                }, function (data, status) {
+	                $.post('/api/usr/take-a-course', JSON.stringify({ courseid: courseid }), function (data, status) {
 	                    if (data.code == 1001) {
 	                        return _this2.props.onTakeCourseNotLoggedIn();
 	                    }
@@ -109384,7 +109367,7 @@
 	        value: function markAsRead(e, noti, i) {
 	            e.preventDefault();
 	            if (!noti.seen) {
-	                $.post('/api/user/mark-read-noti', { id: noti._id });
+	                $.post('/api/user/mark-read-noti', JSON.stringify({ id: noti._id }));
 	                var notis = this.state.notis;
 	                notis[i].seen = true;
 	                this.setState({ notis: notis });
@@ -109836,7 +109819,7 @@
 	        value: function Process() {
 	            var _this2 = this;
 
-	            $.post('/api/admin/add-user', this.state, function (data, status) {
+	            $.post('/api/admin/add-user', JSON.stringify(this.state), function (data, status) {
 	                if (data.code == 200) {
 	                    _this2.setState({ modalOpen: false });
 	                } else if (data.code == 1001) {
@@ -110157,7 +110140,7 @@
 	        value: function Process() {
 	            var _this5 = this;
 
-	            $.post('/api/admin/edit-user', this.state.user, function (data, status) {
+	            $.post('/api/admin/edit-user', JSON.stringify(this.state.user), function (data, status) {
 	                if (data.code == 200) {
 	                    _this5.setState({ modalOpen: false });
 	                    _this5.props.onEditSuccess(null);
@@ -110480,7 +110463,7 @@
 	        value: function deleteUser(_id) {
 	            var _this10 = this;
 
-	            $.post('/api/admin/delete-user', { _id: _id }, function (data, status) {
+	            $.post('/api/admin/delete-user', JSON.stringify({ _id: _id }), function (data, status) {
 	                if (data.code == 200) {
 	                    var users = _this10.state.users;
 	                    var index = _lodash2.default.findIndex(users, function (o) {
@@ -111036,7 +111019,7 @@
 	        value: function deleteCourse(_id) {
 	            var _this5 = this;
 
-	            $.post('/api/admin/delete-course', { _id: _id }, function (data, status) {
+	            $.post('/api/admin/delete-course', JSON.stringify({ _id: _id }), function (data, status) {
 	                if (data.code == 200) {
 	                    var courses = _this5.state.courses;
 	                    var index = _lodash2.default.findIndex(courses, function (o) {
@@ -111604,7 +111587,7 @@
 	        value: function acceptCourse(e, _id) {
 	            var _this5 = this;
 
-	            $.post('/api/admin/accept-course', { _id: _id }, function (data, status) {
+	            $.post('/api/admin/accept-course', JSON.stringify({ _id: _id }), function (data, status) {
 	                if (data.code == 200) {
 	                    var courses = _this5.state.courses;
 	                    var index = _lodash2.default.findIndex(courses, function (o) {
@@ -111623,7 +111606,7 @@
 	        value: function refuseCourse(e, _id) {
 	            var _this6 = this;
 
-	            $.post('/api/admin/refuse-course', { _id: _id }, function (data, status) {
+	            $.post('/api/admin/refuse-course', JSON.stringify({ _id: _id }), function (data, status) {
 	                if (data.code == 200) {
 	                    var courses = _this6.state.courses;
 	                    var index = _lodash2.default.findIndex(courses, function (o) {
@@ -112101,16 +112084,14 @@
 	            var payments = this.state.payments;
 	            payments = [].concat(_toConsumableArray(payments.slice(0, index)), _toConsumableArray(payments.slice(index + 1)));
 	            this.setState({ payments: payments });
-	            $.post('/api/admin/delete-payment', { _id: payment._id });
+	            $.post('/api/admin/delete-payment', JSON.stringify({ _id: payment._id }));
 	        }
 	    }, {
 	        key: 'setCardNumber',
 	        value: function setCardNumber(e) {
 	            var _this5 = this;
 
-	            $.post('/api/admin/set-cardnumber', {
-	                cardnumber: this.state.cardnumberTemp
-	            }, function (data, status) {
+	            $.post('/api/admin/set-cardnumber', JSON.stringify({ cardnumber: this.state.cardnumberTemp }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this5.setState({ cardnumber: data.cardnumber });
 	                } else if (data.code == 1001) {
@@ -112125,9 +112106,7 @@
 	        value: function setProfitRatio(e) {
 	            var _this6 = this;
 
-	            $.post('/api/admin/set-profitratio', {
-	                profitratio: this.state.profitratioTemp
-	            }, function (data, status) {
+	            $.post('/api/admin/set-profitratio', JSON.stringify({ profitratio: this.state.profitratioTemp }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this6.setState({ profitratio: data.profitratio });
 	                } else if (data.code == 1001) {

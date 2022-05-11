@@ -91,12 +91,10 @@ class AdminCredit extends Component {
         let payments = this.state.payments
         payments = [...payments.slice(0, index), ...payments.slice(index + 1)]
         this.setState({ payments: payments })
-        $.post('/api/admin/delete-payment', { _id: payment._id })
+        $.post('/api/admin/delete-payment', JSON.stringify({ _id: payment._id }))
     }
     setCardNumber(e) {
-        $.post('/api/admin/set-cardnumber', {
-            cardnumber: this.state.cardnumberTemp
-        }, (data, status) => {
+        $.post('/api/admin/set-cardnumber', JSON.stringify({ cardnumber: this.state.cardnumberTemp }), (data, status) => {
             if (data.code == 200) {
                 this.setState({ cardnumber: data.cardnumber })
             } else if (data.code == 1001) {
@@ -107,9 +105,7 @@ class AdminCredit extends Component {
         })
     }
     setProfitRatio(e) {
-        $.post('/api/admin/set-profitratio', {
-            profitratio: this.state.profitratioTemp
-        }, (data, status) => {
+        $.post('/api/admin/set-profitratio', JSON.stringify({ profitratio: this.state.profitratioTemp }), (data, status) => {
             if (data.code == 200) {
                 this.setState({ profitratio: data.profitratio })
             } else if (data.code == 1001) {
@@ -185,8 +181,8 @@ class AdminCredit extends Component {
             </Table>
             <Pager>
                 <Pager.Item disabled={this.state.filter.page == 1}
-                    previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                    previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
             </Pager>
         </div>
     }

@@ -30,10 +30,7 @@ class ManageCourse extends React.Component {
         }
     }
     onClickPublish() {
-        $.post('/api/user/publish-course',
-            {
-                courseid: this.props.params.id
-            },
+        $.post('/api/user/publish-course', JSON.stringify({ courseid: this.props.params.id }),
             (data, status) => {
                 if (data.code == 1001) {
                     this.props.dispatch(setUser({}))

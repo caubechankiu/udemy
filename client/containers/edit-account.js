@@ -25,25 +25,19 @@ class EditAccount extends React.Component {
         e.preventDefault()
 
         this.setState({ isSubmitting: true })
-        $.post(
-            '/api/user/edit-account',
-            {
-                password: this.state.password,
-                newPassword: this.state.newPassword
-            },
-            (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    return browserHistory.push('/')
-                }
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 3000)
-                })
-                this.setState({ message: data.message, isSubmitting: false, password: '', newPassword: '' })
+        $.post('/api/user/edit-account', JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                return browserHistory.push('/')
             }
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 3000)
+            })
+            this.setState({ message: data.message, isSubmitting: false, password: '', newPassword: '' })
+        }
         )
     }
 

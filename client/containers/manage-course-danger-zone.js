@@ -14,27 +14,24 @@ class ManageCourseDangerZone extends React.Component {
     onClickDeleteCourse(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post('/api/user/delete-course',
-            {
-                courseid: this.props.params.id
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                }
-                if (data.code == 200) {
-                    browserHistory.push('/instructor')
-                    return this.props.dispatch(deleteCourse(this.props.params.id))
-                }
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 3000)
-                })
-                this.setState({ message: data.message, isSubmitting: false })
+        $.post('/api/user/delete-course', JSON.stringify({ courseid: this.props.params.id }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
+            }
+            if (data.code == 200) {
+                browserHistory.push('/instructor')
+                return this.props.dispatch(deleteCourse(this.props.params.id))
+            }
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 3000)
             })
+            this.setState({ message: data.message, isSubmitting: false })
+        })
     }
 
     render() {

@@ -81,65 +81,62 @@ class ManageCourseLecture extends React.Component {
     onSubmitAddLecture(e) {
         e.preventDefault()
         this.refs.modalAddLecture.setState({ isSubmitting: true })
-        $.post('/api/user/add-course-lecture',
-            {
-                courseid: this.props.params.id,
-                name: this.refs.modalAddLecture.state.lecturename
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(addLecture(data.lecture, this.props.params.id))
-                    return this.refs.modalAddLecture.setState({ isSubmitting: false, lecturename: '', showModal: false })
-                }
-                let alertlogin = $(".alert:first")
-                alertlogin.show(500, function () {
-                    setTimeout(function () {
-                        alertlogin.hide(500)
-                    }, 3000)
-                })
-                this.refs.modalCreateCourse.setState({ message: data.message, isSubmitting: false })
+        $.post('/api/user/add-course-lecture', JSON.stringify({
+            courseid: this.props.params.id,
+            name: this.refs.modalAddLecture.state.lecturename
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
             }
+            if (data.code == 200) {
+                this.props.dispatch(addLecture(data.lecture, this.props.params.id))
+                return this.refs.modalAddLecture.setState({ isSubmitting: false, lecturename: '', showModal: false })
+            }
+            let alertlogin = $(".alert:first")
+            alertlogin.show(500, function () {
+                setTimeout(function () {
+                    alertlogin.hide(500)
+                }, 3000)
+            })
+            this.refs.modalCreateCourse.setState({ message: data.message, isSubmitting: false })
+        }
         )
     }
     onSubmitDeleteLecture(e, lectureid) {
         e.preventDefault()
-        $.post('/api/user/delete-course-lecture',
-            {
-                courseid: this.props.params.id,
-                lectureid: lectureid
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(deleteLecture(lectureid, this.props.params.id))
-                }
+        $.post('/api/user/delete-course-lecture', JSON.stringify({
+            courseid: this.props.params.id,
+            lectureid: lectureid
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
             }
+            if (data.code == 200) {
+                this.props.dispatch(deleteLecture(lectureid, this.props.params.id))
+            }
+        }
         )
     }
     onSubmitSetLectureName(e, lectureid) {
         e.preventDefault()
-        $.post('/api/user/set-lecture-name',
-            {
-                courseid: this.props.params.id,
-                lectureid: lectureid,
-                name: this.state.lecturename_list[lectureid]
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(setLectureName(data.lecture, this.props.params.id))
-                }
-            })
+        $.post('/api/user/set-lecture-name', JSON.stringify({
+            courseid: this.props.params.id,
+            lectureid: lectureid,
+            name: this.state.lecturename_list[lectureid]
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
+            }
+            if (data.code == 200) {
+                this.props.dispatch(setLectureName(data.lecture, this.props.params.id))
+            }
+        })
     }
     handleLectureName(e, lectureid) {
         let lecturename_list = this.state.lecturename_list
@@ -189,20 +186,19 @@ class ManageCourseLecture extends React.Component {
     }
     onClickSetPreview(e, lectureid) {
         e.preventDefault()
-        $.post('/api/user/change-preview-lecture',
-            {
-                courseid: this.props.params.id,
-                lectureid: lectureid
-            }, (data, status) => {
-                if (data.code == 1001) {
-                    this.props.dispatch(setUser({}))
-                    this.props.dispatch(setGetMyCourses(false))
-                    return browserHistory.push('/')
-                }
-                if (data.code == 200) {
-                    this.props.dispatch(setLecturePreview(data.lecture, this.props.params.id))
-                }
-            })
+        $.post('/api/user/change-preview-lecture', JSON.stringify({
+            courseid: this.props.params.id,
+            lectureid: lectureid
+        }), (data, status) => {
+            if (data.code == 1001) {
+                this.props.dispatch(setUser({}))
+                this.props.dispatch(setGetMyCourses(false))
+                return browserHistory.push('/')
+            }
+            if (data.code == 200) {
+                this.props.dispatch(setLecturePreview(data.lecture, this.props.params.id))
+            }
+        })
     }
 
     render() {
@@ -221,24 +217,24 @@ class ManageCourseLecture extends React.Component {
                 }
                 return (
                     <div className="item box white" key={index}>
-                        <form onSubmit={(e) => { this.onSubmitSetLectureName(e, lecture._id) } }>
+                        <form onSubmit={(e) => { this.onSubmitSetLectureName(e, lecture._id) }}>
                             <div className="input-group input-group-lg">
                                 <div className="input-group-btn">
                                     <button type="button" className={'btn' + (lecture.preview ? ' btn-primary' : '')}
-                                        onClick={(e) => { this.onClickSetPreview(e, lecture._id) } } >
+                                        onClick={(e) => { this.onClickSetPreview(e, lecture._id) }} >
                                         <span className={'glyphicon glyphicon-eye-' + (lecture.preview ? 'open' : 'close')}></span>
                                     </button>
                                 </div>
                                 <span className="input-group-addon">Lecture {index + 1}:</span>
                                 <input type="text" className="form-control"
                                     value={this.state.lecturename_list[lecture._id] == null ? lecture.name : this.state.lecturename_list[lecture._id]}
-                                    onChange={(e) => { this.handleLectureName(e, lecture._id) } } />
+                                    onChange={(e) => { this.handleLectureName(e, lecture._id) }} />
                                 <div className="input-group-btn">
                                     <button type="submit" className="btn btn-success"
                                         disabled={(lecture.name == this.state.lecturename_list[lecture._id]) || !this.state.lecturename_list[lecture._id]} >
                                         <span className="glyphicon glyphicon-save"></span>
                                     </button>
-                                    <button type="button" className="btn btn-danger" onClick={(e) => { this.onSubmitDeleteLecture(e, lecture._id) } }>
+                                    <button type="button" className="btn btn-danger" onClick={(e) => { this.onSubmitDeleteLecture(e, lecture._id) }}>
                                         <span className="glyphicon glyphicon-trash"></span>
                                     </button>
                                 </div>
@@ -252,7 +248,7 @@ class ManageCourseLecture extends React.Component {
                                 <label className="input-group-btn">
                                     <span className="btn btn-primary glyphicon glyphicon-film" style={{ top: 0 }}>
                                         <input type="file"
-                                            style={{ display: 'none', multiple: '' }} onChange={(e) => { this.handleVideoLecture(e, lecture._id) } } />
+                                            style={{ display: 'none', multiple: '' }} onChange={(e) => { this.handleVideoLecture(e, lecture._id) }} />
                                     </span>
                                 </label>
                                 <input type="text" className="form-control" readOnly={true} value={this.state.videoname_list[lecture._id] || 'None'} />

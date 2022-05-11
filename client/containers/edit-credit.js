@@ -31,9 +31,7 @@ class ModalDepositFunds extends Component {
         })
     }
     depositFunds(e) {
-        $.post('/api/user/deposit-funds', {
-            money: this.state.money
-        }, (data, status) => {
+        $.post('/api/user/deposit-funds', JSON.stringify({ money: this.state.money }), (data, status) => {
             if (data.code == 200) {
                 this.props.depositFunds(this.state.money)
                 this.handleClose(e)
@@ -59,7 +57,7 @@ class ModalDepositFunds extends Component {
                             value='100'
                             checked={this.state.money === 100}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                     <Form.Field>
                         <Radio
@@ -68,7 +66,7 @@ class ModalDepositFunds extends Component {
                             value='200'
                             checked={this.state.money === 200}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                     <Form.Field>
                         <Radio
@@ -77,7 +75,7 @@ class ModalDepositFunds extends Component {
                             value='500'
                             checked={this.state.money === 500}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                 </Form>
             </Modal.Body>
@@ -116,9 +114,7 @@ class ModalWithDraw extends Component {
         })
     }
     withDraw(e) {
-        $.post('/api/user/withdraw', {
-            money: this.state.money
-        }, (data, status) => {
+        $.post('/api/user/withdraw', JSON.stringify({ money: this.state.money }), (data, status) => {
             if (data.code == 200) {
                 this.props.withDraw(this.state.money)
                 this.handleClose(e)
@@ -153,7 +149,7 @@ class ModalWithDraw extends Component {
                             value='100'
                             checked={this.state.money === 100}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                     <Form.Field>
                         <Radio
@@ -162,7 +158,7 @@ class ModalWithDraw extends Component {
                             value='200'
                             checked={this.state.money === 200}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                     <Form.Field>
                         <Radio
@@ -171,7 +167,7 @@ class ModalWithDraw extends Component {
                             value='500'
                             checked={this.state.money === 500}
                             onChange={this.handleChange.bind(this)}
-                            />
+                        />
                     </Form.Field>
                 </Form>
             </Modal.Body>
@@ -278,12 +274,10 @@ class EditCredit extends Component {
         let payments = this.state.payments
         payments = [...payments.slice(0, index), ...payments.slice(index + 1)]
         this.setState({ payments: payments })
-        $.post('/api/user/delete-payment', { _id: payment._id })
+        $.post('/api/user/delete-payment', JSON.stringify({ _id: payment._id }))
     }
     setPaypalId(e) {
-        $.post('/api/user/set-paypalid', {
-            paypalid: this.state.paypalid
-        }, (data, status) => {
+        $.post('/api/user/set-paypalid', JSON.stringify({ paypalid: this.state.paypalid }), (data, status) => {
             if (data.code == 200) {
                 this.props.dispatch(setPaypalId(this.state.paypalid))
             } else if (data.code == 1001) {
@@ -353,8 +347,8 @@ class EditCredit extends Component {
                 <ModalWithDraw withDraw={this.withDraw.bind(this)} ref={ref => this.modalWithDraw = ref} />
                 <Pager>
                     <Pager.Item disabled={this.state.filter.page == 1}
-                        previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                    <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                        previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                    <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
                 </Pager>
             </div>
         </div>

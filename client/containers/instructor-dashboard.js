@@ -75,9 +75,7 @@ class Instructor extends React.Component {
     onSubmitCreateCourse(e) {
         e.preventDefault()
         this.refs.modalCreateCourse.setState({ isSubmitting: true })
-        $.post(
-            'api/user/createcourse',
-            { coursename: this.refs.modalCreateCourse.state.coursename },
+        $.post('api/user/createcourse', JSON.stringify({ coursename: this.refs.modalCreateCourse.state.coursename }),
             (data, status) => {
                 if (data.code == 1001) {
                     this.props.dispatch(setUser({}))
@@ -237,7 +235,7 @@ class Instructor extends React.Component {
                 <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                     <div className='container'>
                         <Breadcrumb>
-                            <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                            <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                                 <Glyphicon glyph="home" />
                             </Breadcrumb.Item>
                             <Breadcrumb.Item active>Instructor</Breadcrumb.Item>
@@ -247,7 +245,7 @@ class Instructor extends React.Component {
                             <div className="col-xs-4">
                                 <button onClick={this.showModal.bind(this)} className="btn btn-warning btn-lg">
                                     <span className='glyphicon glyphicon-pencil'></span>{' '}Create Course
-                            </button>
+                                </button>
                             </div>
                         </Row>
                         <ul className="mycourses-navbar">
@@ -275,10 +273,10 @@ class Instructor extends React.Component {
                     </div>
                 </div>
                 <div className='container'>
-                    <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) } }>
+                    <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) }}>
                         <div className="form-group form-group-lg">
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) } } >
+                                value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) }} >
                                 <option value='none' style={{ fontWeight: 'bold' }}>--Select Level--</option>
                                 <option value='1' style={{ fontWeight: 'bold' }}>Beginner Level</option>
                                 <option value='2' style={{ fontWeight: 'bold' }}>Intermediate Level</option>
@@ -288,7 +286,7 @@ class Instructor extends React.Component {
                         </div>{' '}
                         <div className="form-group form-group-lg" >
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) } }>
+                                value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) }}>
                                 <option value='none' style={{ fontWeight: 'bold' }}>--Price--</option>
                                 <option value='false' style={{ fontWeight: 'bold' }}>Paid</option>
                                 <option value='true' style={{ fontWeight: 'bold' }}>Free</option>
@@ -297,7 +295,7 @@ class Instructor extends React.Component {
                         <div className="form-group form-group-lg">
                             <label>Sort by:</label>{' '}
                             <select style={{ fontWeight: 'bold' }} className="form-control"
-                                value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) } } >
+                                value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) }} >
                                 <option value='1' style={{ fontWeight: 'bold' }}>Popularity</option>
                                 <option value='2' style={{ fontWeight: 'bold' }}>Best Seller</option>
                                 <option value='3' style={{ fontWeight: 'bold' }}>Highest Rated</option>
@@ -306,7 +304,7 @@ class Instructor extends React.Component {
                         <div className="form-group form-group-lg" style={{ fontWeight: 'bold' }}>
                             <div className="input-group input-group-lg">
                                 <input type="text" className="form-control"
-                                    value={this.state.coursename} placeholder="Search" onChange={(e) => { this.onChangeCourseName(e) } } />
+                                    value={this.state.coursename} placeholder="Search" onChange={(e) => { this.onChangeCourseName(e) }} />
                                 <span className="input-group-btn">
                                     <button className="btn btn-info" disabled><Glyphicon glyph='search' /></button>
                                 </span>
@@ -322,7 +320,7 @@ class Instructor extends React.Component {
                         <Pagination prev next first last ellipsis boundaryLinks
                             items={maxPage}
                             maxButtons={5} activePage={parseInt(this.props.location.query.page || 1)}
-                            onSelect={(page) => { this.onSelectPage(page) } } />
+                            onSelect={(page) => { this.onSelectPage(page) }} />
                     </div>
                 </div>
                 <ModalCreateCourse ref="modalCreateCourse" onSubmitCreateCourse={this.onSubmitCreateCourse.bind(this)} />

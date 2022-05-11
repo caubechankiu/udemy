@@ -146,8 +146,7 @@ class AdminReviewCourse extends Component {
         }
     }
     acceptCourse(e, _id) {
-        $.post('/api/admin/accept-course',
-            { _id: _id },
+        $.post('/api/admin/accept-course', JSON.stringify({ _id: _id }),
             (data, status) => {
                 if (data.code == 200) {
                     let courses = this.state.courses
@@ -161,8 +160,7 @@ class AdminReviewCourse extends Component {
             })
     }
     refuseCourse(e, _id) {
-        $.post('/api/admin/refuse-course',
-            { _id: _id },
+        $.post('/api/admin/refuse-course', JSON.stringify({ _id: _id }),
             (data, status) => {
                 if (data.code == 200) {
                     let courses = this.state.courses
@@ -288,8 +286,8 @@ class AdminReviewCourse extends Component {
             <ModalShowLectures ref={ref => this.modalViewCourse = ref} />
             <Pager>
                 <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                    previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                    previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
             </Pager>
         </div>
     }

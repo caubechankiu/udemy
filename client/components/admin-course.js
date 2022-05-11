@@ -145,16 +145,15 @@ class AdminCourse extends Component {
         }
     }
     deleteCourse(_id) {
-        $.post('/api/admin/delete-course',
-            { _id: _id }, (data, status) => {
-                if (data.code == 200) {
-                    let courses = this.state.courses
-                    let index = _.findIndex(courses, o => o._id == _id)
-                    this.setState({ courses: [...courses.slice(0, index), ...courses.slice(index + 1)] })
-                } else if (data.code == 1001) {
-                    browserHistory.push('/courses')
-                }
-            })
+        $.post('/api/admin/delete-course', JSON.stringify({ _id: _id }), (data, status) => {
+            if (data.code == 200) {
+                let courses = this.state.courses
+                let index = _.findIndex(courses, o => o._id == _id)
+                this.setState({ courses: [...courses.slice(0, index), ...courses.slice(index + 1)] })
+            } else if (data.code == 1001) {
+                browserHistory.push('/courses')
+            }
+        })
     }
     render() {
         return <div>
@@ -271,8 +270,8 @@ class AdminCourse extends Component {
             <ModalShowLectures ref={ref => this.modalViewCourse = ref} />
             <Pager>
                 <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                    previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                    previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
             </Pager>
         </div>
     }

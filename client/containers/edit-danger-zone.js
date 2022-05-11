@@ -17,9 +17,7 @@ class EditDangerzone extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post(
-            '/api/user/delete',
-            this.props.email == '' ? { facebookid: this.props.facebookid } : { password: this.state.password },
+        $.post('/api/user/delete', this.props.email == '' ? JSON.stringify({ facebookid: this.props.facebookid }) : JSON.stringify({ password: this.state.password }),
             (data, status) => {
                 if (data.code == 1001 || data.code == 200) {
                     this.props.dispatch(setUser({}))

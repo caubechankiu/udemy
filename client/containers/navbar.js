@@ -65,7 +65,7 @@ class Navbar extends React.Component {
     markAsRead(e, noti) {
         e.preventDefault()
         if (!noti.seen) {
-            $.post('/api/user/mark-read-noti', { id: noti._id })
+            $.post('/api/user/mark-read-noti', JSON.stringify({ id: noti._id }))
             this.props.dispatch(markRead(noti._id))
         }
     }
@@ -102,26 +102,26 @@ class Navbar extends React.Component {
                     <div className='noti-dropdown'>
                         <div className='noti-title'>
                             <span>Notifications</span>
-                            <a onClick={() => { this.markAllAsRead() } }><span className='read-all'>Mark all as read</span></a>
+                            <a onClick={() => { this.markAllAsRead() }}><span className='read-all'>Mark all as read</span></a>
                         </div>
                         <div className='noti-content'>
                             {this.props.notis.length != 0 ?
                                 this.props.notis.map((noti, index) =>
                                     <div className={'noti-item' + (noti.seen ? '' : ' seen')} key={index}>
                                         <Row className='relative'>
-                                            <Link onClick={(e) => { this.onClickNoti(e, noti) } }>
+                                            <Link onClick={(e) => { this.onClickNoti(e, noti) }}>
                                                 <Col xs={2}>
                                                     <img src={'/api/resource/images?src=' + noti.from.photo + '&w=50&h=50'} />
                                                 </Col>
                                                 <Col xs={9}>
                                                     <p className="noti-message">{noti.title}:
-                                                <span>{noti.message}</span>
+                                                        <span>{noti.message}</span>
                                                     </p>
                                                     <p className='noti-time'><Glyphicon glyph='calendar' />{new Date(noti.createdAt).toLocaleString()}</p>
                                                 </Col>
                                             </Link>
                                             <Col xs={1} className='mark-as-read'>
-                                                <span onClick={(e) => { this.markAsRead(e, noti) } } className={!noti.seen ? 'green' : ''}></span>
+                                                <span onClick={(e) => { this.markAsRead(e, noti) }} className={!noti.seen ? 'green' : ''}></span>
                                             </Col>
                                         </Row>
                                     </div>
@@ -172,7 +172,7 @@ class Navbar extends React.Component {
                         </div>
                         <div className="collapse navbar-collapse navbar-ex1-collapse">
                             <ul className="nav navbar-nav">
-                                <li><Link onClick={() => { $("#wrapper").toggleClass("toggled") } }>
+                                <li><Link onClick={() => { $("#wrapper").toggleClass("toggled") }}>
                                     Browse{' '}<Glyphicon glyph='list' /></Link></li>
                             </ul>
                             <form onSubmit={this.onSubmitSearch.bind(this)} className="navbar-form navbar-left">

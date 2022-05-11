@@ -29,7 +29,7 @@ class Notifications extends React.Component {
     markAsRead(e, noti, i) {
         e.preventDefault()
         if (!noti.seen) {
-            $.post('/api/user/mark-read-noti', { id: noti._id })
+            $.post('/api/user/mark-read-noti', JSON.stringify({ id: noti._id }))
             let notis = this.state.notis
             notis[i].seen = true
             this.setState({ notis: notis })
@@ -72,7 +72,7 @@ class Notifications extends React.Component {
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <div className='container'>
                     <Breadcrumb>
-                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                             <Glyphicon glyph="home" />
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
@@ -88,7 +88,7 @@ class Notifications extends React.Component {
                         this.state.notis.map((noti, index) =>
                             <div className={'noti-item' + (noti.seen ? '' : ' seen')} key={index}>
                                 <Row className='relative'>
-                                    <Link onClick={(e) => { this.onClickNoti(e, noti, index) } }>
+                                    <Link onClick={(e) => { this.onClickNoti(e, noti, index) }}>
                                         <Col xs={2}>
                                             <img src={'/api/resource/images?src=' + noti.from.photo + '&w=50&h=50'} />
                                         </Col>
@@ -100,7 +100,7 @@ class Notifications extends React.Component {
                                         </Col>
                                     </Link>
                                     <Col xs={1} className='mark-as-read'>
-                                        <span onClick={(e) => { this.markAsRead(e, noti, index) } } className={!noti.seen ? 'green' : ''}></span>
+                                        <span onClick={(e) => { this.markAsRead(e, noti, index) }} className={!noti.seen ? 'green' : ''}></span>
                                     </Col>
                                 </Row>
                             </div>
@@ -108,8 +108,8 @@ class Notifications extends React.Component {
                     }
                 </div>
                 <Pager>
-                    <Pager.Item disabled={this.state.page == 1} previous onClick={() => { this.onClickPrev() } }>&larr; Previous Page</Pager.Item>
-                    <Pager.Item next onClick={() => { this.onClickNext() } }>Next Page &rarr;</Pager.Item>
+                    <Pager.Item disabled={this.state.page == 1} previous onClick={() => { this.onClickPrev() }}>&larr; Previous Page</Pager.Item>
+                    <Pager.Item next onClick={() => { this.onClickNext() }}>Next Page &rarr;</Pager.Item>
                 </Pager>
             </div>
         </div>
