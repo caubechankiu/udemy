@@ -105135,7 +105135,7 @@
 	                })();
 	            } else {
 	                this.setState({ isSubmitting: true });
-	                $.post('/api/usr/take-a-course', JSON.stringify({ courseid: courseid }), function (data, status) {
+	                $.post('/api/user/take-a-course', JSON.stringify({ courseid: courseid }), function (data, status) {
 	                    if (data.code == 1001) {
 	                        return _this2.props.onTakeCourseNotLoggedIn();
 	                    }

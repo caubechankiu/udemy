@@ -32,7 +32,7 @@ class ModalPurchase extends React.Component {
             })
         } else {
             this.setState({ isSubmitting: true })
-            $.post('/api/usr/take-a-course', JSON.stringify({ courseid: courseid }), (data, status) => {
+            $.post('/api/user/take-a-course', JSON.stringify({ courseid: courseid }), (data, status) => {
                 if (data.code == 1001) {
                     return this.props.onTakeCourseNotLoggedIn()
                 }
