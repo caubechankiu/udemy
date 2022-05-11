@@ -110,3 +110,7 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 )
+
+$.ajaxSetup({
+    contentType: "application/json; charset=utf-8",
+});

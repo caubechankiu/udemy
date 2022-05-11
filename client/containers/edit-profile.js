@@ -31,14 +31,14 @@ class EditProfile extends React.Component {
         this.setState({ isSubmitting: true })
         $.post(
             '/api/user/edit-profile',
-            {
+            JSON.stringify({
                 username: this.state.username,
                 biography: this.state.biography,
                 website: this.state.website,
                 twitter: this.state.twitter,
                 youtube: this.state.youtube,
                 linkedin: this.state.linkedin
-            },
+            }),
             (data, status) => {
                 if (data.code == 1001) {
                     this.props.dispatch(setUser({}))
