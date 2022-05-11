@@ -41,13 +41,13 @@ export const getCoursesRelateLecture = (data, callback) => {
 }
 
 export const addReview = (data, callback) => {
-  $.post('/api/course/add-review', data, callback);
+  $.post('/api/course/add-review', JSON.stringify(data), callback);
 }
 
 export const getReview = (data, callback) => {
-  $.post('/api/course/get-review', data, callback);
+  $.get('/api/course/get-review', data, callback);
 }
 
 export const getCourseIntro = (data, callback) => {
-  $.post('/api/course/get-course-info', data, callback);
+  $.get('/api/course/get-course-info', data, callback);
 }

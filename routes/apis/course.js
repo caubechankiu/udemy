@@ -10,8 +10,8 @@ var _ = require('lodash')
 
 var send = require('send')
 
-router.post('/get-course-info', (req, res, next) => {
-    Course.findOne({ _id: req.body.courseid })
+router.get('/get-course-info', (req, res, next) => {
+    Course.findOne({ _id: req.query.courseid })
         .select({ __v: 0, updatedAt: 0 })
         .populate({ path: 'lecturer', select: '_id username photo twitter website youtube linkedin facebookid googleid biography' })
         .populate({ path: 'lectures', select: '-__v -updatedAt -createdAt' })
@@ -28,11 +28,11 @@ router.post('/get-course-info', (req, res, next) => {
             })
         })
 })
-router.post('/get-review', (req, res, next) => {
-    Review.find({ course: req.body.courseid }).
+router.get('/get-review', (req, res, next) => {
+    Review.find({ course: req.query.courseid }).
         populate({ path: 'user', select: '_id username photo' })
         .select({ __v: 0, updatedAt: 0, course: 0, _id: 0 })
-        .skip((req.body.page || 1) * 8 - 8)
+        .skip((Number(req.query.page) || 1) * 8 - 8)
         .limit(8).sort({ createdAt: -1 }).exec((err, reviews) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
