@@ -112,13 +112,9 @@ class ViewCourse extends React.Component {
         if (!this.props.islogged) {
             return this.props.dispatch(showModal(1))
         }
-        $.post('/api/user/change-wishlist',
-            {
-                courseid: courseid
-            }, (data, status) => {
-                this.props.dispatch(changeWishlist(data.action, courseid))
-            }
-        )
+        $.post('/api/user/change-wishlist', JSON.stringify({ courseid: courseid }), (data, status) => {
+            this.props.dispatch(changeWishlist(data.action, courseid))
+        })
     }
     onClickTakeThisCourse(courseid) {
         if (!this.props.islogged) {
@@ -279,7 +275,7 @@ class ViewCourse extends React.Component {
                 <h2><strong>{this.props.course.cost == 0 ? 'Free' : ('$' + this.props.course.cost)}</strong></h2>
                 {this.props.islearning ? <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) }}>
                     <span className='glyphicon glyphicon-list-alt'></span>{' '}Start Learning Now</button> : <button className='btn btn-success btn-lg' onClick={() => { this.onClickTakeThisCourse(this.props.params.id) }}>
-                        <span className='glyphicon glyphicon-shopping-cart'></span>{' '}Take This Course</button>}
+                    <span className='glyphicon glyphicon-shopping-cart'></span>{' '}Take This Course</button>}
                 <hr style={{ borderColor: 'silver' }} />
                 <h5>Lectures : <strong>{this.props.course.lectures.length}</strong></h5>
                 <h5>Skill Level : <strong>{lv}</strong></h5>

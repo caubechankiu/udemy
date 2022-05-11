@@ -27,8 +27,8 @@ router.post('/verify', (req, res, next) => {
         return res.send({ code: 200, message: 'success' })
     })
 })
-router.post('/view-user', (req, res, next) => {
-    User.findOne({ _id: req.body.id })
+router.get('/view-user', (req, res, next) => {
+    User.findOne({ _id: req.query.id })
         .populate({ path: 'mycourses', populate: { path: 'lecturer', select: { username: 1, photo: 1 } }, select: { _id: 1, name: 1, coverphoto: 1, cost: 1, numberofstudent: 1, numberofreviews: 1, star: 1, lecturer: 1, description: 1 } })
         .select({ _id: 1, username: 1, email: 1, photo: 1, mycourses: 1, googleid: 1, linkedin: 1, twitter: 1, website: 1, youtube: 1, biography: 1 })
         .exec((err, user) => {
@@ -74,7 +74,7 @@ router.post('/edit-profile', (req, res, next) => {
     user.twitter = req.body.twitter
     user.youtube = req.body.youtube
     user.linkedin = req.body.linkedin
-    user.save(function(err) {
+    user.save(function (err) {
         if (err) {
             let data = {
                 code: 404,
@@ -94,7 +94,7 @@ router.post('/edit-photo', uploadavatar.single('avatar'), (req, res, next) => {
     let user = req.user
     let oldPhoto = req.user.photo
     user.photo = "/uploads/avatars/" + req.file.filename
-    user.save(function(err) {
+    user.save(function (err) {
         if (err) {
             fs.unlink('public/uploads/avatars/' + req.file.filename, (err) => { })
             let data = {
@@ -214,7 +214,7 @@ router.get('/get-all-mycourses', (req, res, next) => {
     User.findOne({ _id: req.user._id }).populate({
         path: 'mycourses',
         select: '-__v -updatedAt -lecturer -willableto -needtoknow -targetstudent -lectures'
-    }).exec(function(err, user) {
+    }).exec(function (err, user) {
         if (err) return handleError(err);
         res.end(JSON.stringify(user.mycourses));
     });
@@ -381,14 +381,14 @@ router.post('/set-course-description', uploadcoursephoto.single('coverphoto'), (
                     subgenre: req.body.subgenre,
                     level: req.body.level
                 } : {
-                        _id: req.body.courseid,
-                        name: req.body.name,
-                        description: req.body.description,
-                        coverphoto: course.coverphoto,
-                        genre: req.body.genre,
-                        subgenre: req.body.subgenre,
-                        level: req.body.level
-                    }
+                    _id: req.body.courseid,
+                    name: req.body.name,
+                    description: req.body.description,
+                    coverphoto: course.coverphoto,
+                    genre: req.body.genre,
+                    subgenre: req.body.subgenre,
+                    level: req.body.level
+                }
             })
         })
     })
@@ -874,12 +874,12 @@ router.get('/mark-all-read-noti', (req, res, next) => {
 router.post('/mark-read-noti', (req, res, next) => {
     Notification.update({ seen: false, to: req.user._id, _id: req.body.id }, { seen: true }).exec((err) => { })
 })
-router.post('/get-payment', (req, res, next) => {
+router.get('/get-payment', (req, res, next) => {
     Payment.find({ user: req.user._id })
         .populate({ path: 'information.course', select: { name: 1 } })
         .populate({ path: 'information.user', select: { username: 1 } })
-        .skip((req.body.page || 1) * 8 - 8)
-        .limit(8).sort({ createdAt: req.body.sort == 0 ? -1 : 1 })
+        .skip((Number(req.query.page) || 1) * 8 - 8)
+        .limit(8).sort({ createdAt: Number(req.query.sort) == 0 ? -1 : 1 })
         .exec((err, payments) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })

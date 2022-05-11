@@ -200,7 +200,7 @@ class EditCredit extends Component {
     }
     depositFunds(money) {
         this.props.dispatch(depositFunds(money))
-        $.post('/api/user/get-payment',
+        $.get('/api/user/get-payment',
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -213,7 +213,7 @@ class EditCredit extends Component {
     }
     withDraw(money) {
         this.props.dispatch(withDraw(money))
-        $.post('/api/user/get-payment',
+        $.get('/api/user/get-payment',
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -231,7 +231,7 @@ class EditCredit extends Component {
         this.modalWithDraw.handleOpen(e)
     }
     componentDidMount() {
-        $.post('/api/user/get-payment',
+        $.get('/api/user/get-payment',
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -247,7 +247,7 @@ class EditCredit extends Component {
         let filter = this.state.filter
         filter.page = Math.max(1, filter.page - 1)
         this.setState({ filter: filter })
-        $.post('/api/user/get-payment',
+        $.get('/api/user/get-payment',
             filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -263,7 +263,7 @@ class EditCredit extends Component {
         let filter = this.state.filter
         filter.page = filter.page + 1
         this.setState({ filter: filter })
-        $.post('/api/user/get-payment',
+        $.get('/api/user/get-payment',
             filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })

@@ -13,13 +13,9 @@ class Course extends React.Component {
 		if (!this.props.islogged) {
 			return this.props.dispatch(showModal(1))
 		}
-		$.post('/api/user/change-wishlist',
-			{
-				courseid: this.props.course._id
-			}, (data, status) => {
-				this.props.dispatch(changeWishlist(data.action, this.props.course._id))
-			}
-		)
+		$.post('/api/user/change-wishlist', JSON.stringify({ courseid: this.props.course._id }), (data, status) => {
+			this.props.dispatch(changeWishlist(data.action, this.props.course._id))
+		})
 	}
 	render() {
 		let popover = <Popover className='hidden-xs' id={'popover-' + this.props.course._id} title="Course Description">
@@ -46,7 +42,7 @@ class Course extends React.Component {
 						</div>
 					</div>
 					<OverlayTrigger placement="left" overlay={<Tooltip id={this.props.course._id}>Wishlist</Tooltip>}>
-						<button type="button" className="course-wishlist" onClick={(e) => { this.onClickAddOrRemoveWishlist(e) } }>
+						<button type="button" className="course-wishlist" onClick={(e) => { this.onClickAddOrRemoveWishlist(e) }}>
 							<span className={'glyphicon glyphicon-heart' + (this.props.wishlisted ? ' active' : '')}></span>
 						</button>
 					</OverlayTrigger>

@@ -19,7 +19,7 @@ export const getCoursesBySubGenre = ({ subgenreid, data, success, xhr }) => {
 
 export const getCoursesSearch = ({ data, success, xhr }) => {
   $.ajax({
-    method: "POST",
+    method: "GET",
     url: '/api/courses/search',
     data,
     success,
@@ -37,7 +37,7 @@ export const getCoursesHomepage = ({ success, xhr }) => {
 }
 
 export const getCoursesRelateLecture = (data, callback) => {
-  $.post('/api/courses/get-courses-relate-lecturer', data, callback);
+  $.get('/api/courses/get-courses-relate-lecturer', data, callback);
 }
 
 export const addReview = (data, callback) => {

@@ -15,13 +15,10 @@ class ViewUser extends React.Component {
         }
     }
     componentDidMount() {
-        $.post('/api/user/view-user',
-            {
-                id: this.props.params.id
-            }, (data, status) => {
-                if (data.code == 200)
-                    this.setState({ user: data.user })
-            })
+        $.get('/api/user/view-user', { id: this.props.params.id }, (data, status) => {
+            if (data.code == 200)
+                this.setState({ user: data.user })
+        })
     }
     render() {
         if (!this.state.user._id)
@@ -31,7 +28,7 @@ class ViewUser extends React.Component {
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <div className='container'>
                     <Breadcrumb>
-                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                             <Glyphicon glyph="home" />
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>{this.state.user.username}</Breadcrumb.Item>
@@ -81,7 +78,7 @@ class ViewUser extends React.Component {
                 </h2>
                 <Row>{courses.map((course, index) => {
                     return <Col md={3} xs={6} key={index}>
-                        <Course popoverPlacement={index%2==0?'right':'left'} course={course} />
+                        <Course popoverPlacement={index % 2 == 0 ? 'right' : 'left'} course={course} />
                     </Col>
                 })}
                 </Row>
@@ -89,7 +86,7 @@ class ViewUser extends React.Component {
                     <Pagination prev next first last ellipsis boundaryLinks
                         items={parseInt((this.state.user.mycourses.length - 1) / 8) + 1}
                         maxButtons={5} activePage={this.state.page}
-                        onSelect={(page) => { this.setState({ page: page }) } } />
+                        onSelect={(page) => { this.setState({ page: page }) }} />
                 </div>
             </div>
         </div>

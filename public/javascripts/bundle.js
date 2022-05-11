@@ -291,6 +291,10 @@
 	    )
 	), document.getElementById('app'));
 
+	$.ajaxSetup({
+	    contentType: "application/json; charset=utf-8"
+	});
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -66222,15 +66226,15 @@
 	  value: true
 	});
 	var login = exports.login = function login(data, callback) {
-	  $.post('/authentication/login', data, callback);
+	  $.post('/authentication/login', JSON.stringify(data), callback);
 	};
 
 	var signup = exports.signup = function signup(data, callback) {
-	  $.post('/authentication/signup', data, callback);
+	  $.post('/authentication/signup', JSON.stringify(data), callback);
 	};
 
 	var forgotPassword = exports.forgotPassword = function forgotPassword(data, callback) {
-	  $.post('/authentication/forgotpassword', data, callback);
+	  $.post('/authentication/forgotpassword', JSON.stringify(data), callback);
 	};
 
 	var logout = exports.logout = function logout(callback) {
@@ -67163,14 +67167,14 @@
 	            e.preventDefault();
 
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/edit-profile', {
+	            $.post('/api/user/edit-profile', JSON.stringify({
 	                username: this.state.username,
 	                biography: this.state.biography,
 	                website: this.state.website,
 	                twitter: this.state.twitter,
 	                youtube: this.state.youtube,
 	                linkedin: this.state.linkedin
-	            }, function (data, status) {
+	            }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this3.props.dispatch((0, _actions.setUser)({}));
 	                    return _reactRouter.browserHistory.push('/');
@@ -68316,7 +68320,7 @@
 	            var _this8 = this;
 
 	            this.props.dispatch((0, _actions.depositFunds)(money));
-	            $.post('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this8.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -68332,7 +68336,7 @@
 	            var _this9 = this;
 
 	            this.props.dispatch((0, _actions.withDraw)(money));
-	            $.post('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this9.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -68357,7 +68361,7 @@
 	        value: function componentDidMount() {
 	            var _this10 = this;
 
-	            $.post('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this10.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -68376,7 +68380,7 @@
 	            var filter = this.state.filter;
 	            filter.page = Math.max(1, filter.page - 1);
 	            this.setState({ filter: filter });
-	            $.post('/api/user/get-payment', filter, function (data, status) {
+	            $.get('/api/user/get-payment', filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this11.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -68395,7 +68399,7 @@
 	            var filter = this.state.filter;
 	            filter.page = filter.page + 1;
 	            this.setState({ filter: filter });
-	            $.post('/api/user/get-payment', filter, function (data, status) {
+	            $.get('/api/user/get-payment', filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this12.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -105359,9 +105363,7 @@
 	            if (!this.props.islogged) {
 	                return this.props.dispatch((0, _actions.showModal)(1));
 	            }
-	            $.post('/api/user/change-wishlist', {
-	                courseid: courseid
-	            }, function (data, status) {
+	            $.post('/api/user/change-wishlist', JSON.stringify({ courseid: courseid }), function (data, status) {
 	                _this5.props.dispatch((0, _actions.changeWishlist)(data.action, courseid));
 	            });
 	        }
@@ -106191,9 +106193,7 @@
 				if (!this.props.islogged) {
 					return this.props.dispatch((0, _actions.showModal)(1));
 				}
-				$.post('/api/user/change-wishlist', {
-					courseid: this.props.course._id
-				}, function (data, status) {
+				$.post('/api/user/change-wishlist', JSON.stringify({ courseid: this.props.course._id }), function (data, status) {
 					_this2.props.dispatch((0, _actions.changeWishlist)(data.action, _this2.props.course._id));
 				});
 			}
@@ -106341,7 +106341,7 @@
 	      xhr = _ref3.xhr;
 
 	  $.ajax({
-	    method: "POST",
+	    method: "GET",
 	    url: '/api/courses/search',
 	    data: data,
 	    success: success,
@@ -106362,19 +106362,19 @@
 	};
 
 	var getCoursesRelateLecture = exports.getCoursesRelateLecture = function getCoursesRelateLecture(data, callback) {
-	  $.post('/api/courses/get-courses-relate-lecturer', data, callback);
+	  $.get('/api/courses/get-courses-relate-lecturer', data, callback);
 	};
 
 	var addReview = exports.addReview = function addReview(data, callback) {
-	  $.post('/api/course/add-review', data, callback);
+	  $.post('/api/course/add-review', JSON.stringify(data), callback);
 	};
 
 	var getReview = exports.getReview = function getReview(data, callback) {
-	  $.post('/api/course/get-review', data, callback);
+	  $.get('/api/course/get-review', data, callback);
 	};
 
 	var getCourseIntro = exports.getCourseIntro = function getCourseIntro(data, callback) {
-	  $.post('/api/course/get-course-info', data, callback);
+	  $.get('/api/course/get-course-info', data, callback);
 	};
 
 /***/ }),
@@ -109162,9 +109162,7 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $.post('/api/user/view-user', {
-	                id: this.props.params.id
-	            }, function (data, status) {
+	            $.get('/api/user/view-user', { id: this.props.params.id }, function (data, status) {
 	                if (data.code == 200) _this2.setState({ user: data.user });
 	            });
 	        }
