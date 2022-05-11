@@ -61,7 +61,7 @@ db.once('open', function () {
   console.log('on open connect');
 });
 
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(process.env.MONGODB_URL, { autoIndex: true, useUnifiedTopology: true, useNewUrlParser: true });
 
 
 
