@@ -174,9 +174,9 @@ passport.use('local-signup',
                             subject: 'Verify your account',
                             text: 'You recieved message from Academy',
                             html: '<p>Dear ' + username + ',</p></br>' +
-                            '<p>You have selected ' + email + ' as your new Academy account. To verify this email address belongs to you, click the link below and then sign in using your email and password.</p></br>' +
-                            '<a href="http://localhost:3000/verify/' + verifytoken + '">Verify now ></a></br></br>' +
-                            '<p>Academy Support</p>'
+                                '<p>You have selected ' + email + ' as your new Academy account. To verify this email address belongs to you, click the link below and then sign in using your email and password.</p></br>' +
+                                '<a href="http://localhost:3000/verify/' + verifytoken + '">Verify now ></a></br></br>' +
+                                '<p>Academy Support</p>'
                         }
                         transporter.sendMail(mainOptions, function (err, info) {
                             if (err) {
@@ -278,9 +278,9 @@ router.post('/forgotpassword', (req, res, next) => {
                 subject: 'Reset your password',
                 text: 'You recieved message from Academy',
                 html: '<p>Dear ' + data.username + ',</p></br>' +
-                '<p>A password reset for your account was requested.</p></br>' +
-                '<p>Please login your account with new password: <strong>' + newPassword + '</strong></p></br></br>' +
-                '<p>Academy Support</p>'
+                    '<p>A password reset for your account was requested.</p></br>' +
+                    '<p>Please login your account with new password: <strong>' + newPassword + '</strong></p></br></br>' +
+                    '<p>Academy Support</p>'
             }
             transporter.sendMail(mainOptions, function (err, info) {
                 if (err)
