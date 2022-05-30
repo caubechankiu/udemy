@@ -104425,6 +104425,9 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            if (!this.props.course) {
 	                $.post('/api/user/get-course', { courseid: this.props.params.id }, function (data, status) {
 	                    if (data.code == 200) {
@@ -110552,6 +110555,9 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            $.post('/api/user/get-notis', { page: this.state.page }, function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));

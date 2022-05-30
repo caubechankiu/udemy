@@ -8,6 +8,9 @@ var _ = require('lodash')
 class ManageCourse extends React.Component {
 
     componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            return window.location.href = "/";
+        }
         if (!this.props.course) {
             $.post('/api/user/get-course',
                 { courseid: this.props.params.id },

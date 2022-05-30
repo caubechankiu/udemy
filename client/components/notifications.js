@@ -16,6 +16,9 @@ class Notifications extends React.Component {
         }
     }
     componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            return window.location.href = "/";
+        }
         $.post('/api/user/get-notis', { page: this.state.page }, (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
