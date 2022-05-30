@@ -42081,7 +42081,6 @@
 	        value: function onClickLogout() {
 	            localStorage.clear();
 	            window.location.href = '/';
-	            window.location.reload();
 	        }
 	    }, {
 	        key: 'componentWillMount',
@@ -67972,16 +67971,23 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var SidebarControl = function (_React$Component) {
-	    _inherits(SidebarControl, _React$Component);
+	var EditUser = function (_React$Component) {
+	    _inherits(EditUser, _React$Component);
 
-	    function SidebarControl() {
-	        _classCallCheck(this, SidebarControl);
+	    function EditUser() {
+	        _classCallCheck(this, EditUser);
 
-	        return _possibleConstructorReturn(this, (SidebarControl.__proto__ || Object.getPrototypeOf(SidebarControl)).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (EditUser.__proto__ || Object.getPrototypeOf(EditUser)).apply(this, arguments));
 	    }
 
-	    _createClass(SidebarControl, [{
+	    _createClass(EditUser, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            if (!localStorage.getItem("access_token")) {
+	                window.location.href = "/";
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            if (this.props.username && this.props.username != '') {
@@ -68074,10 +68080,10 @@
 	        }
 	    }]);
 
-	    return SidebarControl;
+	    return EditUser;
 	}(_react2.default.Component);
 
-	SidebarControl = (0, _reactRedux.connect)(function (state, props) {
+	EditUser = (0, _reactRedux.connect)(function (state, props) {
 	    if (state.user && state.user.username) {
 	        return {
 	            photo: state.user.photo,
@@ -68085,9 +68091,9 @@
 	        };
 	    }
 	    return props;
-	})(SidebarControl);
+	})(EditUser);
 
-	exports.default = SidebarControl;
+	exports.default = EditUser;
 
 /***/ }),
 /* 542 */

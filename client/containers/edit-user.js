@@ -2,7 +2,12 @@ import React from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux';
 
-class SidebarControl extends React.Component {
+class EditUser extends React.Component {
+    componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            window.location.href = "/";
+        }
+    }
     render() {
         if (this.props.username && this.props.username != '') {
             return (
@@ -17,7 +22,7 @@ class SidebarControl extends React.Component {
                                 <Link to="/user/edit-profile" activeClassName="active"
                                     onlyActiveOnIndex={true}>
                                     <span className='glyphicon glyphicon-user'></span>{' '}Profile
-                                    </Link>
+                                </Link>
                             </li>
                             <li>
                                 <Link to="/user/edit-photo" activeClassName="active"
@@ -49,7 +54,7 @@ class SidebarControl extends React.Component {
     }
 }
 
-SidebarControl = connect((state, props) => {
+EditUser = connect((state, props) => {
     if (state.user && state.user.username) {
         return {
             photo: state.user.photo,
@@ -57,6 +62,6 @@ SidebarControl = connect((state, props) => {
         }
     }
     return props
-})(SidebarControl)
+})(EditUser)
 
-export default SidebarControl
+export default EditUser
