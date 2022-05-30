@@ -32,22 +32,6 @@ const verifytokenGenerator = () => {
     return text
 }
 
-
-
-
-passport.serializeUser(function (user, done) {
-    // console.log('call function serializeUser ' + user._id);
-    done(null, user._id);
-});
-
-passport.deserializeUser(function (id, done) {
-    // console.log('call function deserializeUser ' + id);
-    User.findOne({ _id: id }).select({ password: 0, __v: 0, updatedAt: 0, createdAt: 0, mycourses: 0 })
-        .exec((err, data) => {
-            done(err, data);
-        })
-});
-
 passport.use(new GoogleStrategy(
     {
         clientID: GOOGLE_CLIENT_ID,
@@ -210,43 +194,36 @@ passport.use('local-signup',
 
 
 /* GET users listing. */
-router.post('/login', function (req, res, next) {
-    passport.authenticate('local-login', function (err, user, info) {
-        if (err) { return res.send(err); }
-        if (!user) { return res.send(info); }
-        req.logIn(user, function (err) {
-            if (err) { return res.send(err); }
-            User.findOne({ _id: user._id }).select({ password: 0, __v: 0, updatedAt: 0, createdAt: 0, mycourses: 0 }).exec((err, data) => {
-                if (err)
-                    return res.send(err)
-                Notification.find({ to: data._id })
-                    .populate({ path: 'from', select: { photo: 1 } })
-                    .select({ __v: 0, updatedAt: 0, to: 0 })
-                    .limit(4).sort({ createdAt: -1 }).exec((err, notis) => {
-                        if (err)
-                            res.send({ code: 404, message: 'error' })
-                        let user = Object.assign({}, data._doc)
-                        const access_token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" })
-                        user.notis = notis
-                        info.user = user
-                        info.access_token = access_token;
-                        res.send(info)
-                    })
-            })
-        });
-    })(req, res, next);
+router.post('/login', async (req, res, next) => {
+    const { email, password } = req.body;
+    const user = await User.findWithEmail(email);
+    if (!user) {
+        return res.send({ code: 1001, message: 'Incorrect email' });
+    }
+    if (!user.verified) {
+        return res.send({ code: 1001, message: 'You need verify your email' });
+    }
+    const passwordValid = bcrypt.compareSync(password, user.password);
+    if (!passwordValid) {
+        return res.send({ code: 1001, message: 'Incorrect password' });
+    }
+
+    const notis = await Notification.find({ to: user._id })
+        .populate({ path: 'from', select: { photo: 1 } })
+        .select({ __v: 0, updatedAt: 0, to: 0 })
+        .limit(4).sort({ createdAt: -1 });
+    const access_token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
+    delete user.password;
+    user.notis = notis
+    res.send({ code: 200, message: 'success', user, access_token })
 });
+
 router.post('/signup', function (req, res, next) {
     passport.authenticate('local-signup', function (err, user, info) {
         if (err)
             return res.send(err)
         res.send(info)
     })(req, res, next)
-})
-
-router.get('/logout', function (req, res, next) {
-    req.logout();
-    res.send({ code: 200 })
 })
 
 router.get('/auth/facebook', passport.authenticate('facebook'));

@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 
 //routes setup
-app.use('/authentication', authentication)
+app.use('/api/authentication', authentication)
 app.use('/api/genres', genreApi)
 app.use('/api/user', userApi)
 app.use('/api/resource', resourceApi)

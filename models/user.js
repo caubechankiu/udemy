@@ -26,16 +26,16 @@ var schema = new Schema({
     })
 //statics
 schema.statics.findWithEmail = function (email, cb) {
-    return this.findOne({ email: email }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).exec(cb);
+    return this.findOne({ email: email }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).lean().exec(cb);
 }
 schema.statics.findById = function (id, cb) {
-    return this.findOne({ _id: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).exec(cb);
+    return this.findOne({ _id: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).lean().exec(cb);
 }
 schema.statics.findByFbid = function (id, cb) {
-    return this.findOne({ facebookid: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).exec(cb);
+    return this.findOne({ facebookid: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).lean().exec(cb);
 }
 schema.statics.findByGgid = function (id, cb) {
-    return this.findOne({ googleid: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).exec(cb);
+    return this.findOne({ googleid: id }).select({ __v: 0, updatedAt: 0, createdAt: 0 }).lean().exec(cb);
 }
 
 

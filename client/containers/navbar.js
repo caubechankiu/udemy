@@ -30,13 +30,8 @@ class Navbar extends React.Component {
         })
     }
     onClickLogout() {
-        logout((data, status) => {
-            if (data.code == 200) {
-                this.props.dispatch(setUser({}))
-                this.props.dispatch(setGetMyCourses(false))
-                browserHistory.push('/')
-            }
-        })
+        localStorage.clear();
+        window.location.reload();
     }
     componentWillMount() {
         this.getUserInfo()
