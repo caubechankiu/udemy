@@ -1,4 +1,5 @@
 var express = require('express')
+var authMidleware = require('../auth-midleware');
 var router = express.Router()
 
 var User = require('../../models/user')
@@ -8,6 +9,8 @@ var Lecture = require('../../models/lecture')
 var send = require('send')
 var _ = require('lodash')
 const sharp = require('sharp')
+
+router.use('/*', authMidleware);
 
 router.get('/images', (req, res, next) => {
     console.log(req.query.src)

@@ -106,32 +106,6 @@ passport.use(new FacebookStrategy(
     })
 );
 
-
-
-
-
-passport.use('local-login',
-    new LocalStrategy({
-        usernameField: 'email',
-        passwordField: 'password',
-    }, function (email, password, done) {
-        User.findWithEmail(email, (err, user) => {
-            if (err)
-                return done(err);
-            if (!user)
-                return done(null, false, { code: 1001, message: 'Incorrect email' });
-            if (!user.verified)
-                return done(null, false, { code: 1001, message: 'You need verify your email' });
-            bcrypt.compare(password, user.password, function (err, result) {
-                if (err)
-                    return done(err)
-                if (!result)
-                    return done(null, false, { code: 1001, message: 'Incorrect password' });
-                return done(null, user, { code: 200, message: 'success' });
-            })
-        })
-    })
-)
 passport.use('local-signup',
     new LocalStrategy({
         usernameField: 'email',

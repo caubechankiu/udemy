@@ -1,4 +1,5 @@
 var express = require('express')
+var authMidleware = require('../auth-midleware');
 var router = express.Router()
 
 var User = require('../../models/user')
@@ -9,6 +10,8 @@ var Notification = require('../../models/notification')
 var _ = require('lodash')
 
 var send = require('send')
+
+router.use('/*', authMidleware);
 
 router.get('/get-course-info', (req, res, next) => {
     Course.findOne({ _id: req.query.courseid })

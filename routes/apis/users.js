@@ -1,4 +1,5 @@
 var express = require('express')
+var authMidleware = require('../auth-midleware');
 var router = express.Router()
 var User = require('../../models/user')
 var Course = require('../../models/course')
@@ -14,6 +15,8 @@ var uploadcoursepreviewvideo = multer({ dest: 'public/uploads/courses-video' })
 var _ = require('lodash')
 var fs = require('fs')
 const bcrypt = require('bcrypt');
+
+router.use('/*', authMidleware);
 
 router.post('/verify', (req, res, next) => {
     if (req.isAuthenticated())

@@ -31,6 +31,7 @@ class Navbar extends React.Component {
     }
     onClickLogout() {
         localStorage.clear();
+        window.location.href = '/';
         window.location.reload();
     }
     componentWillMount() {

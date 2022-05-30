@@ -226,12 +226,12 @@
 	//User
 
 
-	$.ajaxSetup({
+	$.ajaxSetup(localStorage.getItem("access_token") ? {
 	    headers: {
 	        'Authorization': 'Bearer ' + localStorage.getItem("access_token")
 	    },
 	    contentType: "application/json; charset=utf-8"
-	});
+	} : { contentType: "application/json; charset=utf-8" });
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRedux.Provider,
@@ -42079,15 +42079,9 @@
 	    }, {
 	        key: 'onClickLogout',
 	        value: function onClickLogout() {
-	            var _this3 = this;
-
-	            (0, _auth.logout)(function (data, status) {
-	                if (data.code == 200) {
-	                    _this3.props.dispatch((0, _actions.setUser)({}));
-	                    _this3.props.dispatch((0, _actions.setGetMyCourses)(false));
-	                    _reactRouter.browserHistory.push('/');
-	                }
-	            });
+	            localStorage.clear();
+	            window.location.href = '/';
+	            window.location.reload();
 	        }
 	    }, {
 	        key: 'componentWillMount',
@@ -42145,7 +42139,7 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var _this4 = this;
+	            var _this3 = this;
 
 	            var navbarRight = void 0;
 	            var formLogin = void 0,
@@ -42243,7 +42237,7 @@
 	                                _react2.default.createElement(
 	                                    'a',
 	                                    { onClick: function onClick() {
-	                                            _this4.markAllAsRead();
+	                                            _this3.markAllAsRead();
 	                                        } },
 	                                    _react2.default.createElement(
 	                                        'span',
@@ -42265,7 +42259,7 @@
 	                                            _react2.default.createElement(
 	                                                _reactRouter.Link,
 	                                                { onClick: function onClick(e) {
-	                                                        _this4.onClickNoti(e, noti);
+	                                                        _this3.onClickNoti(e, noti);
 	                                                    } },
 	                                                _react2.default.createElement(
 	                                                    _reactBootstrap.Col,
@@ -42298,7 +42292,7 @@
 	                                                _reactBootstrap.Col,
 	                                                { xs: 1, className: 'mark-as-read' },
 	                                                _react2.default.createElement('span', { onClick: function onClick(e) {
-	                                                        _this4.markAsRead(e, noti);
+	                                                        _this3.markAsRead(e, noti);
 	                                                    }, className: !noti.seen ? 'green' : '' })
 	                                            )
 	                                        )
@@ -67224,19 +67218,19 @@
 	  value: true
 	});
 	var login = exports.login = function login(data, callback) {
-	  $.post('/authentication/login', JSON.stringify(data), callback);
+	  $.post('/api/authentication/login', JSON.stringify(data), callback);
 	};
 
 	var signup = exports.signup = function signup(data, callback) {
-	  $.post('/authentication/signup', JSON.stringify(data), callback);
+	  $.post('/api/authentication/signup', JSON.stringify(data), callback);
 	};
 
 	var forgotPassword = exports.forgotPassword = function forgotPassword(data, callback) {
-	  $.post('/authentication/forgotpassword', JSON.stringify(data), callback);
+	  $.post('/api/authentication/forgotpassword', JSON.stringify(data), callback);
 	};
 
 	var logout = exports.logout = function logout(callback) {
-	  $.get('/authentication/logout', callback);
+	  $.get('/api/authentication/logout', callback);
 	};
 
 /***/ }),

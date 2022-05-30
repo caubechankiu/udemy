@@ -1,4 +1,5 @@
 var express = require('express')
+var authMidleware = require('../auth-midleware');
 var router = express.Router()
 
 var Genre = require('../../models/genre')
@@ -6,6 +7,8 @@ var Subgenre = require('../../models/subgenre')
 var User = require('../../models/user')
 var Course = require('../../models/course')
 var Lecture = require('../../models/lecture')
+
+router.use('/*', authMidleware);
 
 router.get('/get-courses-homepage', (req, res, next) => {
     Genre.find({}).select({ _id: 1, name: 1 }).exec((err, data) => {
