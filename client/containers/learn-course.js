@@ -31,6 +31,9 @@ class LearnCourse extends React.Component {
     }
 
     componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            return window.location.href = "/";
+        }
         getReview({
             courseid: this.props.params.id,
             page: this.state.pageReviews

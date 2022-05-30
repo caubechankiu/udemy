@@ -13,13 +13,13 @@ class Admin extends Component {
 
     componentDidMount() {
         if (!localStorage.getItem("access_token")) {
-            window.location.href = "/";
+            return window.location.href = "/";
         } else {
             const access_token = localStorage.getItem("access_token")
             const payload_str = access_token.split(".")[1];
             const payload = JSON.parse(window.atob(payload_str));
             if (!payload || payload.role === 0) {
-                window.location.href = "/";
+                return window.location.href = "/";
             }
         }
     }

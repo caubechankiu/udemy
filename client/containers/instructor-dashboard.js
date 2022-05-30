@@ -63,6 +63,9 @@ class Instructor extends React.Component {
         }
     }
     componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            return window.location.href = "/";
+        }
         if (!this.props.getMyCourses)
             $.get('/api/user/get-all-mycourses', (courses) => {
                 this.props.dispatch(getAllMyCourses(JSON.parse(courses)))

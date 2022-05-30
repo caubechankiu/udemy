@@ -103782,6 +103782,9 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            if (!this.props.getMyCourses) $.get('/api/user/get-all-mycourses', function (courses) {
 	                _this3.props.dispatch((0, _actions.getAllMyCourses)(JSON.parse(courses)));
 	                _this3.props.dispatch((0, _actions.setGetMyCourses)(true));
@@ -107630,6 +107633,9 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            (0, _courses.getReview)({
 	                courseid: this.props.params.id,
 	                page: this.state.pageReviews
@@ -109489,6 +109495,9 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            $.ajax({
 	                method: "POST",
 	                url: '/api/user/learning',
@@ -109935,6 +109944,9 @@
 	        value: function componentDidMount() {
 	            var _this3 = this;
 
+	            if (!localStorage.getItem("access_token")) {
+	                return window.location.href = "/";
+	            }
 	            $.ajax({
 	                method: "POST",
 	                url: '/api/user/wishlist',
@@ -110775,13 +110787,13 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            if (!localStorage.getItem("access_token")) {
-	                window.location.href = "/";
+	                return window.location.href = "/";
 	            } else {
 	                var access_token = localStorage.getItem("access_token");
 	                var payload_str = access_token.split(".")[1];
 	                var payload = JSON.parse(window.atob(payload_str));
 	                if (!payload || payload.role === 0) {
-	                    window.location.href = "/";
+	                    return window.location.href = "/";
 	                }
 	            }
 	        }

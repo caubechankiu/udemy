@@ -57,6 +57,9 @@ class Wishlist extends React.Component {
         }
     }
     componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            return window.location.href = "/";
+        }
         $.ajax({
             method: "POST",
             url: '/api/user/wishlist',
@@ -172,7 +175,7 @@ class Wishlist extends React.Component {
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <div className='container'>
                     <Breadcrumb>
-                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                             <Glyphicon glyph="home" />
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
@@ -189,10 +192,10 @@ class Wishlist extends React.Component {
                 </div>
             </div>
             <div className='container'>
-                <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) } }>
+                <form className='form-inline' style={{ marginBottom: '20px' }} onSubmit={(e) => { this.onSubmitFormSearch(e) }}>
                     <div className="form-group form-group-lg">
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) } } >
+                            value={this.props.location.query.level || 'none'} onChange={(e) => { this.onChangeFilterLevel(e) }} >
                             <option value='none' style={{ fontWeight: 'bold' }}>--Select Level--</option>
                             <option value='1' style={{ fontWeight: 'bold' }}>Beginner Level</option>
                             <option value='2' style={{ fontWeight: 'bold' }}>Intermediate Level</option>
@@ -202,7 +205,7 @@ class Wishlist extends React.Component {
                     </div>{' '}
                     <div className="form-group form-group-lg" >
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) } }>
+                            value={this.props.location.query.free || 'none'} onChange={(e) => { this.onChangeFilterPrice(e) }}>
                             <option value='none' style={{ fontWeight: 'bold' }}>--Price--</option>
                             <option value='false' style={{ fontWeight: 'bold' }}>Paid</option>
                             <option value='true' style={{ fontWeight: 'bold' }}>Free</option>
@@ -211,7 +214,7 @@ class Wishlist extends React.Component {
                     <div className="form-group form-group-lg">
                         <label className='control-label'>Sort by:</label>{' '}
                         <select style={{ fontWeight: 'bold' }} className="form-control"
-                            value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) } } >
+                            value={this.props.location.query.sort || '1'} onChange={(e) => { this.onChangeFilterSort(e) }} >
                             <option value='1' style={{ fontWeight: 'bold' }}>Title: A-to-Z</option>
                             <option value='2' style={{ fontWeight: 'bold' }}>Title: Z-to-A</option>
                         </select>
@@ -219,7 +222,7 @@ class Wishlist extends React.Component {
                     <div className="form-group form-group-lg">
                         <div className="input-group input-group-lg">
                             <input type="text" className="form-control"
-                                value={this.state.coursename} placeholder="Search" onChange={(e) => { this.handleCourseName(e) } } />
+                                value={this.state.coursename} placeholder="Search" onChange={(e) => { this.handleCourseName(e) }} />
                             <span className="input-group-btn">
                                 <button className="btn btn-default" type="submit"><Glyphicon glyph='search' /></button>
                             </span>
@@ -239,8 +242,8 @@ class Wishlist extends React.Component {
                 }
                 <Pager>
                     <Pager.Item disabled={!this.props.location.query.page || this.props.location.query.page == 1}
-                        previous onClick={(e) => { this.onClickPrev(e) } }>&larr; Previous Page</Pager.Item>
-                    <Pager.Item next onClick={(e) => { this.onClickNext(e) } }>Next Page &rarr;</Pager.Item>
+                        previous onClick={(e) => { this.onClickPrev(e) }}>&larr; Previous Page</Pager.Item>
+                    <Pager.Item next onClick={(e) => { this.onClickNext(e) }}>Next Page &rarr;</Pager.Item>
                 </Pager>
             </div>
         </div>
