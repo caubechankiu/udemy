@@ -110772,6 +110772,20 @@
 	    }
 
 	    _createClass(Admin, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            if (!localStorage.getItem("access_token")) {
+	                window.location.href = "/";
+	            } else {
+	                var access_token = localStorage.getItem("access_token");
+	                var payload_str = access_token.split(".")[1];
+	                var payload = JSON.parse(window.atob(payload_str));
+	                if (!payload || payload.role === 0) {
+	                    window.location.href = "/";
+	                }
+	            }
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(

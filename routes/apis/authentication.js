@@ -186,7 +186,7 @@ router.post('/login', async (req, res, next) => {
         .populate({ path: 'from', select: { photo: 1 } })
         .select({ __v: 0, updatedAt: 0, to: 0 })
         .limit(4).sort({ createdAt: -1 });
-    const access_token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
+    const access_token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
     delete user.password;
     user.notis = notis
     res.send({ code: 200, message: 'success', user, access_token })

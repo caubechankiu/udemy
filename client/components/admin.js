@@ -11,14 +11,27 @@ class Admin extends Component {
         }
     }
 
+    componentDidMount() {
+        if (!localStorage.getItem("access_token")) {
+            window.location.href = "/";
+        } else {
+            const access_token = localStorage.getItem("access_token")
+            const payload_str = access_token.split(".")[1];
+            const payload = JSON.parse(window.atob(payload_str));
+            if (!payload || payload.role === 0) {
+                window.location.href = "/";
+            }
+        }
+    }
+
     render() {
         return <div>
             <link rel="stylesheet" href="/stylesheets/semantic.min.css" />
-            
+
             <div className='genre-info-box' style={{ backgroundColor: this.state.headerColor }} >
                 <div className='container'>
                     <Breadcrumb>
-                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); } }>
+                        <Breadcrumb.Item onClick={(e) => { e.preventDefault(); browserHistory.push('/courses'); }}>
                             <Glyphicon glyph="home" />
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>
