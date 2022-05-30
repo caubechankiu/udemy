@@ -59,6 +59,13 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 const store = createStore(rootReducer)
 
+$.ajaxSetup({
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
+    },
+    contentType: "application/json; charset=utf-8",
+});
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
@@ -110,7 +117,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('app')
 )
-
-$.ajaxSetup({
-    contentType: "application/json; charset=utf-8",
-});

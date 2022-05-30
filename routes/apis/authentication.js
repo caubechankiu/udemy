@@ -1,4 +1,5 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const User = require('../../models/user');
 const Notification = require('../../models/notification')
@@ -225,8 +226,10 @@ router.post('/login', function (req, res, next) {
                         if (err)
                             res.send({ code: 404, message: 'error' })
                         let user = Object.assign({}, data._doc)
+                        const access_token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" })
                         user.notis = notis
                         info.user = user
+                        info.access_token = access_token;
                         res.send(info)
                     })
             })

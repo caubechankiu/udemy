@@ -2,12 +2,10 @@ require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 
 // require passport
-var session = require('express-session');
 var passport = require('passport');
 
 // require routes
@@ -31,17 +29,9 @@ app.engine('html', require('ejs').renderFile);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//passport setup
-app.use(session({
-  secret: "secret",
-  saveUninitialized: true,
-  resave: true
-}))
 app.use(passport.initialize());
-app.use(passport.session());
 
 //routes setup
 app.use('/authentication', authentication)

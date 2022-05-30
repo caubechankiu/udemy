@@ -42,6 +42,7 @@ class FormLogin extends React.Component {
         }, (data, status) => {
             if (data.code == 200) {
                 this.props.dispatch(showModal(0))
+                localStorage.setItem("access_token", data.access_token);
                 this.props.dispatch(setUser(data.user))
                 browserHistory.push('/courses')
             } else {
