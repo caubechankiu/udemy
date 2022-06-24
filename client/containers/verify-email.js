@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { setUser, setGetMyCourses, showModal } from '../actions'
 import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
+import url from '../url'
 
 class VerifyEmail extends React.Component {
     constructor(props) {
@@ -12,7 +13,10 @@ class VerifyEmail extends React.Component {
         }
     }
     componentDidMount() {
-        $.post('/api/user/verify', JSON.stringify({ verifytoken: this.props.params.verifytoken }), (data, status) => {
+        $.post(url.SIGNUP_VERIFY, JSON.stringify({
+            email: this.props.location.query.email,
+            otp: this.props.location.query.otp,
+        }), (data, status) => {
             this.setState({ success: data.code == 200 })
         })
     }

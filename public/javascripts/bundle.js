@@ -102,95 +102,95 @@
 
 	var _verifyEmail2 = _interopRequireDefault(_verifyEmail);
 
-	var _instructorDashboard = __webpack_require__(1074);
+	var _instructorDashboard = __webpack_require__(1075);
 
 	var _instructorDashboard2 = _interopRequireDefault(_instructorDashboard);
 
-	var _manageCourse = __webpack_require__(1076);
+	var _manageCourse = __webpack_require__(1077);
 
 	var _manageCourse2 = _interopRequireDefault(_manageCourse);
 
-	var _manageCourseGoal = __webpack_require__(1077);
+	var _manageCourseGoal = __webpack_require__(1078);
 
 	var _manageCourseGoal2 = _interopRequireDefault(_manageCourseGoal);
 
-	var _manageCourseDescription = __webpack_require__(1078);
+	var _manageCourseDescription = __webpack_require__(1079);
 
 	var _manageCourseDescription2 = _interopRequireDefault(_manageCourseDescription);
 
-	var _manageCoursePrice = __webpack_require__(1079);
+	var _manageCoursePrice = __webpack_require__(1080);
 
 	var _manageCoursePrice2 = _interopRequireDefault(_manageCoursePrice);
 
-	var _manageCourseLecture = __webpack_require__(1080);
+	var _manageCourseLecture = __webpack_require__(1081);
 
 	var _manageCourseLecture2 = _interopRequireDefault(_manageCourseLecture);
 
-	var _manageCourseDangerZone = __webpack_require__(1081);
+	var _manageCourseDangerZone = __webpack_require__(1082);
 
 	var _manageCourseDangerZone2 = _interopRequireDefault(_manageCourseDangerZone);
 
-	var _viewCourse = __webpack_require__(1082);
+	var _viewCourse = __webpack_require__(1083);
 
 	var _viewCourse2 = _interopRequireDefault(_viewCourse);
 
-	var _learnCourse = __webpack_require__(1085);
+	var _learnCourse = __webpack_require__(1086);
 
 	var _learnCourse2 = _interopRequireDefault(_learnCourse);
 
-	var _homepageContent = __webpack_require__(1087);
+	var _homepageContent = __webpack_require__(1088);
 
 	var _homepageContent2 = _interopRequireDefault(_homepageContent);
 
-	var _coursesGenre = __webpack_require__(1090);
+	var _coursesGenre = __webpack_require__(1091);
 
 	var _coursesGenre2 = _interopRequireDefault(_coursesGenre);
 
-	var _coursesSubgenre = __webpack_require__(1091);
+	var _coursesSubgenre = __webpack_require__(1092);
 
 	var _coursesSubgenre2 = _interopRequireDefault(_coursesSubgenre);
 
-	var _coursesSearch = __webpack_require__(1092);
+	var _coursesSearch = __webpack_require__(1093);
 
 	var _coursesSearch2 = _interopRequireDefault(_coursesSearch);
 
-	var _learning = __webpack_require__(1093);
+	var _learning = __webpack_require__(1094);
 
 	var _learning2 = _interopRequireDefault(_learning);
 
-	var _wishlist = __webpack_require__(1094);
+	var _wishlist = __webpack_require__(1095);
 
 	var _wishlist2 = _interopRequireDefault(_wishlist);
 
-	var _viewUser = __webpack_require__(1095);
+	var _viewUser = __webpack_require__(1096);
 
 	var _viewUser2 = _interopRequireDefault(_viewUser);
 
-	var _notifications = __webpack_require__(1096);
+	var _notifications = __webpack_require__(1097);
 
 	var _notifications2 = _interopRequireDefault(_notifications);
 
-	var _admin = __webpack_require__(1097);
+	var _admin = __webpack_require__(1098);
 
 	var _admin2 = _interopRequireDefault(_admin);
 
-	var _adminUser = __webpack_require__(1098);
+	var _adminUser = __webpack_require__(1099);
 
 	var _adminUser2 = _interopRequireDefault(_adminUser);
 
-	var _adminCourse = __webpack_require__(1099);
+	var _adminCourse = __webpack_require__(1100);
 
 	var _adminCourse2 = _interopRequireDefault(_adminCourse);
 
-	var _adminReviewCourse = __webpack_require__(1100);
+	var _adminReviewCourse = __webpack_require__(1101);
 
 	var _adminReviewCourse2 = _interopRequireDefault(_adminReviewCourse);
 
-	var _adminCredit = __webpack_require__(1101);
+	var _adminCredit = __webpack_require__(1102);
 
 	var _adminCredit2 = _interopRequireDefault(_adminCredit);
 
-	var _PDFViewer = __webpack_require__(1102);
+	var _PDFViewer = __webpack_require__(1103);
 
 	var _PDFViewer2 = _interopRequireDefault(_PDFViewer);
 
@@ -282,7 +282,7 @@
 	                _react2.default.createElement(_reactRouter.Route, { path: '/mycourses/learning', component: _learning2.default }),
 	                _react2.default.createElement(_reactRouter.Route, { path: '/mycourses/wishlist', component: _wishlist2.default })
 	            ),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/verify/:verifytoken', component: _verifyEmail2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/verify', component: _verifyEmail2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '/view-user/:id', component: _viewUser2.default }),
 	            _react2.default.createElement(_reactRouter.Route, { path: '/notifications', component: _notifications2.default }),
 	            _react2.default.createElement(
@@ -67216,12 +67216,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	// import url from '../url'
 	var login = exports.login = function login(data, callback) {
-	  $.post('/api/authentication/login', JSON.stringify(data), callback);
+	  $.post('http://localhost:3001/auth/login', JSON.stringify(data), callback);
+	  // $.post('/api/authentication/login', JSON.stringify(data), callback);
 	};
 
 	var signup = exports.signup = function signup(data, callback) {
-	  $.post('/api/authentication/signup', JSON.stringify(data), callback);
+	  $.post('http://localhost:3001/auth/login', JSON.stringify(data), callback);
+	  // $.post('/api/authentication/signup', JSON.stringify(data), callback);
 	};
 
 	var forgotPassword = exports.forgotPassword = function forgotPassword(data, callback) {
@@ -103534,6 +103537,10 @@
 
 	var _reactRouter = __webpack_require__(475);
 
+	var _url = __webpack_require__(1074);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -103561,7 +103568,10 @@
 	        value: function componentDidMount() {
 	            var _this2 = this;
 
-	            $.post('/api/user/verify', JSON.stringify({ verifytoken: this.props.params.verifytoken }), function (data, status) {
+	            $.post(_url2.default.SIGNUP_VERIFY, JSON.stringify({
+	                email: this.props.location.query.email,
+	                otp: this.props.location.query.otp
+	            }), function (data, status) {
 	                _this2.setState({ success: data.code == 200 });
 	            });
 	        }
@@ -103629,6 +103639,19 @@
 
 /***/ }),
 /* 1074 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	    SIGNUP_VERIFY: "http://localhost:3001/auth/signup-verify",
+	    LOGIN: 'http://localhost:3001/auth/login',
+	    SIGNUP: 'http://localhost:3001/auth/signup'
+
+	};
+
+/***/ }),
+/* 1075 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103647,7 +103670,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _courseInstructor = __webpack_require__(1075);
+	var _courseInstructor = __webpack_require__(1076);
 
 	var _courseInstructor2 = _interopRequireDefault(_courseInstructor);
 
@@ -104259,7 +104282,7 @@
 	exports.default = Instructor;
 
 /***/ }),
-/* 1075 */
+/* 1076 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104376,7 +104399,7 @@
 	exports.default = CourseInstructor;
 
 /***/ }),
-/* 1076 */
+/* 1077 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -104615,7 +104638,7 @@
 	exports.default = ManageCourse;
 
 /***/ }),
-/* 1077 */
+/* 1078 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -105017,7 +105040,7 @@
 	exports.default = ManageCourseGoal;
 
 /***/ }),
-/* 1078 */
+/* 1079 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -105490,7 +105513,7 @@
 	exports.default = ManageCourseDescription;
 
 /***/ }),
-/* 1079 */
+/* 1080 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -105647,7 +105670,7 @@
 	exports.default = ManageCoursePrice;
 
 /***/ }),
-/* 1080 */
+/* 1081 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -106118,7 +106141,7 @@
 	exports.default = ManageCourseLecture;
 
 /***/ }),
-/* 1081 */
+/* 1082 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -106247,7 +106270,7 @@
 	exports.default = ManageCourseDangerZone;
 
 /***/ }),
-/* 1082 */
+/* 1083 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -106274,11 +106297,11 @@
 
 	var _reactRouter = __webpack_require__(475);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -107316,7 +107339,7 @@
 	exports.default = ViewCourse;
 
 /***/ }),
-/* 1083 */
+/* 1084 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -107475,7 +107498,7 @@
 	exports.default = Course;
 
 /***/ }),
-/* 1084 */
+/* 1085 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -107554,7 +107577,7 @@
 	};
 
 /***/ }),
-/* 1085 */
+/* 1086 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -107581,11 +107604,11 @@
 
 	var _reactBootstrap = __webpack_require__(223);
 
-	var _review = __webpack_require__(1086);
+	var _review = __webpack_require__(1087);
 
 	var _review2 = _interopRequireDefault(_review);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -107984,7 +108007,7 @@
 	exports.default = LearnCourse;
 
 /***/ }),
-/* 1086 */
+/* 1087 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108007,7 +108030,7 @@
 
 	var _reactBootstrap = __webpack_require__(223);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108190,7 +108213,7 @@
 	exports.default = Review;
 
 /***/ }),
-/* 1087 */
+/* 1088 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108205,13 +108228,13 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _panelCourses = __webpack_require__(1088);
+	var _panelCourses = __webpack_require__(1089);
 
 	var _panelCourses2 = _interopRequireDefault(_panelCourses);
 
 	var _reactBootstrap = __webpack_require__(223);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108283,7 +108306,7 @@
 	exports.default = HomepageContent;
 
 /***/ }),
-/* 1088 */
+/* 1089 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108300,7 +108323,7 @@
 
 	var _reactBootstrap = __webpack_require__(223);
 
-	var _carouselItemCourses = __webpack_require__(1089);
+	var _carouselItemCourses = __webpack_require__(1090);
 
 	var _carouselItemCourses2 = _interopRequireDefault(_carouselItemCourses);
 
@@ -108387,7 +108410,7 @@
 	exports.default = PanelCourses;
 
 /***/ }),
-/* 1089 */
+/* 1090 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108404,7 +108427,7 @@
 
 	var _reactBootstrap = __webpack_require__(223);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
@@ -108448,7 +108471,7 @@
 	exports.default = CarouselItemCourses;
 
 /***/ }),
-/* 1090 */
+/* 1091 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108463,7 +108486,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _panelCourses = __webpack_require__(1088);
+	var _panelCourses = __webpack_require__(1089);
 
 	var _panelCourses2 = _interopRequireDefault(_panelCourses);
 
@@ -108471,7 +108494,7 @@
 
 	var _reactRouter = __webpack_require__(475);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108606,7 +108629,7 @@
 	exports.default = CoursesGenre;
 
 /***/ }),
-/* 1091 */
+/* 1092 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108621,7 +108644,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _panelCourses = __webpack_require__(1088);
+	var _panelCourses = __webpack_require__(1089);
 
 	var _panelCourses2 = _interopRequireDefault(_panelCourses);
 
@@ -108629,11 +108652,11 @@
 
 	var _reactRouter = __webpack_require__(475);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -108981,7 +109004,7 @@
 	exports.default = CoursesSubgenre;
 
 /***/ }),
-/* 1092 */
+/* 1093 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -108996,7 +109019,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _panelCourses = __webpack_require__(1088);
+	var _panelCourses = __webpack_require__(1089);
 
 	var _panelCourses2 = _interopRequireDefault(_panelCourses);
 
@@ -109004,11 +109027,11 @@
 
 	var _reactRouter = __webpack_require__(475);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
-	var _courses = __webpack_require__(1084);
+	var _courses = __webpack_require__(1085);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -109397,7 +109420,7 @@
 	exports.default = CoursesSearch;
 
 /***/ }),
-/* 1093 */
+/* 1094 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109420,7 +109443,7 @@
 
 	var _reactRedux = __webpack_require__(208);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
@@ -109846,7 +109869,7 @@
 	exports.default = Learning;
 
 /***/ }),
-/* 1094 */
+/* 1095 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -109869,7 +109892,7 @@
 
 	var _reactRedux = __webpack_require__(208);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
@@ -110294,7 +110317,7 @@
 	exports.default = Wishlist;
 
 /***/ }),
-/* 1095 */
+/* 1096 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110313,7 +110336,7 @@
 
 	var _reactRouter = __webpack_require__(475);
 
-	var _course = __webpack_require__(1083);
+	var _course = __webpack_require__(1084);
 
 	var _course2 = _interopRequireDefault(_course);
 
@@ -110502,7 +110525,7 @@
 	exports.default = ViewUser;
 
 /***/ }),
-/* 1096 */
+/* 1097 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110746,7 +110769,7 @@
 	exports.default = Notifications;
 
 /***/ }),
-/* 1097 */
+/* 1098 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -110907,7 +110930,7 @@
 	exports.default = Admin;
 
 /***/ }),
-/* 1098 */
+/* 1099 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -112006,7 +112029,7 @@
 	exports.default = AdminUser;
 
 /***/ }),
-/* 1099 */
+/* 1100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -112574,7 +112597,7 @@
 	exports.default = AdminCourse;
 
 /***/ }),
-/* 1100 */
+/* 1101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -113161,7 +113184,7 @@
 	exports.default = AdminReviewCourse;
 
 /***/ }),
-/* 1101 */
+/* 1102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -113559,7 +113582,7 @@
 	exports.default = AdminCredit;
 
 /***/ }),
-/* 1102 */
+/* 1103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -113570,7 +113593,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PDF = __webpack_require__(1103);
+	var PDF = __webpack_require__(1104);
 
 	var App = _react2.default.createClass({
 	    displayName: 'App',
@@ -113642,7 +113665,7 @@
 	module.exports = App;
 
 /***/ }),
-/* 1103 */
+/* 1104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';

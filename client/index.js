@@ -101,7 +101,7 @@ ReactDOM.render(
                     <Route path="/mycourses/learning" component={Learning} />
                     <Route path="/mycourses/wishlist" component={Wishlist} />
                 </Route>
-                <Route path="/verify/:verifytoken" component={VerifyEmail} />
+                <Route path="/verify" component={VerifyEmail} />
                 <Route path="/view-user/:id" component={ViewUser} />
                 <Route path="/notifications" component={Notifications} />
                 <Route path="/admin" component={Admin}>
