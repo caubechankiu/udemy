@@ -10,6 +10,7 @@ import { Link, browserHistory } from 'react-router'
 import { logout } from '../apis/auth'
 
 import _ from 'lodash'
+import url from '../url.js'
 
 
 class Navbar extends React.Component {
@@ -21,7 +22,7 @@ class Navbar extends React.Component {
         }
     }
     getUserInfo() {
-        $.get('/api/user/getuserinfo', (data, status) => {
+        $.get(url.GET_USER_INFO, (data, status) => {
             if (data.code == 200) {
                 this.props.dispatch(setUser(data.user))
             } else {

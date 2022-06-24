@@ -1,3 +1,5 @@
+import url from "../url"
+
 export const getAllGenres = (callback) => {
-  $.get('/api/genres/all', callback)
+  $.get(url.GET_ALL_GENRES, callback)
 }

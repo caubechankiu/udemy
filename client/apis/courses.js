@@ -1,7 +1,9 @@
+import url from "../url"
+
 export const getCoursesByGenre = ({ genreid, success, xhr }) => {
   $.ajax({
     method: "GET",
-    url: '/api/courses/get-courses-genre/' + genreid,
+    url: url.GET_COURSES_BY_GENRE + genreid,
     success,
     xhr,
   })
@@ -10,7 +12,7 @@ export const getCoursesByGenre = ({ genreid, success, xhr }) => {
 export const getCoursesBySubGenre = ({ subgenreid, data, success, xhr }) => {
   $.ajax({
     method: "POST",
-    url: '/api/courses/get-courses-subgenre/' + subgenreid,
+    url: url.GET_COURSES_BY_SUBGENRE + subgenreid,
     data,
     success,
     xhr,
@@ -20,7 +22,7 @@ export const getCoursesBySubGenre = ({ subgenreid, data, success, xhr }) => {
 export const getCoursesSearch = ({ data, success, xhr }) => {
   $.ajax({
     method: "GET",
-    url: '/api/courses/search',
+    url: url.GET_COURSES_SEARCH,
     data,
     success,
     xhr,
@@ -30,24 +32,24 @@ export const getCoursesSearch = ({ data, success, xhr }) => {
 export const getCoursesHomepage = ({ success, xhr }) => {
   $.ajax({
     method: "GET",
-    url: '/api/courses/get-courses-homepage',
+    url: url.GET_COURSES_HOME_PAGE,
     success,
     xhr,
   })
 }
 
 export const getCoursesRelateLecture = (data, callback) => {
-  $.get('/api/courses/get-courses-relate-lecturer', data, callback);
+  $.get(url.GET_COURSES_RELATE_LECTURER, data, callback);
 }
 
 export const addReview = (data, callback) => {
-  $.post('/api/course/add-review', JSON.stringify(data), callback);
+  $.post(url.ADD_COURSE_REVIEW, JSON.stringify(data), callback);
 }
 
 export const getReview = (data, callback) => {
-  $.get('/api/course/get-review', data, callback);
+  $.get(url.GET_COURSE_REVIEW, data, callback);
 }
 
 export const getCourseIntro = (data, callback) => {
-  $.get('/api/course/get-course-info', data, callback);
+  $.get(url.GET_COURSE_INTRO, data, callback);
 }
