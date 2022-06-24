@@ -4,6 +4,7 @@ import { setUser, setGetMyCourses, depositFunds, withDraw, setPaypalId } from '.
 import { Pager, Glyphicon, Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import url from '../url'
 
 class ModalDepositFunds extends Component {
     constructor(props) {
@@ -31,7 +32,7 @@ class ModalDepositFunds extends Component {
         })
     }
     depositFunds(e) {
-        $.post('/api/user/deposit-funds', JSON.stringify({ money: this.state.money }), (data, status) => {
+        $.post(url.DEPOSIT, JSON.stringify({ money: this.state.money }), (data, status) => {
             if (data.code == 200) {
                 this.props.depositFunds(this.state.money)
                 this.handleClose(e)
@@ -114,7 +115,7 @@ class ModalWithDraw extends Component {
         })
     }
     withDraw(e) {
-        $.post('/api/user/withdraw', JSON.stringify({ money: this.state.money }), (data, status) => {
+        $.post(url.WITHDRAW, JSON.stringify({ money: this.state.money }), (data, status) => {
             if (data.code == 200) {
                 this.props.withDraw(this.state.money)
                 this.handleClose(e)
@@ -196,7 +197,7 @@ class EditCredit extends Component {
     }
     depositFunds(money) {
         this.props.dispatch(depositFunds(money))
-        $.get('/api/user/get-payment',
+        $.get(url.GET_PAYMENT,
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -209,7 +210,7 @@ class EditCredit extends Component {
     }
     withDraw(money) {
         this.props.dispatch(withDraw(money))
-        $.get('/api/user/get-payment',
+        $.get(url.GET_PAYMENT,
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -227,7 +228,7 @@ class EditCredit extends Component {
         this.modalWithDraw.handleOpen(e)
     }
     componentDidMount() {
-        $.get('/api/user/get-payment',
+        $.get(url.GET_PAYMENT,
             this.state.filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -243,7 +244,7 @@ class EditCredit extends Component {
         let filter = this.state.filter
         filter.page = Math.max(1, filter.page - 1)
         this.setState({ filter: filter })
-        $.get('/api/user/get-payment',
+        $.get(url.GET_PAYMENT,
             filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -259,7 +260,7 @@ class EditCredit extends Component {
         let filter = this.state.filter
         filter.page = filter.page + 1
         this.setState({ filter: filter })
-        $.get('/api/user/get-payment',
+        $.get(url.GET_PAYMENT,
             filter, (data, status) => {
                 if (data.code == 200) {
                     this.setState({ payments: data.payments })
@@ -277,7 +278,7 @@ class EditCredit extends Component {
         $.post('/api/user/delete-payment', JSON.stringify({ _id: payment._id }))
     }
     setPaypalId(e) {
-        $.post('/api/user/set-paypalid', JSON.stringify({ paypalid: this.state.paypalid }), (data, status) => {
+        $.post(url.SET_PAYPAL_ID, JSON.stringify({ paypalid: this.state.paypalid }), (data, status) => {
             if (data.code == 200) {
                 this.props.dispatch(setPaypalId(this.state.paypalid))
             } else if (data.code == 1001) {

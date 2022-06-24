@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { setUser, setProfile } from '../actions'
 import { browserHistory } from 'react-router'
+import url from '../url';
 
 class EditProfile extends React.Component {
 
@@ -29,7 +30,7 @@ class EditProfile extends React.Component {
         e.preventDefault()
 
         this.setState({ isSubmitting: true })
-        $.post('/api/user/edit-profile', JSON.stringify({
+        $.post(url.EDIT_PROFILE, JSON.stringify({
             username: this.state.username,
             biography: this.state.biography,
             website: this.state.website,

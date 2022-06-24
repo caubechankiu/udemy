@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import { setUser } from '../actions'
 import { browserHistory } from 'react-router'
+import url from '../url';
 
 class EditAccount extends React.Component {
 
@@ -25,7 +26,7 @@ class EditAccount extends React.Component {
         e.preventDefault()
 
         this.setState({ isSubmitting: true })
-        $.post('/api/user/edit-account', JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), (data, status) => {
+        $.post(url.CHANGE_PASSWORD, JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
                 return browserHistory.push('/')

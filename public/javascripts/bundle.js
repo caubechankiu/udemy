@@ -67248,20 +67248,21 @@
 /* 536 */
 /***/ (function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	// const BASE_URL = "http://localhost:3001";
-	var BASE_URL = "http://192.168.31.107:3001";
+	var BASE_URL = "http://localhost:3001";
+	// const BASE_URL = "http://192.168.31.107:3001";
+
 
 	module.exports = {
-	    SIGNUP_VERIFY: BASE_URL + '/auth/signup-verify', // NEW
-	    // SIGNUP_VERIFY: "/api/user/verify", // OLD
+	    // SIGNUP_VERIFY: `${BASE_URL}/auth/signup-verify`, // NEW
+	    SIGNUP_VERIFY: "/api/user/verify", // OLD
 
-	    LOGIN: BASE_URL + '/auth/login', // NEW
-	    // LOGIN: '/api/authentication/login', // OLD
+	    // LOGIN: `${BASE_URL}/auth/login`, // NEW
+	    LOGIN: '/api/authentication/login', // OLD
 
-	    SIGNUP: BASE_URL + '/auth/signup', // NEW
-	    // SIGNUP: '/api/authentication/signup', // OLD
+	    // SIGNUP: `${BASE_URL}/auth/signup`, // NEW
+	    SIGNUP: '/api/authentication/signup', // OLD
 
 	    // FORGOT_PASSWORD: '/api/authentication/forgotpassword', // NEW
 	    FORGOT_PASSWORD: '/api/authentication/forgotpassword', // OLD
@@ -67269,8 +67270,26 @@
 	    // LOGOUT: '/api/authentication/logout', // NEW
 	    LOGOUT: '/api/authentication/logout', // OLD
 
-	    GET_USER_INFO: BASE_URL + '/profile/getInfo', // NEW
-	    // GET_USER_INFO: 'api/user/getuserinfo', // OLD
+	    // GET_USER_INFO: `${BASE_URL}/profile/getInfo`, // NEW
+	    GET_USER_INFO: '/api/user/getuserinfo', // OLD
+
+	    // EDIT_PROFILE: `${BASE_URL}/profile/editProfile`, // NEW
+	    EDIT_PROFILE: '/api/user/edit-profile', // OLD
+
+	    // CHANGE_PASSWORD: `${BASE_URL}/profile/changePassword`, // NEW
+	    CHANGE_PASSWORD: '/api/user/edit-account', // OLD
+
+	    // SET_PAYPAL_ID: `${BASE_URL}/profile/setPaypalId`, // NEW
+	    SET_PAYPAL_ID: '/api/user/set-paypalid', // OLD
+
+	    // GET_PAYMENT: `${BASE_URL}/profile/getPayment`, // NEW
+	    GET_PAYMENT: '/api/user/get-payment', // OLD
+
+	    // WITHDRAW: `${BASE_URL}/profile/withdraw`, // NEW
+	    WITHDRAW: '/api/user/withdraw', // OLD
+
+	    // DEPOSIT: `${BASE_URL}/profile/deposit`, // NEW
+	    DEPOSIT: '/api/user/deposit-funds', // OLD
 
 	    // GET_ALL_GENRES: '/api/genres/all', // NEW
 	    GET_ALL_GENRES: '/api/genres/all', // OLD
@@ -68192,6 +68211,10 @@
 
 	var _reactRouter = __webpack_require__(475);
 
+	var _url = __webpack_require__(536);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -68240,7 +68263,7 @@
 	            e.preventDefault();
 
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/edit-profile', JSON.stringify({
+	            $.post(_url2.default.EDIT_PROFILE, JSON.stringify({
 	                username: this.state.username,
 	                biography: this.state.biography,
 	                website: this.state.website,
@@ -68666,6 +68689,10 @@
 
 	var _reactRouter = __webpack_require__(475);
 
+	var _url = __webpack_require__(536);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -68709,7 +68736,7 @@
 	            e.preventDefault();
 
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/edit-account', JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), function (data, status) {
+	            $.post(_url2.default.CHANGE_PASSWORD, JSON.stringify({ password: this.state.password, newPassword: this.state.newPassword }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    return _reactRouter.browserHistory.push('/');
@@ -69059,6 +69086,10 @@
 
 	var _reactRedux = __webpack_require__(208);
 
+	var _url = __webpack_require__(536);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -69114,7 +69145,7 @@
 	        value: function depositFunds(e) {
 	            var _this2 = this;
 
-	            $.post('/api/user/deposit-funds', JSON.stringify({ money: this.state.money }), function (data, status) {
+	            $.post(_url2.default.DEPOSIT, JSON.stringify({ money: this.state.money }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this2.props.depositFunds(_this2.state.money);
 	                    _this2.handleClose(e);
@@ -69250,7 +69281,7 @@
 	        value: function withDraw(e) {
 	            var _this5 = this;
 
-	            $.post('/api/user/withdraw', JSON.stringify({ money: this.state.money }), function (data, status) {
+	            $.post(_url2.default.WITHDRAW, JSON.stringify({ money: this.state.money }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this5.props.withDraw(_this5.state.money);
 	                    _this5.handleClose(e);
@@ -69386,7 +69417,7 @@
 	            var _this8 = this;
 
 	            this.props.dispatch((0, _actions.depositFunds)(money));
-	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get(_url2.default.GET_PAYMENT, this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this8.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -69402,7 +69433,7 @@
 	            var _this9 = this;
 
 	            this.props.dispatch((0, _actions.withDraw)(money));
-	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get(_url2.default.GET_PAYMENT, this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this9.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -69427,7 +69458,7 @@
 	        value: function componentDidMount() {
 	            var _this10 = this;
 
-	            $.get('/api/user/get-payment', this.state.filter, function (data, status) {
+	            $.get(_url2.default.GET_PAYMENT, this.state.filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this10.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -69446,7 +69477,7 @@
 	            var filter = this.state.filter;
 	            filter.page = Math.max(1, filter.page - 1);
 	            this.setState({ filter: filter });
-	            $.get('/api/user/get-payment', filter, function (data, status) {
+	            $.get(_url2.default.GET_PAYMENT, filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this11.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -69465,7 +69496,7 @@
 	            var filter = this.state.filter;
 	            filter.page = filter.page + 1;
 	            this.setState({ filter: filter });
-	            $.get('/api/user/get-payment', filter, function (data, status) {
+	            $.get(_url2.default.GET_PAYMENT, filter, function (data, status) {
 	                if (data.code == 200) {
 	                    _this12.setState({ payments: data.payments });
 	                } else if (data.code == 1001) {
@@ -69488,7 +69519,7 @@
 	        value: function setPaypalId(e) {
 	            var _this13 = this;
 
-	            $.post('/api/user/set-paypalid', JSON.stringify({ paypalid: this.state.paypalid }), function (data, status) {
+	            $.post(_url2.default.SET_PAYPAL_ID, JSON.stringify({ paypalid: this.state.paypalid }), function (data, status) {
 	                if (data.code == 200) {
 	                    _this13.props.dispatch((0, _actions.setPaypalId)(_this13.state.paypalid));
 	                } else if (data.code == 1001) {
