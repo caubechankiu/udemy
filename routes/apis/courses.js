@@ -62,36 +62,42 @@ router.get('/get-courses-genre/:genreid', (req, res, next) => {
             })
         })
 })
-router.post('/get-courses-subgenre/:subgenreid', (req, res, next) => {
-    let condition = { subgenre: req.params.subgenreid, public: true }
-    if (req.body.level)
-        condition.level = req.body.level
-    if (req.body.free)
-        condition.cost = req.body.free == 'true' ? 0 : { $gt: 0 }
+router.get('/get-courses-subgenre/:subgenreid', (req, res, next) => {
+    const subgenreid = req.params.subgenreid;
+    const level = Number(req.query.level);
+    const free = req.query.free == 'true';
+    const sort = Number(req.query.sort);
+    const page = Number(req.query.page) || 1;
 
-    let sort
-    if (!req.body.sort)
-        sort = { numberofstudent: -1 }
+    let condition = { subgenre: subgenreid, public: true }
+    if (level)
+        condition.level = level;
+    condition.cost = free ? 0 : { $gt: 0 }
+
+    let sortCondition
+    if (!sort)
+        sortCondition = { numberofstudent: -1 }
     else {
-        switch (parseInt(req.body.sort)) {
+        switch (sort) {
             case 1:
-                sort = { numberofstudent: -1 }
+                sortCondition = { numberofstudent: -1 }
                 break
             case 2:
-                sort = { star: -1 }
+                sortCondition = { star: -1 }
                 break
             case 3:
-                sort = { createdAt: -1 }
+                sortCondition = { createdAt: -1 }
                 break
             case 4:
-                sort = { cost: 1 }
+                sortCondition = { cost: 1 }
                 break
             case 5:
-                sort = { cost: -1 }
+                sortCondition = { cost: -1 }
                 break
         }
     }
-    Subgenre.findOne({ _id: req.params.subgenreid })
+
+    Subgenre.findOne({ _id: subgenreid })
         .populate({ path: 'genre', select: 'name' })
         .select({ name: 1, genre: 1 }).exec((err, subgenre) => {
             if (err)
@@ -99,8 +105,8 @@ router.post('/get-courses-subgenre/:subgenreid', (req, res, next) => {
             Course.find(condition)
                 .populate({ path: 'lecturer', select: '-_id username photo' })
                 .select({ _id: 1, name: 1, coverphoto: 1, cost: 1, numberofstudent: 1, numberofreviews: 1, star: 1, lecturer: 1, description: 1 })
-                .skip((req.body.page || 1) * 8 - 8)
-                .limit(8).sort(sort).exec((err, data) => {
+                .skip(page * 8 - 8)
+                .limit(8).sort(sortCondition).exec((err, data) => {
                     if (err)
                         return res.send({ code: 404, message: 'error' })
                     return res.send({

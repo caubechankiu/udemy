@@ -11,7 +11,7 @@ export const getCoursesByGenre = ({ genreid, success, xhr }) => {
 
 export const getCoursesBySubGenre = ({ subgenreid, data, success, xhr }) => {
   $.ajax({
-    method: "POST",
+    method: "GET",
     url: url.GET_COURSES_BY_SUBGENRE + subgenreid,
     data,
     success,
