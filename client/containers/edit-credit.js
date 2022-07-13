@@ -4,7 +4,7 @@ import { setUser, setGetMyCourses, depositFunds, withDraw, setPaypalId } from '.
 import { Pager, Glyphicon, Modal } from 'react-bootstrap'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import url from '../url'
+import url, { DELETE_PAYMENT } from '../url'
 
 class ModalDepositFunds extends Component {
     constructor(props) {
@@ -275,7 +275,7 @@ class EditCredit extends Component {
         let payments = this.state.payments
         payments = [...payments.slice(0, index), ...payments.slice(index + 1)]
         this.setState({ payments: payments })
-        $.post('/api/user/delete-payment', JSON.stringify({ _id: payment._id }))
+        $.post(DELETE_PAYMENT, JSON.stringify({ _id: payment._id }))
     }
     setPaypalId(e) {
         $.post(url.SET_PAYPAL_ID, JSON.stringify({ paypalid: this.state.paypalid }), (data, status) => {

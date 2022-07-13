@@ -19,11 +19,11 @@ class SubGenre extends React.Component {
 class ListSubGenre extends React.Component {
     render() {
         let arrColor = ['lightseagreen', 'teal', 'forestgreen', 'green', 'sienna', 'peru', 'indigo']
-        let subgenres = this.props.genre.subgenres.map((subgenre) => {
+        let subgenres = this.props.genre.subgenres ? this.props.genre.subgenres.map((subgenre) => {
             return (
                 <SubGenre key={subgenre._id} subgenre={subgenre} genreId={this.props.genre._id} />
             )
-        })
+        }) : []
         return (
             <li>
                 <Link to={'/courses/' + this.props.genre._id}>
@@ -46,7 +46,7 @@ class ListGenre extends React.Component {
             return
         }
         getAllGenres((result) => {
-            this.props.dispatch(setGenres(JSON.parse(result)))
+            this.props.dispatch(setGenres(result))
         })
     }
 

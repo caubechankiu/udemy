@@ -9,7 +9,7 @@ router.get('/all', function (req, res, next) {
         select: '-__v -genre',
     }).exec(function (err, genres) {
         if (err) return handleError(err);
-        res.end(JSON.stringify(genres));
+        res.send(genres);
     });
 });
 

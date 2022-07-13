@@ -52,7 +52,7 @@ class ManageCourseDescription extends React.Component {
         }
         if (this.props.genreList.length == 0) {
             getAllGenres((result) => {
-                this.props.dispatch(setGenres(JSON.parse(result)))
+                this.props.dispatch(setGenres(result))
             })
         }
     }
