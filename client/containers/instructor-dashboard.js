@@ -5,6 +5,7 @@ import { Modal, Breadcrumb, Glyphicon, Row, Pager, Pagination } from 'react-boot
 import { setUser, createCourse, getAllMyCourses, setGetMyCourses } from '../actions'
 import { connect } from 'react-redux'
 import { Link, browserHistory } from 'react-router'
+import url from '../url'
 var _ = require('lodash')
 
 class ModalCreateCourse extends React.Component {
@@ -67,8 +68,8 @@ class Instructor extends React.Component {
             return window.location.href = "/";
         }
         if (!this.props.getMyCourses)
-            $.get('/api/user/get-all-mycourses', (courses) => {
-                this.props.dispatch(getAllMyCourses(JSON.parse(courses)))
+            $.get(url.GET_ALL_MYCOURSES, (courses) => {
+                this.props.dispatch(getAllMyCourses(courses))
                 this.props.dispatch(setGetMyCourses(true))
             })
     }
@@ -78,7 +79,7 @@ class Instructor extends React.Component {
     onSubmitCreateCourse(e) {
         e.preventDefault()
         this.refs.modalCreateCourse.setState({ isSubmitting: true })
-        $.post('api/user/createcourse', JSON.stringify({ coursename: this.refs.modalCreateCourse.state.coursename }),
+        $.post(url.CREATE_COURSE, JSON.stringify({ coursename: this.refs.modalCreateCourse.state.coursename }),
             (data, status) => {
                 if (data.code == 1001) {
                     this.props.dispatch(setUser({}))

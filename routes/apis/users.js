@@ -217,9 +217,10 @@ router.get('/get-all-mycourses', (req, res, next) => {
     User.findOne({ _id: req.user._id }).populate({
         path: 'mycourses',
         select: '-__v -updatedAt -lecturer -willableto -needtoknow -targetstudent -lectures'
-    }).exec(function (err, user) {
+    }).lean().exec(function (err, user) {
         if (err) return handleError(err);
-        res.end(JSON.stringify(user.mycourses));
+        
+        res.send(user.mycourses);
     });
     return
 })
