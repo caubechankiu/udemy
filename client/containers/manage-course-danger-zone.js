@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { setUser, setGetMyCourses, deleteCourse } from '../actions'
 import { browserHistory } from 'react-router'
+import url from '../url'
 
 class ManageCourseDangerZone extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class ManageCourseDangerZone extends React.Component {
     onClickDeleteCourse(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post('/api/user/delete-course', JSON.stringify({ courseid: this.props.params.id }), (data, status) => {
+        $.post(url.DELETE_COURSE, JSON.stringify({ courseid: this.props.params.id }), (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
                 this.props.dispatch(setGetMyCourses(false))

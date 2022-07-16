@@ -32,7 +32,7 @@ class ManageCourseDescription extends React.Component {
             this.setState({ course_description: e.editor.getData() })
         });
         if (!this.props.course_description) {
-            $.post('/api/user/get-course-description',
+            $.get('/api/user/get-course-description',
                 { courseid: this.props.params.id },
                 (data, status) => {
                     if (data.code == 200) {

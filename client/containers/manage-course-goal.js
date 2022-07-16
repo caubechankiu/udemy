@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { setUser, setGetMyCourses, setCourseGoals } from '../actions'
 import { browserHistory } from 'react-router'
+import url from '../url'
 var _ = require('lodash')
 
 
@@ -22,7 +23,7 @@ class ManageCourseGoal extends React.Component {
     }
     componentDidMount() {
         if (!this.props.needtoknow) {
-            $.post('/api/user/get-course-goals',
+            $.get('/api/user/get-course-goals',
                 { courseid: this.props.params.id },
                 (data, status) => {
                     if (data.code == 200) {
@@ -100,7 +101,7 @@ class ManageCourseGoal extends React.Component {
     onSubmit(e) {
         e.preventDefault()
         this.setState({ isSubmitting: true })
-        $.post('/api/user/set-course-goals', JSON.stringify({
+        $.post(url.SET_COURSE_GOALS, JSON.stringify({
             courseid: this.props.params.id,
             needtoknow: this.state.needtoknow,
             targetstudent: this.state.targetstudent,

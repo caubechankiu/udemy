@@ -12,7 +12,7 @@ class ManageCourse extends React.Component {
             return window.location.href = "/";
         }
         if (!this.props.course) {
-            $.post('/api/user/get-course',
+            $.get('/api/user/get-course',
                 { courseid: this.props.params.id },
                 (data, status) => {
                     if (data.code == 200) {
@@ -23,7 +23,7 @@ class ManageCourse extends React.Component {
     }
     componentWillReceiveProps(nextProps) {
         if (this.props.params.id != nextProps.params.id) {
-            $.post('/api/user/get-course',
+            $.get('/api/user/get-course',
                 { courseid: nextProps.params.id },
                 (data, status) => {
                     if (data.code == 200) {

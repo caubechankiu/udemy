@@ -19,7 +19,7 @@ class Notifications extends React.Component {
         if (!localStorage.getItem("access_token")) {
             return window.location.href = "/";
         }
-        $.post('/api/user/get-notis', { page: this.state.page }, (data, status) => {
+        $.get('/api/user/get-notis', { page: this.state.page }, (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
                 this.props.dispatch(setGetMyCourses(false))
@@ -46,7 +46,7 @@ class Notifications extends React.Component {
     onClickPrev() {
         if (this.props.page <= 1) return
         let page = this.state.page - 1
-        $.post('/api/user/get-notis', { page: page }, (data, status) => {
+        $.get('/api/user/get-notis', { page: page }, (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
                 this.props.dispatch(setGetMyCourses(false))
@@ -59,7 +59,7 @@ class Notifications extends React.Component {
     }
     onClickNext() {
         let page = this.state.page + 1
-        $.post('/api/user/get-notis', { page: page }, (data, status) => {
+        $.get('/api/user/get-notis', { page: page }, (data, status) => {
             if (data.code == 1001) {
                 this.props.dispatch(setUser({}))
                 this.props.dispatch(setGetMyCourses(false))

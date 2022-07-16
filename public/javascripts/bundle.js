@@ -67325,11 +67325,17 @@
 	    //GET_COURSE_REVIEW: '/api/course/getReview', // NEW
 	    GET_COURSE_REVIEW: '/api/course/get-review', //OLD   
 
-	    // CREATE_COURSE: `${BASE_URL}/mycourse/createCourse`, // NEW
-	    CREATE_COURSE: 'api/user/createcourse', //OLD   
+	    CREATE_COURSE: BASE_URL + '/mycourse/createCourse', // NEW
+	    // CREATE_COURSE: 'api/user/createcourse', //OLD   
 
-	    // GET_ALL_MYCOURSES: `${BASE_URL}/mycourse/getMyCourses`, // NEW
-	    GET_ALL_MYCOURSES: 'api/user/get-all-mycourses' };
+	    GET_ALL_MYCOURSES: BASE_URL + '/mycourse/getMyCourses', // NEW
+	    // GET_ALL_MYCOURSES: 'api/user/get-all-mycourses', //OLD   
+
+	    DELETE_COURSE: BASE_URL + '/mycourse/deleteCourse', // NEW
+	    // DELETE_COURSE: 'api/user/delete-course', //OLD 
+
+
+	    SET_COURSE_GOALS: BASE_URL + '/mycourse/setCourseGoals' };
 
 /***/ }),
 /* 537 */
@@ -104559,7 +104565,7 @@
 	                return window.location.href = "/";
 	            }
 	            if (!this.props.course) {
-	                $.post('/api/user/get-course', { courseid: this.props.params.id }, function (data, status) {
+	                $.get('/api/user/get-course', { courseid: this.props.params.id }, function (data, status) {
 	                    if (data.code == 200) {
 	                        _this2.props.dispatch((0, _actions.setCourse)(data.course));
 	                    }
@@ -104572,7 +104578,7 @@
 	            var _this3 = this;
 
 	            if (this.props.params.id != nextProps.params.id) {
-	                $.post('/api/user/get-course', { courseid: nextProps.params.id }, function (data, status) {
+	                $.get('/api/user/get-course', { courseid: nextProps.params.id }, function (data, status) {
 	                    if (data.code == 200) {
 	                        _this3.props.dispatch((0, _actions.setCourse)(data.course));
 	                    }
@@ -104770,6 +104776,10 @@
 
 	var _reactRouter = __webpack_require__(475);
 
+	var _url = __webpack_require__(536);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -104809,7 +104819,7 @@
 	            var _this2 = this;
 
 	            if (!this.props.needtoknow) {
-	                $.post('/api/user/get-course-goals', { courseid: this.props.params.id }, function (data, status) {
+	                $.get('/api/user/get-course-goals', { courseid: this.props.params.id }, function (data, status) {
 	                    if (data.code == 200) {
 	                        console.log(data);
 	                        _this2.props.dispatch((0, _actions.setCourseGoals)(data.course));
@@ -104914,7 +104924,7 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/set-course-goals', JSON.stringify({
+	            $.post(_url2.default.SET_COURSE_GOALS, JSON.stringify({
 	                courseid: this.props.params.id,
 	                needtoknow: this.state.needtoknow,
 	                targetstudent: this.state.targetstudent,
@@ -105220,7 +105230,7 @@
 	                _this2.setState({ course_description: e.editor.getData() });
 	            });
 	            if (!this.props.course_description) {
-	                $.post('/api/user/get-course-description', { courseid: this.props.params.id }, function (data, status) {
+	                $.get('/api/user/get-course-description', { courseid: this.props.params.id }, function (data, status) {
 	                    if (data.code == 200) {
 	                        _this2.props.dispatch((0, _actions.setCourseDescription)(data.course));
 	                        _this2.setState({
@@ -105929,7 +105939,7 @@
 	            var _this3 = this;
 
 	            if (!this.props.lectures) {
-	                $.post('/api/user/get-course-lectures', { courseid: this.props.params.id }, function (data, status) {
+	                $.get('/api/user/get-course-lectures', { courseid: this.props.params.id }, function (data, status) {
 	                    if (data.code == 200) {
 	                        _this3.props.dispatch((0, _actions.setCourseLectures)(data.course));
 	                    }
@@ -106269,6 +106279,10 @@
 
 	var _reactRouter = __webpack_require__(475);
 
+	var _url = __webpack_require__(536);
+
+	var _url2 = _interopRequireDefault(_url);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106299,7 +106313,7 @@
 
 	            e.preventDefault();
 	            this.setState({ isSubmitting: true });
-	            $.post('/api/user/delete-course', JSON.stringify({ courseid: this.props.params.id }), function (data, status) {
+	            $.post(_url2.default.DELETE_COURSE, JSON.stringify({ courseid: this.props.params.id }), function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    _this2.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -109604,7 +109618,7 @@
 	                    isloading: true
 	                });
 	                $.ajax({
-	                    method: "POST",
+	                    method: "GET",
 	                    url: '/api/user/learning',
 	                    data: nextProps.location.query,
 	                    success: function success(data, status) {
@@ -109640,7 +109654,7 @@
 	                return window.location.href = "/";
 	            }
 	            $.ajax({
-	                method: "POST",
+	                method: "GET",
 	                url: '/api/user/learning',
 	                data: this.props.location.query,
 	                success: function success(data, status) {
@@ -110053,7 +110067,7 @@
 	                    isloading: true
 	                });
 	                $.ajax({
-	                    method: "POST",
+	                    method: "GET",
 	                    url: '/api/user/wishlist',
 	                    data: nextProps.location.query,
 	                    success: function success(data, status) {
@@ -110089,7 +110103,7 @@
 	                return window.location.href = "/";
 	            }
 	            $.ajax({
-	                method: "POST",
+	                method: "GET",
 	                url: '/api/user/wishlist',
 	                data: this.props.location.query,
 	                success: function success(data, status) {
@@ -110696,7 +110710,7 @@
 	            if (!localStorage.getItem("access_token")) {
 	                return window.location.href = "/";
 	            }
-	            $.post('/api/user/get-notis', { page: this.state.page }, function (data, status) {
+	            $.get('/api/user/get-notis', { page: this.state.page }, function (data, status) {
 	                if (data.code == 1001) {
 	                    _this2.props.dispatch((0, _actions.setUser)({}));
 	                    _this2.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -110730,7 +110744,7 @@
 
 	            if (this.props.page <= 1) return;
 	            var page = this.state.page - 1;
-	            $.post('/api/user/get-notis', { page: page }, function (data, status) {
+	            $.get('/api/user/get-notis', { page: page }, function (data, status) {
 	                if (data.code == 1001) {
 	                    _this3.props.dispatch((0, _actions.setUser)({}));
 	                    _this3.props.dispatch((0, _actions.setGetMyCourses)(false));
@@ -110746,7 +110760,7 @@
 	            var _this4 = this;
 
 	            var page = this.state.page + 1;
-	            $.post('/api/user/get-notis', { page: page }, function (data, status) {
+	            $.get('/api/user/get-notis', { page: page }, function (data, status) {
 	                if (data.code == 1001) {
 	                    _this4.props.dispatch((0, _actions.setUser)({}));
 	                    _this4.props.dispatch((0, _actions.setGetMyCourses)(false));

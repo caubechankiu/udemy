@@ -68,7 +68,7 @@ class ManageCourseLecture extends React.Component {
     }
     componentDidMount() {
         if (!this.props.lectures) {
-            $.post('/api/user/get-course-lectures',
+            $.get('/api/user/get-course-lectures',
                 { courseid: this.props.params.id },
                 (data, status) => {
                     if (data.code == 200) {

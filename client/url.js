@@ -70,14 +70,24 @@ module.exports = {
     // GET_COURSES_SEARCH: '/api/courses/search', // OLD
 
 
+    
+
     //GET_COURSE_REVIEW: '/api/course/getReview', // NEW
     GET_COURSE_REVIEW: '/api/course/get-review', //OLD   
 
-    // CREATE_COURSE: `${BASE_URL}/mycourse/createCourse`, // NEW
-    CREATE_COURSE: 'api/user/createcourse', //OLD   
+    CREATE_COURSE: `${BASE_URL}/mycourse/createCourse`, // NEW
+    // CREATE_COURSE: 'api/user/createcourse', //OLD   
 
-    // GET_ALL_MYCOURSES: `${BASE_URL}/mycourse/getMyCourses`, // NEW
-    GET_ALL_MYCOURSES: 'api/user/get-all-mycourses', //OLD   
+    GET_ALL_MYCOURSES: `${BASE_URL}/mycourse/getMyCourses`, // NEW
+    // GET_ALL_MYCOURSES: 'api/user/get-all-mycourses', //OLD   
+
+    DELETE_COURSE: `${BASE_URL}/mycourse/deleteCourse`, // NEW
+    // DELETE_COURSE: 'api/user/delete-course', //OLD 
+
+
+    SET_COURSE_GOALS: `${BASE_URL}/mycourse/setCourseGoals`, // NEW
+    // SET_COURSE_GOALS: 'api/ser/set-course-goals', //OLD 
+
 
     
 

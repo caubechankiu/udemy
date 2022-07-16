@@ -29,7 +29,7 @@ class Wishlist extends React.Component {
                 isloading: true
             })
             $.ajax({
-                method: "POST",
+                method: "GET",
                 url: '/api/user/wishlist',
                 data: nextProps.location.query,
                 success: (data, status) => {
@@ -61,7 +61,7 @@ class Wishlist extends React.Component {
             return window.location.href = "/";
         }
         $.ajax({
-            method: "POST",
+            method: "GET",
             url: '/api/user/wishlist',
             data: this.props.location.query,
             success: (data, status) => {

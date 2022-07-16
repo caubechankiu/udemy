@@ -256,26 +256,26 @@ router.post('/set-course-goals', (req, res, next) => {
         })
     })
 })
-router.post('/get-course-goals', (req, res, next) => {
+router.get('/get-course-goals', (req, res, next) => {
     User.count({
         _id: req.user._id,
         mycourses: {
             $elemMatch: {
-                $eq: req.body.courseid
+                $eq: req.query.courseid
             }
         }
     }).exec((err, data) => {
         if (err || data == 0) {
             return res.send({ code: 404, message: 'error' })
         }
-        Course.findOne({ _id: req.body.courseid }, (err, course) => {
+        Course.findOne({ _id: req.query.courseid }, (err, course) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
             return res.send({
                 code: 200,
                 message: 'success',
                 course: {
-                    _id: req.body.courseid,
+                    _id: req.query.courseid,
                     needtoknow: course.needtoknow,
                     targetstudent: course.targetstudent,
                     willableto: course.willableto
@@ -284,26 +284,26 @@ router.post('/get-course-goals', (req, res, next) => {
         })
     })
 })
-router.post('/get-course', (req, res, next) => {
+router.get('/get-course', (req, res, next) => {
     User.count({
         _id: req.user._id,
         mycourses: {
             $elemMatch: {
-                $eq: req.body.courseid
+                $eq: req.query.courseid
             }
         }
     }).exec((err, data) => {
         if (err || data == 0) {
             return res.send({ code: 404, message: 'error' })
         }
-        Course.findOne({ _id: req.body.courseid }, (err, course) => {
+        Course.findOne({ _id: req.query.courseid }, (err, course) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
             return res.send({
                 code: 200,
                 message: 'success',
                 course: {
-                    _id: req.body.courseid,
+                    _id: req.query.courseid,
                     name: course.name,
                     public: course.public,
                     review: course.review,
@@ -314,26 +314,26 @@ router.post('/get-course', (req, res, next) => {
         })
     })
 })
-router.post('/get-course-description', (req, res, next) => {
+router.get('/get-course-description', (req, res, next) => {
     User.count({
         _id: req.user._id,
         mycourses: {
             $elemMatch: {
-                $eq: req.body.courseid
+                $eq: req.query.courseid
             }
         }
     }).exec((err, data) => {
         if (err || data == 0) {
             return res.send({ code: 404, message: 'error' })
         }
-        Course.findOne({ _id: req.body.courseid }, (err, course) => {
+        Course.findOne({ _id: req.query.courseid }, (err, course) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
             return res.send({
                 code: 200,
                 message: 'success',
                 course: {
-                    _id: req.body.courseid,
+                    _id: req.query.courseid,
                     name: course.name,
                     previewvideo: course.previewvideo,
                     description: course.description,
@@ -453,19 +453,19 @@ router.post('/publish-course', (req, res, next) => {
         })
     })
 })
-router.post('/get-course-lectures', (req, res, next) => {
+router.get('/get-course-lectures', (req, res, next) => {
     User.count({
         _id: req.user._id,
         mycourses: {
             $elemMatch: {
-                $eq: req.body.courseid
+                $eq: req.query.courseid
             }
         }
     }).exec((err, data) => {
         if (err || data == 0) {
             return res.send({ code: 404, message: 'error' })
         }
-        Course.findOne({ _id: req.body.courseid }).populate({
+        Course.findOne({ _id: req.query.courseid }).populate({
             path: 'lectures',
             select: '-__v -updatedAt -createdAt'
         }).exec((err, course) => {
@@ -475,7 +475,7 @@ router.post('/get-course-lectures', (req, res, next) => {
                 code: 200,
                 message: 'success',
                 course: {
-                    _id: req.body.courseid,
+                    _id: req.query.courseid,
                     lectures: course.lectures
                 }
             })
@@ -793,22 +793,22 @@ router.post('/take-a-course', (req, res, next) => {
             })
     }
 })
-router.post('/learning', (req, res, next) => {
+router.get('/learning', (req, res, next) => {
     let mylearningcourses = req.user.mylearningcourses
 
     let condition = { _id: { $in: mylearningcourses }, public: true }
-    if (req.body.level)
-        condition.level = req.body.level
-    if (req.body.free)
-        condition.cost = req.body.free == 'true' ? 0 : { $gt: 0 }
-    if (req.body.name)
-        condition.name = { $regex: ('.*' + req.body.name + '.*'), $options: 'i' }
+    if (req.query.level)
+        condition.level = Number(req.query.level)
+    if (req.query.free)
+        condition.cost = req.query.free == 'true' ? 0 : { $gt: 0 }
+    if (req.query.name)
+        condition.name = { $regex: ('.*' + req.query.name + '.*'), $options: 'i' }
 
     let sort
-    if (!req.body.sort)
+    if (!req.query.sort)
         sort = { name: 1 }
     else {
-        switch (parseInt(req.body.sort)) {
+        switch (parseInt(req.query.sort)) {
             case 1:
                 sort = { name: 1 }
                 break
@@ -820,29 +820,29 @@ router.post('/learning', (req, res, next) => {
     Course.find(condition)
         .populate({ path: 'lecturer', select: '-_id username photo' })
         .select({ _id: 1, name: 1, coverphoto: 1, cost: 1, numberofstudent: 1, numberofreviews: 1, star: 1, lecturer: 1, description: 1 })
-        .skip((req.body.page || 1) * 8 - 8)
+        .skip((req.query.page || 1) * 8 - 8)
         .limit(8).sort(sort).exec((err, courses) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
             res.send({ code: 200, courses: courses })
         })
 })
-router.post('/wishlist', (req, res, next) => {
+router.get('/wishlist', (req, res, next) => {
     let mywishlist = req.user.mywishlist
 
     let condition = { _id: { $in: mywishlist }, public: true }
-    if (req.body.level)
-        condition.level = req.body.level
-    if (req.body.free)
-        condition.cost = req.body.free == 'true' ? 0 : { $gt: 0 }
-    if (req.body.name)
-        condition.name = { $regex: ('.*' + req.body.name + '.*'), $options: 'i' }
+    if (req.query.level)
+        condition.level = Number(req.query.level)
+    if (req.query.free)
+        condition.cost = req.query.free == 'true' ? 0 : { $gt: 0 }
+    if (req.query.name)
+        condition.name = { $regex: ('.*' + req.query.name + '.*'), $options: 'i' }
 
     let sort
-    if (!req.body.sort)
+    if (!req.query.sort)
         sort = { name: 1 }
     else {
-        switch (parseInt(req.body.sort)) {
+        switch (parseInt(req.query.sort)) {
             case 1:
                 sort = { name: 1 }
                 break
@@ -854,18 +854,18 @@ router.post('/wishlist', (req, res, next) => {
     Course.find(condition)
         .populate({ path: 'lecturer', select: '-_id username photo' })
         .select({ _id: 1, name: 1, coverphoto: 1, cost: 1, numberofstudent: 1, numberofreviews: 1, star: 1, lecturer: 1, description: 1 })
-        .skip((req.body.page || 1) * 8 - 8)
+        .skip((req.query.page || 1) * 8 - 8)
         .limit(8).sort(sort).exec((err, courses) => {
             if (err)
                 return res.send({ code: 404, message: 'error' })
             res.send({ code: 200, courses: courses })
         })
 })
-router.post('/get-notis', (req, res, next) => {
+router.get('/get-notis', (req, res, next) => {
     Notification.find({ to: req.user._id })
         .populate({ path: 'from', select: { photo: 1 } })
         .select({ __v: 0, updatedAt: 0, to: 0 })
-        .skip((req.body.page || 1) * 4 - 4)
+        .skip((Number(req.query.page) || 1) * 4 - 4)
         .limit(4).sort({ createdAt: -1 }).exec((err, notis) => {
             if (err)
                 res.send({ code: 404, message: 'error' })
