@@ -49,7 +49,7 @@ passport.use(new GoogleStrategy(
     {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "https://skyhome.com.vn/authentication/auth/google/callback"
+        callbackURL: "https://skyhome.com.vn/api/authentication/auth/google/callback"
     }, function (token, tokenSecret, profile, done) {
         User.findByGgid(profile.id, (err, user) => {
             if (err) {
@@ -95,7 +95,7 @@ passport.use(new FacebookStrategy(
     {
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        callbackURL: "https://skyhome.com.vn/authentication/auth/facebook/callback"
+        callbackURL: "https://skyhome.com.vn/api/authentication/auth/facebook/callback"
     }, function (accessToken, refreshToken, profile, done) {
         User.findByFbid(profile.id, (err, user) => {
             if (err) {
@@ -217,7 +217,7 @@ router.get('/auth/facebook', passport.authenticate('facebook'));
 router.get('/auth/facebook/callback', passport.authenticate('facebook'), (req, res) => {
     const user = req.user;
     const access_token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
-    res.send({ code: 200, message: 'success', access_token })
+    res.redirect("/oauth-callback?access_token=" + access_token);
 })
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] }));
 router.get('/auth/google/callback',
