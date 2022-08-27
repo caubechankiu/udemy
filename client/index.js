@@ -60,17 +60,11 @@ import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 const store = createStore(rootReducer)
 
 $.ajaxSetup(localStorage.getItem("access_token") ? {
-    beforeSend: function(xhr, options) {
-        options.url = baseUrl + options.url;
-    },
     headers: {
         'Authorization': `Bearer ${localStorage.getItem("access_token")}`,
     },
     contentType: "application/json; charset=utf-8",
 } : { 
-    beforeSend: function(xhr, options) {
-        options.url = baseUrl + options.url;
-    },
     contentType: "application/json; charset=utf-8",
  });
 
