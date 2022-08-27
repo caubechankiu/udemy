@@ -33,7 +33,7 @@
     "rimraf": "^3.0.2",
     "semantic-ui-react": "^0.61.10",
     "send": "^0.14.1",
-    "sharp": "^0.28.1"
+    "sharp": "^0.30.5"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.8",
