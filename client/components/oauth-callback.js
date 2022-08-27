@@ -6,7 +6,7 @@ class OAuthCallback extends React.Component {
         window.location.href = "/";
     }
     render() {
-        return "";
+        return <div></div>;
     }
 }
 export default OAuthCallback
