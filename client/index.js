@@ -55,6 +55,7 @@ import AdminCredit from './components/admin-credit'
 import PDFViewer from './components/PDF-viewer'
 
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import OAuthCallback from './components/oauth-callback';
 
 
 const store = createStore(rootReducer)
@@ -114,6 +115,7 @@ ReactDOM.render(
                 </Route>
                 {/*Test*/}
                 <Route path='/viewpdf' component={PDFViewer} />
+                <Route path='/oauth-callback' component={OAuthCallback} />
             </Route>
         </Router>
     </Provider>,
