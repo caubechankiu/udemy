@@ -36,7 +36,7 @@ passport.use(new GoogleStrategy(
     {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "/authentication/auth/google/callback"
+        callbackURL: "/api/authentication/auth/google/callback"
     }, function (token, tokenSecret, profile, done) {
         User.findByGgid(profile.id, (err, user) => {
             if (err) {
@@ -82,7 +82,7 @@ passport.use(new FacebookStrategy(
     {
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        callbackURL: "/authentication/auth/facebook/callback"
+        callbackURL: "/api/authentication/auth/facebook/callback"
     }, function (accessToken, refreshToken, profile, done) {
         User.findByFbid(profile.id, (err, user) => {
             if (err) {

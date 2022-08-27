@@ -68,11 +68,11 @@ class FormLogin extends React.Component {
                     <div className="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                         <h4 className="text-center">Login with social accounts</h4>
                         <div className="form-group">
-                            <a href="/authentication/auth/facebook" className="btn btn-block btn-social btn-lg btn-facebook">
+                            <a href="/api/authentication/auth/facebook" className="btn btn-block btn-social btn-lg btn-facebook">
                                 <i className="fa fa-facebook"></i>Log in with Facebook</a>
                         </div>
                         <div className="form-group">
-                            <a href="/authentication/auth/google" className="btn btn-block btn-social btn-lg btn-google">
+                            <a href="/api/authentication/auth/google" className="btn btn-block btn-social btn-lg btn-google">
                                 <i className="fa fa-google"></i>Log in with Google+</a>
                         </div>
                     </div>
