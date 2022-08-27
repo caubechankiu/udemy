@@ -197,14 +197,14 @@ const createUser = async () => {
   for (let i = 0; i < usernames.length; i++) {
     let user = new User({
       username: usernames[i],
-      email: 'trinhthevi' + (i + 28).toString() + '@gmail.com',
+      email: 'trinhvuhoanglinh' + (i + 28).toString() + '@gmail.com',
       verified: true,
       verifytoken: verifytokenGenerator(),
       biography: "<p><strong>Photographer, Adventurer &amp; Conservationist.</strong></p><p>Born in 1983, Chris grew up sailing around the world and then leading world-first cart-hauling expeditions across the arctic before becoming an award-winning Australian Geographic photographer, Lowepro ambassador and Canon&rsquo;s Australian ambassador for five years.&nbsp;<br /><br /><em>Chris&rsquo;s work has appeared in National Geographic (along with Australian and Canadian Geographic) as well as TIME Magazine and Discovery Channel. He&rsquo;s written a successful book &#39;The 1000 Hour Day&#39; (now a multi award-winning documentary &#39;The Crossing&#39;), sits on the advisory committee for&nbsp;The Australian Geographic Society, is a International Fellow of the&nbsp;Explorers Club&nbsp;and is also founder and CEO of&nbsp;Conservation United, crowd-funding the world&rsquo;s critical conservation projects.&nbsp;<br /><br />Besides running 1-day photography courses and photo tours around the world, Chris and his wife Jess recently became the first people to sail a junk-rig sailboat through the Northwest Passage over the arctic.</em></p><p>&nbsp;</p>",
-      linkedin: "in/thế-vĩ-trịnh-237574bb",
-      twitter: "trinhthevils",
-      website: "http://caubechankiu.com",
-      youtube: "user/trinhthevils",
+      linkedin: "",
+      twitter: "",
+      website: "",
+      youtube: "channel/UC_vpRka6xFPct5oYxkdHFFA",
       password: "$2b$12$raBE9DMTroDe1hC0HMCpnO7cZE48ATUfhQ5cXUBTpyOl1iCVJgtHi",
       creditbalance: Math.floor(Math.random() * 1000),
     })
