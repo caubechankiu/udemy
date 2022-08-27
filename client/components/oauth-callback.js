@@ -5,7 +5,7 @@ class OAuthCallback extends React.Component {
         super(props)
     }
     componentDidMount() {
-        localStorage.setItem("access_token", this.props.location.query.acess_token);
+        localStorage.setItem("access_token", this.props.location.query.access_token);
         window.location.href = "/";
     }
     render() {
