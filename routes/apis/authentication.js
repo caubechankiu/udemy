@@ -201,13 +201,11 @@ router.post('/signup', function (req, res, next) {
 })
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
-router.get('/auth/facebook/callback',
-    passport.authenticate('facebook',(req,res)=>{
-        const user = req.user;
-        const access_token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
-        res.send({ code: 200, message: 'success', access_token })
-    })
-)
+router.get('/auth/facebook/callback', passport.authenticate('facebook'), (req, res) => {
+    const user = req.user;
+    const access_token = jwt.sign({ _id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "30 days", algorithm: "HS256" });
+    res.send({ code: 200, message: 'success', access_token })
+})
 router.get('/auth/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] }));
 router.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
