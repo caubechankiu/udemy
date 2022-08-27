@@ -3,7 +3,12 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var session = require('express-session')
 var app = express();
+
+app.use(session({
+  secret: 'keyboard cat'
+}))
 
 // require passport
 var passport = require('passport');
