@@ -23,6 +23,19 @@ const transporter = nodemailer.createTransport({
     }
 })
 
+passport.serializeUser(function (user, done) {
+    // console.log('call function serializeUser ' + user._id);
+    done(null, user._id);
+});
+
+passport.deserializeUser(function (id, done) {
+    // console.log('call function deserializeUser ' + id);
+    User.findOne({ _id: id }).select({ password: 0, __v: 0, updatedAt: 0, createdAt: 0, mycourses: 0 })
+        .exec((err, data) => {
+            done(err, data);
+        })
+});
+
 const verifytokenGenerator = () => {
     var text = ""
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
