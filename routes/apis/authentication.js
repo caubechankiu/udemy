@@ -105,6 +105,7 @@ passport.use(new FacebookStrategy(
                 let newUser = new User({
                     'facebookid': profile.id,
                     'username': profile.displayName,
+                    verifytoken: Math.random(),
                     'verified': true
                 })
                 newUser.save(function (err) {
