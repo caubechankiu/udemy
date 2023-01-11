@@ -32,7 +32,7 @@
     "redux": "^3.6.0",
     "rimraf": "^3.0.2",
     "semantic-ui-react": "^0.61.10",
-    "send": "^0.14.1",
+    "send": "^0.18.0",
     "sharp": "^0.28.1"
   },
   "devDependencies": {
